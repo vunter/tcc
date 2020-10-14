@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -14,15 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public @Data class Role {
+public @Data
+class Role {
 
     @Id
     private Long id;
 
     @Column
+    @NotBlank
     private String nome;
 
     @Column
+    @NotBlank
     private String descricao;
 
     @ManyToMany(mappedBy = "roles")

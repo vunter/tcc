@@ -1,16 +1,17 @@
 package br.com.tcc.model.entity;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public @Data class Professor extends Usuario{
+public @Data class Professor extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 12)
+    @CPF
+    private String cpf;
 
     @OneToMany(mappedBy = "professor")
     private List<Turma> turmas;

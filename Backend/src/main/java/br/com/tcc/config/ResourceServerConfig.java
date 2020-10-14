@@ -13,7 +13,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/api/cliente/**", "/api/servicos/**").fullyAuthenticated() // TODO Colocar todas as rotas novas
-                .antMatchers("/api/usuarios", "/h2-console/**", "/favicon.ico").permitAll()
+                .antMatchers("/api/usuarios/**", "/api/cadastro/**", "/h2-console/**", "/favicon.ico").permitAll()
                 .anyRequest().denyAll();
         http.headers().frameOptions().disable();
     }

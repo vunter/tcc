@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,7 +15,7 @@ public class ApiErrors {
     private List<String> erros;
 
     public ApiErrors(String mensagem) {
-        this.erros = Arrays.asList(mensagem);
+        this.erros = Collections.singletonList(mensagem);
     }
 
 }

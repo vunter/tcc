@@ -27,10 +27,10 @@ public class SocketRest {
         if (message.containsKey("message")) {
             if (message.containsKey("told") && message.get("toId") != null && Boolean.FALSE.equals(message.get("toId").equals(""))) {
                 this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("toId"), message);
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.get("fromId"),message);
+                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("fromId"), message);
 
             } else {
-             this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("fromId"), message);
+                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("fromId"), message);
             }
             return new ResponseEntity<>(message, new HttpHeaders(), HttpStatus.OK);
         }
@@ -38,10 +38,10 @@ public class SocketRest {
     }
 
     @MessageMapping("/send/message")
-    public Message useSocketCommunication(Message message){
-        if(message!=null){
-            if(message.getToId() != null && !message.getToId().isBlank()){
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.getToId(), message);
+    public Message useSocketCommunication(Message message) {
+        if (message != null) {
+            if (message.getToId() != null && !message.getToId().isBlank()) {
+                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.getToId(), message);
                 //this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.getFromId(), message);
             } else {
                 this.simpMessagingTemplate.convertAndSend("/socket-publisher", message);
@@ -52,13 +52,13 @@ public class SocketRest {
 
     @MessageMapping("/print")
     public PrintCanvas getCanvasImage(PrintCanvas printCanvas) {
-            simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
+        simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
         return printCanvas;
     }
 
     @MessageMapping("/printReturn")
     public PrintCanvas handleReceivedPrint(PrintCanvas printCanvas) {
-            simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
+        simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
         return printCanvas;
     }
 }

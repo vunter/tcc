@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public @Data class Turma {
+public @Data
+class Turma {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
