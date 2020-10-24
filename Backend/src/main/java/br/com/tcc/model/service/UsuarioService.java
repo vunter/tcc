@@ -24,12 +24,15 @@ public class UsuarioService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Usuario user = repository.findByUser(username).orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos!"));
-        user.setRoles(rolesRepository.findByUsuario(user));
+        //user.setRoles(repository.findRoleByUsuario(user).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role não existe")));
 
         return User.builder()
                 .username(user.getUser())
                 .password(user.getPassword())
-                .roles(user.getRoles().stream().map(Role::getNome).toArray(String[]::new))
+                .roles(user.getRoles()
+                        .stream()
+                        .map(Role::getNome)
+                        .toArray(String[]::new))
                 .build();
     }
 
@@ -55,5 +58,13 @@ public class UsuarioService implements UserDetailsService {
     }
 
 
+    public Usuario findById(Long id) {
+        return repository.findById(id)
+                .map(c -> {
+                    c.setPassword("");
+                    return c;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
 
+    }
 }

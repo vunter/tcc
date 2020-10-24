@@ -13,9 +13,4 @@ public @Data class Professor extends Usuario {
     @CPF
     private String cpf;
 
-    @OneToMany(mappedBy = "professor")
-    private List<Turma> turmas;
-
-    @OneToMany(mappedBy = "professorCriador")
-    private List<Bloco> blocosCriados;
 }

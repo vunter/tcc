@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/usuario")
 @RequiredArgsConstructor
 public class UsuarioController {
 
@@ -24,6 +24,16 @@ public class UsuarioController {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
         return usuarioService.salvar(usuario);
+    }
+
+    @GetMapping
+    public Usuario findByUsuario(String usuario) {
+        return usuarioService.findByUser(usuario);
+    }
+
+    @GetMapping("{id}")
+    public Usuario findById(@PathVariable("id") Long id) {
+        return usuarioService.findById(id);
     }
 
 }

@@ -13,7 +13,4 @@ public @Data class Aluno extends Usuario {
     @NotBlank
     private String matricula;
 
-    @ManyToMany(mappedBy = "alunos")
-    private List<Turma> turmas;
-
 }

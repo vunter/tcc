@@ -1,12 +1,13 @@
 package br.com.tcc.model.service;
 
-import br.com.tcc.model.repository.BlocoRepository;
+import br.com.tcc.model.repository.AvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BlocoService {
+public class AvaliacaoService {
 
-    private final BlocoRepository repository;
+    private final AvaliacaoRepository repository;
+
 }

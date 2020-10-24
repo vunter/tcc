@@ -2,7 +2,9 @@ package br.com.tcc.model.entity;
 
 import br.com.tcc.model.annotations.UniqueEmail;
 import br.com.tcc.model.annotations.UniqueUser;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -34,6 +36,8 @@ public @Data class Usuario {
 
     @Column
     @NotEmpty(message = "{campo.password.obrigatorio}")
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(unique = true)
@@ -42,7 +46,7 @@ public @Data class Usuario {
     @NotEmpty(message = "{campo.email.obrigatorio}")
     private String email;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_users",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "USER_ID"),

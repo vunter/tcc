@@ -29,9 +29,6 @@ class Role {
     @NotBlank
     private String descricao;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Usuario> usuario;
-
     public RoleEnum toEnum(Role role) {
         return RoleEnum.valueOf(role.getNome());
     }

@@ -12,9 +12,24 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/cliente/**", "/api/servicos/**").fullyAuthenticated() // TODO Colocar todas as rotas novas
-                .antMatchers("/api/usuarios/**", "/api/cadastro/**", "/h2-console/**", "/favicon.ico").permitAll()
+                .antMatchers("/api/aula/**",
+                        "/api/avaliacao/**",
+                        "/api/aluno/**",
+                        "/api/bloco/**",
+                        "/api/professor/**",
+                        "/api/publicacao/**",
+                        "/api/turma/**"
+                ).fullyAuthenticated()
+                .antMatchers("/api/usuario/**",
+                        "/api/cadastro/**",
+                        "/api/public/**",
+                        "/h2-console/**",
+                        "/favicon.ico"
+                ).permitAll()
                 .anyRequest().denyAll();
-        http.headers().frameOptions().disable();
+
+        http.headers()
+                .frameOptions()
+                .disable();
     }
 }
