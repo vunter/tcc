@@ -3,6 +3,7 @@ package br.com.tcc.controller;
 import br.com.tcc.model.entity.Professor;
 import br.com.tcc.model.entity.Usuario;
 import br.com.tcc.model.service.UsuarioService;
+import br.com.tcc.model.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,8 +27,9 @@ public class UsuarioController {
         return usuarioService.salvar(usuario);
     }
 
-    @GetMapping
-    public Usuario findByUsuario(String usuario) {
+    @GetMapping("user")
+    @ResponseBody
+    public UserVO findByUsuario(@RequestParam("username") String usuario) {
         return usuarioService.findByUser(usuario);
     }
 
@@ -35,5 +37,7 @@ public class UsuarioController {
     public Usuario findById(@PathVariable("id") Long id) {
         return usuarioService.findById(id);
     }
+
+
 
 }

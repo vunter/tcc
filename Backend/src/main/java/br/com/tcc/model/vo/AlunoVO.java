@@ -1,4 +1,6 @@
 package br.com.tcc.model.vo;
 
-public class AlunoVO {
+import lombok.Data;
+
+public @Data class AlunoVO {
 }

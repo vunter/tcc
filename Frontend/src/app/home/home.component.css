@@ -1,0 +1,10 @@
+.breadcrumb {
+  display: block;
+  text-align: center;
+  margin-right: 35px;
+
+}
+.breadcrumb-item {
+  text-align: center;
+  display: inline;
+}

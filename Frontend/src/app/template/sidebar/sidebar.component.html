@@ -1,0 +1,81 @@
+<nav id="sidebar" class="sidebar-wrapper">
+  <div class="sidebar-content">
+    <div class="sidebar-brand">
+      <a [routerLink]="['/home']" style="cursor: pointer;">SALP</a>
+      <div id="close-sidebar">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <div class="sidebar-header">
+      <div class="user-pic">
+        <img class="img-responsive img-rounded"
+          src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+          alt="User picture" />
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ user.nome.split(" ")[0] }} </span>
+        <strong>{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
+        <span class="user-role">{{ user.role }}</span>
+        <span class="user-role">{{ user.user }}</span>
+        <span class="user-status">
+          <i class="fa fa-circle" style="color: green;"></i>
+          <span>Online</span>
+        </span>
+      </div>
+    </div>
+    <!-- sidebar-header  -->
+    <div class="sidebar-menu">
+      <ul>
+        <li class="header-menu">
+          <span>Menu</span>
+        </li>
+        <li class="sidebar-dropdown">
+          <a>
+            <i class="fa fa-tachometer-alt"></i>
+            <span>Geral</span>
+            <span class="badge badge-pill badge-warning">Novo!</span>
+          </a>
+          <div class="sidebar-submenu">
+            <ul>
+              <li>
+                <a [routerLink]="['/clientes/listar']">Listar Clientes</a>
+              </li>
+              <li>
+                <a [routerLink]="['/clientes/cadastro']">Cadastrar Cliente<span class="badge badge-pill badge-success">Pro</span></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="sidebar-dropdown">
+          <a>
+            <i class="fa fa-shopping-cart"></i>
+            <span>Serviços</span>
+            <span class="badge badge-pill badge-danger">{{ 1000 < 999 ? 3 : '999+' }}</span>
+          </a>
+          <div class="sidebar-submenu">
+            <ul>
+              <li>
+                <a [routerLink]="['/servicos/list']">Listar Serviços </a>
+              </li>
+              <li>
+                <a routerLink='/servicos/form'>Cadastrar Serviço</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- sidebar-menu  -->
+  </div>
+  <!-- sidebar-content  -->
+  <div class="sidebar-footer">
+    <a (click)="admin()">
+      <i class="fa fa-cog"></i>
+      <span class="badge-sonar"></span>
+    </a>
+    <a (click)="logout()" title="Sair">
+      <i class="fa fa-power-off"></i>
+    </a>
+  </div>
+</nav>
+
