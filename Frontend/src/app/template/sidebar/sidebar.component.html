@@ -14,7 +14,7 @@
       </div>
       <div class="user-info">
         <span class="user-name">{{ user.nome.split(" ")[0] }} </span>
-        <strong>{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
+        <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
         <span class="user-role">{{ user.role }}</span>
         <span class="user-role">{{ user.user }}</span>
         <span class="user-status">
