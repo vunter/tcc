@@ -155,8 +155,8 @@
                     <filename>${project.build.finalName}.war</filename>
                     <hostname>${deploy.jboss.host}</hostname>
                     <port>${deploy.jboss.port}</port>
-                    <username>${deploy.jboss.username}</username>
-                    <password>${deploy.jboss.password}</password>
+                    <username>admin</username>
+                    <password>marloi03</password>
                 </configuration>
             </plugin>
         </plugins>
