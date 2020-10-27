@@ -12,9 +12,9 @@
           src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
           alt="User picture" />
       </div>
-      <div class="user-info">
+      <div class="user-info"  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         <span class="user-name">{{ user.nome.split(" ")[0] }} </span>
-        <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
+        <strong>{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
         <span class="user-role">{{ user.role }}</span>
         <span class="user-role">{{ user.user }}</span>
         <span class="user-status">
@@ -38,7 +38,7 @@
           <div class="sidebar-submenu">
             <ul>
               <li>
-                <a [routerLink]="['/clientes/listar']">Listar Clientes</a>
+                <a [routerLink]="['/clientes/listar']">Perfil</a>
               </li>
               <li>
                 <a [routerLink]="['/clientes/cadastro']">Cadastrar Cliente<span class="badge badge-pill badge-success">Pro</span></a>
