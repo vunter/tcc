@@ -3,6 +3,6 @@ export const environment = {
   url: 'http://raspvunter.ddns.net:8080/',
   apiURL: 'http://raspvunter.ddns.net:8080/api',
   clientId: 'salp-app',
-  clientSecret: '$2y$12$ipjEoHamV9EGXGtNYGTMe.TUYjdweFuYKZ1ZcXEDYsniWGhy1omBW',
+  clientSecret: '@9012',
   tokenURL: 'http://raspvunter.ddns.net:8080/oauth/token'
 };
