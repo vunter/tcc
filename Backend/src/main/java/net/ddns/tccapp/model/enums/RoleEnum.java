@@ -18,11 +18,11 @@ public enum RoleEnum {
     private final String nome;
     private final String descricao;
 
-    public Role toEntity(RoleEnum roleEnum) {
+    public Role toEntity() {
         return Role.builder()
-                .id(roleEnum.getId())
-                .nome(roleEnum.getNome())
-                .descricao(roleEnum.getDescricao())
+                .id(this.getId())
+                .nome(this.getNome())
+                .descricao(this.getDescricao())
                 .build();
     }
 

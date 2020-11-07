@@ -15,16 +15,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UsuarioController {
 
-    private final PasswordEncoder passwordEncoder;
     private final UsuarioService usuarioService;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Usuario salvar(@RequestBody @Valid Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-        return usuarioService.salvar(usuario);
-    }
 
     @GetMapping("user")
     @ResponseBody

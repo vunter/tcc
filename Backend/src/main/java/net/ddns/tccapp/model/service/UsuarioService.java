@@ -1,6 +1,8 @@
 package net.ddns.tccapp.model.service;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.tccapp.model.entity.Aluno;
+import net.ddns.tccapp.model.entity.Professor;
 import net.ddns.tccapp.model.entity.Role;
 import net.ddns.tccapp.model.entity.Usuario;
 import net.ddns.tccapp.model.repository.RolesRepository;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -36,9 +39,16 @@ public class UsuarioService implements UserDetailsService {
                 .build();
     }
 
-    public Usuario salvar(Usuario usuario) {
+    public Usuario salvar(UserVO usuario) {
+        Usuario user;
 
-        return repository.save(usuario);
+        if (!StringUtils.isEmpty(usuario.getCpf())) {
+            user = new Professor(usuario);
+        } else {
+            user = new Aluno(usuario);
+        }
+
+        return repository.save(user);
     }
 
     public UserVO findByUser(String s) {

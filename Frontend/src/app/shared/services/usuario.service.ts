@@ -1,7 +1,7 @@
+import { User } from 'src/app/shared/entity/user';
+import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
-import { User } from '../entity/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 @Injectable({

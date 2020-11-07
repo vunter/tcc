@@ -1,9 +1,9 @@
-import { User } from './../../entity/user';
-import { UsuarioService } from './../../services/usuario.service';
+import { UsuarioService } from './../../shared/services/usuario.service';
+import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService } from './../../services/auth.service';
 import { Router } from '@angular/router';
 import  jQuery  from 'jquery';
+import { User } from 'src/app/shared/entity/user';
 
 @Component({
   selector: 'app-sidebar',

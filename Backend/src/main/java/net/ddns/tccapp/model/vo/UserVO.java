@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.ddns.tccapp.model.entity.Aluno;
+import net.ddns.tccapp.model.entity.Professor;
 import net.ddns.tccapp.model.entity.Usuario;
 
 import javax.validation.constraints.Email;
@@ -26,7 +27,8 @@ class UserVO {
     @NotEmpty(message = "{campo.user.obrigatorio}")
     private String user;
 
-    @NotBlank(message = "Role não pode estar em branco")
+    private String password;
+
     private String role;
 
     @Email(message = "E-mail inválido!")
@@ -34,6 +36,8 @@ class UserVO {
     private String email;
 
     private String matricula;
+
+    private String cpf;
 
     public UserVO(Usuario usuario) {
         this.id = usuario.getId();
@@ -45,9 +49,12 @@ class UserVO {
                 .findFirst()
                 .orElseThrow()
                 .getDescricao();
-        if (usuario instanceof Aluno) {
+
+        if (usuario instanceof Aluno)
             this.matricula = ((Aluno) usuario).getMatricula();
-        }
+
+        if (usuario instanceof Professor)
+            this.cpf = ((Professor) usuario).getCpf();
 
     }
 }

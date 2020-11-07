@@ -2,3 +2,7 @@
 <ol class="breadcrumb mb-4">
   <li class="breadcrumb-item active"><h4>Boas Vindas ao meu Sistema de Clientes!</h4></li>
 </ol>
+
+<div *ngFor="let item of blocos">
+  <app-blocos [bloco]="item"></app-blocos>
+</div>

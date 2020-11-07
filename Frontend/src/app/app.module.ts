@@ -1,6 +1,6 @@
-import { UsuarioService } from './services/usuario.service';
+import { AuthService } from './shared/services/auth.service';
+import { UsuarioService } from './shared/services/usuario.service';
 import { TokenInterceptor } from './token.interceptor';
-import { AuthService } from './services/auth.service';
 import { TemplateModule } from './template/template.module';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
@@ -14,13 +14,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { LocalDateTimePipe } from './shared/pipes/local-date-time.pipe';
+import { BlocosComponent } from './components/blocos/blocos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    HomeComponent
+    HomeComponent,
+    LocalDateTimePipe,
+    BlocosComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
   providers: [
     UsuarioService,
     AuthService,
+    LocalDateTimePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
