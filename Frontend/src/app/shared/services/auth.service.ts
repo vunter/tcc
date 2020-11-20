@@ -1,6 +1,7 @@
+import { User } from './../entity/user';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -15,6 +16,7 @@ export class AuthService {
   tokenURL: string = environment.tokenURL;
   clientID: string = environment.clientId;
   clientSecret: string = environment.clientSecret;
+  apiURL: string = environment.apiURL;
   jwtHelper: JwtHelperService = new JwtHelperService();
 
   constructor(
@@ -67,6 +69,10 @@ export class AuthService {
     }
 
     return false;
+  }
+
+  register(user: User): Observable<User> {
+    return this.api.post<User>(this.apiURL + '/public/salvar', user);
   }
 
 }

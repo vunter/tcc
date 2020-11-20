@@ -12,6 +12,7 @@ public class MatriculaUtils {
         StringBuilder matricula = new StringBuilder();
         Random random = new Random();
         LocalDate date = LocalDate.now();
+
         matricula.append("A");
         matricula.append(random.nextInt(999999));
         matricula.append(date.getMonthValue());

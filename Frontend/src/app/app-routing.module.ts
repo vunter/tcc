@@ -1,3 +1,4 @@
+import { CadastroComponent } from './cadastro/cadastro.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './home/home.component';
@@ -8,6 +9,7 @@ import { getHomeComponent } from './utils/matcher/homeMatcher'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
+  { path: 'cadastro', component: CadastroComponent },
   { path: '', component: MainComponent, children: [
     { path: '', component: getHomeComponent() },
     { path: 'home', redirectTo: '' },

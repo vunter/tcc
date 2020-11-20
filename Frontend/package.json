@@ -23,6 +23,7 @@
     "@angular/router": "^10.2.0",
     "@auth0/angular-jwt": "^5.0.1",
     "@stomp/stompjs": "^6.0.0",
+    "angular-validate-br": "0.1.0-beta",
     "bootstrap": "^4.5.3",
     "html2canvas": "^1.0.0-rc.7",
     "jquery": "^3.5.1",

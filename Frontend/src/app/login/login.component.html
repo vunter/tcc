@@ -17,29 +17,25 @@
                     <label class="small mb-1" for="inputUser">
                       Usuário
                     </label>
-                    <input class="form-control py-4" id="inputUser" type="text"
-                      placeholder="Enter username" autocomplete="off" [(ngModel)]="login.user" name="user" />
+                    <input class="form-control py-4" id="inputUser" type="text" placeholder="Informe Usuário"
+                      autocomplete="off" [(ngModel)]="login.user" name="user" />
                   </div>
                   <div class="form-group">
-                    <label class="small mb-1" for="inputPassword">Password</label>
-                    <input class="form-control py-4" id="inputPassword" type="password" name="password" placeholder="Enter password" autocomplete="off"
-                     [(ngModel)]="login.password" />
+                    <label class="small mb-1" for="inputPassword">Senha</label>
+                    <input class="form-control py-4" id="inputPassword" type="password" name="password"
+                      placeholder="Insira Senha" autocomplete="off" [(ngModel)]="login.password" />
                   </div>
                   <div class="form-group">
-                 <!--   <div class="custom-control custom-checkbox">
-                      <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
-                      <label class="custom-control-label" for="rememberPasswordCheck">Mantenha-me conectado</label>
-                    </div>-->
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                    <a class="small" href="password.html">Esqueceu a senha?</a>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <span> </span>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
                   </div>
                 </form>
               </div>
               <div class="card-footer text-center">
                 <div class="small">
-                  <a href="register.html">Ainda não é cadastrado? Crie uma conta aqui!</a>
+                  <a routerLink="/cadastro">Ainda não é cadastrado? Crie uma conta aqui!</a>
                 </div>
               </div>
             </div>
@@ -48,16 +44,5 @@
       </div>
     </main>
   </div>
-  <footer class="py-4 bg-light" style="position: fixed; bottom: 0; width: 100%;">
-    <div class="container-fluid">
-      <div class="d-flex align-items-center justify-content-between small">
-        <div class="text-muted">Copyright &copy; Your Website 2019</div>
-        <div>
-          <a href="#">Privacy Policy</a>
-          &middot;
-          <a href="#">Terms &amp; Conditions</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <app-footer></app-footer>
 </div>

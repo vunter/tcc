@@ -1,9 +1,11 @@
+import { ToastService } from './../../toast.service';
 import { UsuarioService } from './../../shared/services/usuario.service';
 import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import  jQuery  from 'jquery';
+import jQuery from 'jquery';
 import { User } from 'src/app/shared/entity/user';
+import { Toast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,21 +22,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private usuarioService: UsuarioService
-  ) {  }
+    private usuarioService: UsuarioService,
+    private notification: ToastService
+  ) { }
 
   ngOnInit(): void {
+    this.user = new User();
+    this.user.nome = "";
     this.username = this.authService.getCurrentUser();
     this.usuarioService.getLoggedUser(this.username).subscribe(
-     (response) => {
-       this.user = response;
-     },
-     (errorResponse) =>  {
-       this.user = new User();
-       this.errors = errorResponse.error.erros;
-
-     }
-   );
+      (response) => {
+        this.user = response;
+      },
+      (errorResponse) => {
+        this.errors = errorResponse.error.erros;
+        this.errors.forEach(function (e) {
+          this.notification.showError(e);
+        });
+      }
+    );
   }
 
   ngAfterViewInit() {

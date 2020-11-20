@@ -28,5 +28,4 @@ class Bloco {
     @NotNull
     private Professor professorCriador;
 
-
 }

@@ -1,6 +1,12 @@
 package net.ddns.tccapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.ddns.tccapp.utils.converters.SqlTimeDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,8 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public @Data
-class Aula {
+@EqualsAndHashCode(exclude = {"avaliacoes"})
+public @Data class Aula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +32,8 @@ class Aula {
     @Lob
     private String gabarito;
 
+    @JsonFormat(pattern = "HH:mm")
+    @JsonDeserialize(using = SqlTimeDeserializer.class)
     @Column
     private Time duracao;
 
@@ -38,5 +46,9 @@ class Aula {
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:SS")
     private LocalDateTime dataAula;
+
+    @OneToMany(mappedBy = "aula")
+    @JsonBackReference
+    private List<Avaliacao> avaliacoes;
 
 }

@@ -1,14 +1,10 @@
 package net.ddns.tccapp.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.ddns.tccapp.model.entity.Usuario;
+import net.ddns.tccapp.model.dto.UsuarioDTO;
 import net.ddns.tccapp.model.service.UsuarioService;
 import net.ddns.tccapp.model.vo.UserVO;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/usuario")
@@ -24,8 +20,8 @@ public class UsuarioController {
     }
 
     @GetMapping("{id}")
-    public Usuario findById(@PathVariable("id") Long id) {
-        return usuarioService.findById(id);
+    public UsuarioDTO findById(@PathVariable("id") Long id) {
+        return usuarioService.findByIdDto(id);
     }
 
 

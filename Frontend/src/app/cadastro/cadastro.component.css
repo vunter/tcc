@@ -1,0 +1,17 @@
+.full-width {
+  width: 100%;
+}
+.half-width {
+  width: 50%;
+}
+.mat-radio-group{
+  margin-left: 5rem;
+  display:flex ;
+  width:70%;
+  justify-content: space-between;
+}
+.errorLabel{
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+font-size: 0.8rem;
+}

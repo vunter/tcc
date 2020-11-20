@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
@@ -12,10 +13,11 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent,
     SidebarComponent,
     FooterComponent
-  ],
+    ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     NavbarComponent,

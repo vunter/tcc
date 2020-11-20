@@ -1,6 +1,7 @@
 package net.ddns.tccapp.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,12 +16,14 @@ class Publicacao {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     private Usuario autor;
 
     @Lob
     private String conteudo;
 
     @ManyToOne
+    @JsonBackReference
     private Turma turma;
 
     @OneToMany

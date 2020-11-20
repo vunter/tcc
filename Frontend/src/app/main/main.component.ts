@@ -11,7 +11,6 @@ export class MainComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit() {
-    console.log('Init MainComponent')
   }
 
 }

@@ -52,7 +52,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("@9012"))
                 .scopes("read", "write")
                 .authorizedGrantTypes("password")
-                .accessTokenValiditySeconds(60 * 30) // 60 segundos * tempo que deseja
+                .accessTokenValiditySeconds(60 * 9000) // 60 segundos * tempo que deseja
         ;
     }
 }

@@ -1,7 +1,10 @@
 package net.ddns.tccapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import net.ddns.tccapp.model.annotations.UniqueEmail;
 import net.ddns.tccapp.model.annotations.UniqueUser;
 import net.minidev.json.annotate.JsonIgnore;
@@ -11,12 +14,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Inheritance(
         strategy = InheritanceType.JOINED
 )
+@EqualsAndHashCode(exclude = {"publicacoes"})
 public @Data
 class Usuario {
 
@@ -54,4 +59,9 @@ class Usuario {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JsonIgnore
+    private List<Publicacao> publicacoes;
 }

@@ -1,5 +1,6 @@
 package net.ddns.tccapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,9 +20,11 @@ class Avaliacao {
     private BigDecimal nota;
 
     @ManyToOne
+    @JsonBackReference
     private Aluno aluno;
 
     @ManyToOne
+    @JsonBackReference
     private Aula aula;
 
 }

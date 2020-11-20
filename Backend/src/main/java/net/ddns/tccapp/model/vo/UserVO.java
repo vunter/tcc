@@ -29,7 +29,7 @@ class UserVO {
 
     private String password;
 
-    private String role;
+    private String roles;
 
     @Email(message = "E-mail inválido!")
     @NotEmpty(message = "{campo.email.obrigatorio}")
@@ -44,7 +44,7 @@ class UserVO {
         this.nome = usuario.getNome();
         this.user = usuario.getUser();
         this.email = usuario.getEmail();
-        this.role = usuario.getRoles()
+        this.roles = usuario.getRoles()
                 .stream().filter(r -> !r.getId().equals(1L))
                 .findFirst()
                 .orElseThrow()
