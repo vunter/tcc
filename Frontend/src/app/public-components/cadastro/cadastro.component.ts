@@ -1,8 +1,8 @@
+import { ToastService } from './../../toast.service';
+import { AuthService } from './../../shared/services/auth.service';
+import { User } from './../../shared/entity/user';
 import { Router } from '@angular/router';
-import { ToastService } from './../toast.service';
-import { AuthService } from './../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { User } from './../shared/entity/user';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ValidateBrService } from 'angular-validate-br';
@@ -51,16 +51,17 @@ export class CadastroComponent implements OnInit {
   onSubmit() {
     if (this.cadastroForm.valid) {
       this.user = this.cadastroForm.value;
-      this.authService.register(this.user).subscribe(response => {
-        this.user = response;
-        this.notification.showSuccessTitle('Usuário ' + this.user.user + ' com perfil de: ' + this.user.roles + ' criado com sucesso!',
-          'Usuário criado com sucesso!', 10000);
-        this.router.navigate(['/login']);
-      }, errorResponse => {
-        errorResponse.error.errors.forEach(function (erro) {
-          this.notification.showError(erro);
+      this.authService.register(this.user).subscribe(
+        (response) => {
+          this.user = response;
+          this.notification.showSuccessTitle('Usuário ' + this.user.user + ' com perfil de: ' + this.user.roles + ' criado com sucesso!',
+            'Usuário criado com sucesso!', 10000);
+          this.router.navigate(['/login']);
+        }, (errorResponse) => {
+          errorResponse.error.erros.forEach((e) => {
+            this.notification.showError(e);
+          });
         });
-      })
     } else {
       this.notification.showErrorTitle('Existem campos preenchidos incorretamente', 'Erro ao salvar', 3000);
     }

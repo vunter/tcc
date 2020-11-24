@@ -5,7 +5,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import jQuery from 'jquery';
 import { User } from 'src/app/shared/entity/user';
-import { Toast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -36,7 +35,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       },
       (errorResponse) => {
         this.errors = errorResponse.error.erros;
-        this.errors.forEach(function (e) {
+        this.errors.forEach((e) => {
           this.notification.showError(e);
         });
       }

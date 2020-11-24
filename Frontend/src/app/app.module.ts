@@ -1,11 +1,14 @@
+import { CadastroComponent } from './public-components/cadastro/cadastro.component';
+import { HomeComponent } from './public-components/home/home.component';
+import { LoginComponent } from './public-components/login/login.component';
+import { LocalDateTimePipe } from './shared/pipes/local-date-time.pipe';
+import { NewLinePipe } from './shared/pipes/new-line.pipe';
 import { SpinnerInterceptor } from './spinner.interceptor';
 import { AuthService } from './shared/services/auth.service';
 import { UsuarioService } from './shared/services/usuario.service';
 import { TokenInterceptor } from './token.interceptor';
 import { TemplateModule } from './template/template.module';
-import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
-import { LoginComponent } from './login/login.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -15,9 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-import { LocalDateTimePipe } from './shared/pipes/local-date-time.pipe';
 import { BlocosComponent } from './components/blocos/blocos.component';
-import { CadastroComponent } from './cadastro/cadastro.component';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
@@ -49,6 +50,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { HomeAlunoComponent } from './components/home-aluno/home-aluno.component';
+import { HomeProfessorComponent } from './components/home-professor/home-professor.component';
+import { SobreComponent } from './public-components/sobre/sobre.component';
+import { PublicNavbarComponent } from './public-components/public-navbar/public-navbar.component';
+import { TurmaComponent } from './components/turma/turma.component';
+import { AulaAlunoComponent } from './components/aula-aluno/aula-aluno.component';
+import { AulaProfessorComponent } from './components/aula-professor/aula-professor.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +66,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     HomeComponent,
     LocalDateTimePipe,
     BlocosComponent,
-    CadastroComponent
+    CadastroComponent,
+    NewLinePipe,
+    HomeAlunoComponent,
+    HomeProfessorComponent,
+    SobreComponent,
+    PublicNavbarComponent,
+    TurmaComponent,
+    AulaAlunoComponent,
+    AulaProfessorComponent
   ],
   imports: [
     BrowserModule,
@@ -105,6 +121,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     UsuarioService,
     AuthService,
     LocalDateTimePipe,
+    NewLinePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

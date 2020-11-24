@@ -1,7 +1,10 @@
 
 <div class="card" style="width: 18rem;">
+  <div class="card-header">
+    <h5 class="card-title">{{ bloco.titulo }}</h5>
+  </div>
   <div class="card-body">
-    <h5 class="card-title">{{ bloco.title }}</h5>
-    <p class="card-text">{{ bloco.conteudo }}</p>
+    <p class="card-text" [innerHTML]="bloco.conteudo | newLine"></p>
+    <p class="card-text">{{ bloco.professorId }}</p>
   </div>
 </div>

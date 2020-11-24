@@ -1,14 +1,8 @@
 package net.ddns.tccapp.beans;
 
 import lombok.RequiredArgsConstructor;
-import net.ddns.tccapp.model.dto.AulaDTO;
-import net.ddns.tccapp.model.dto.ProfessorDTO;
-import net.ddns.tccapp.model.dto.PublicacaoDTO;
-import net.ddns.tccapp.model.dto.TurmaDTO;
-import net.ddns.tccapp.model.entity.Aula;
-import net.ddns.tccapp.model.entity.Professor;
-import net.ddns.tccapp.model.entity.Publicacao;
-import net.ddns.tccapp.model.entity.Turma;
+import net.ddns.tccapp.model.dto.*;
+import net.ddns.tccapp.model.entity.*;
 import net.ddns.tccapp.model.repository.ProfessorRepository;
 import net.ddns.tccapp.model.repository.TurmaRepository;
 import net.ddns.tccapp.model.repository.UsuarioRepository;
@@ -36,6 +30,9 @@ public class ModelMapperBean {
         modelMapper.addConverter(professorToDtoConverter());
         modelMapper.addConverter(aulaToDtoConverter());
         modelMapper.addConverter(aulaDTOToEntityConverter());
+        modelMapper.addConverter(blocoToDtoConverter());
+        modelMapper.addConverter(blocoDTOToEntityConverter());
+
 
         return modelMapper;
     }
@@ -132,6 +129,34 @@ public class ModelMapperBean {
                 aula.setDataAula(dto.getDataAula());
                 aula.setTurma(turmaRepository.findById(dto.getTurmaId()).orElse(null));
                 return aula;
+            }
+        };
+    }
+
+    private Converter<BlocoDTO, Bloco> blocoDTOToEntityConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected Bloco convert(BlocoDTO dto) {
+                var bloco = new Bloco();
+                bloco.setId(dto.getId());
+                bloco.setTitulo(dto.getTitulo());
+                bloco.setConteudo(dto.getConteudo());
+                bloco.setProfessorCriador(professorRepository.findById(dto.getProfessorId()).orElse(null));
+                return bloco;
+            }
+        };
+    }
+
+    private Converter<Bloco, BlocoDTO> blocoToDtoConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected BlocoDTO convert(Bloco bloco) {
+                var dto = new BlocoDTO();
+                dto.setId(bloco.getId());
+                dto.setTitulo(bloco.getTitulo());
+                dto.setConteudo(bloco.getConteudo());
+                dto.setProfessorId(bloco.getProfessorCriador().getId());
+                return dto;
             }
         };
     }

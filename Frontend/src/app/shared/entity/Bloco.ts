@@ -1,5 +1,6 @@
 export class Bloco {
-  title: string;
+  id: number;
+  titulo: string;
   conteudo: string;
-  
+  professorId: number;
 }

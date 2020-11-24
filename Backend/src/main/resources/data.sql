@@ -57,7 +57,7 @@ VALUES (SYSDATE, '15:00:00', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de t
 INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1);
 
 /* INSERT BLOCO */
-INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('let teste = true; \n if(teste) { console.log("teste funciona"}', 'Bloco de Teste', 3);
+INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('let teste = true;\n\nif (teste) { \nconsole.log("teste funciona")\n}', 'Bloco de Teste', 3);
 
 /* INSERT AULA_BLOCOS */
 INSERT INTO AULA_BLOCOS(AULA_ID, BLOCOS_ID) VALUES (1, 1);

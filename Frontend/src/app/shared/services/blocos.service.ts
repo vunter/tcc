@@ -1,3 +1,5 @@
+import { Bloco } from './../entity/Bloco';
+import { Observable } from 'rxjs';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -11,4 +13,8 @@ export class BlocosService {
   constructor(
     private api: HttpClient
   ) { }
+
+  getBlocosByProfessor(idProfessor): Observable<Bloco[]> {
+    return this.api.get<Bloco[]>(this.apiURL + '/list/professor/' + idProfessor);
+  }
 }

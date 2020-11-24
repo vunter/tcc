@@ -1,4 +1,4 @@
-import { AuthService } from './../shared/services/auth.service';
+import { AuthService } from './../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       response => {
         const access_token = JSON.stringify(response);
         localStorage.setItem('access_token', access_token);
-        this.router.navigate(['/home']);
+        window.location.href = '/home';
         this.loginError = false;
       }, errorResponse => {
         this.loginError = true;
