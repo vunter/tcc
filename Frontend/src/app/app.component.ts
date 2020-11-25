@@ -15,6 +15,7 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+
     this.listenToLoading();
   }
 

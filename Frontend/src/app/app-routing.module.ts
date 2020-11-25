@@ -1,3 +1,6 @@
+import { AulaComponent } from './components/aula/aula.component';
+
+import { TurmaComponent } from './components/turma/turma.component';
 import { SobreComponent } from './public-components/sobre/sobre.component';
 import { HomeComponent } from './public-components/home/home.component';
 import { LoginComponent } from './public-components/login/login.component';
@@ -16,7 +19,9 @@ const routes: Routes = [
   { path: 'sobre', component: SobreComponent },
   { path: '', component: HomeComponent },
   { path: '', component: MainComponent, children: [
-    { path: 'home', component: getHomeComponent(new JwtHelperService()) }
+    { path: 'home', component: getHomeComponent(new JwtHelperService()) },
+    { path: 'turma', component: TurmaComponent },
+    { path: 'aula', component: AulaComponent }
   ], canActivate: [AuthGuard]}
 ];
 

@@ -74,7 +74,7 @@ export class AuthService {
     return this.api.post<User>(this.apiURL + '/public/salvar', user);
   }
 
-  getRole(): String[] {
+  getRole(): string[] {
     const token = this.getToken();
     if (token) {
       return this.jwtHelper.decodeToken(token).authorities;

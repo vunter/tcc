@@ -1,3 +1,4 @@
+import { AulaModule } from './components/aula/aula.module';
 import { CadastroComponent } from './public-components/cadastro/cadastro.component';
 import { HomeComponent } from './public-components/home/home.component';
 import { LoginComponent } from './public-components/login/login.component';
@@ -55,8 +56,7 @@ import { HomeProfessorComponent } from './components/home-professor/home-profess
 import { SobreComponent } from './public-components/sobre/sobre.component';
 import { PublicNavbarComponent } from './public-components/public-navbar/public-navbar.component';
 import { TurmaComponent } from './components/turma/turma.component';
-import { AulaAlunoComponent } from './components/aula-aluno/aula-aluno.component';
-import { AulaProfessorComponent } from './components/aula-professor/aula-professor.component';
+import { AulaComponent } from './components/aula/aula.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +73,7 @@ import { AulaProfessorComponent } from './components/aula-professor/aula-profess
     SobreComponent,
     PublicNavbarComponent,
     TurmaComponent,
-    AulaAlunoComponent,
-    AulaProfessorComponent
+    AulaComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +114,8 @@ import { AulaProfessorComponent } from './components/aula-professor/aula-profess
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    AulaModule
    ],
   providers: [
     UsuarioService,
