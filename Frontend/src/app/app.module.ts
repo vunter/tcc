@@ -1,6 +1,9 @@
+import { ComponentsModule } from './components/components.module';
+import { HomeComponentPublic } from './public-components/home-public/home-public.component';
+import { HomeModule } from './components/home/home.module';
+import { Global } from './shared/Global';
 import { AulaModule } from './components/aula/aula.module';
 import { CadastroComponent } from './public-components/cadastro/cadastro.component';
-import { HomeComponent } from './public-components/home/home.component';
 import { LoginComponent } from './public-components/login/login.component';
 import { LocalDateTimePipe } from './shared/pipes/local-date-time.pipe';
 import { NewLinePipe } from './shared/pipes/new-line.pipe';
@@ -51,8 +54,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { HomeAlunoComponent } from './components/home-aluno/home-aluno.component';
-import { HomeProfessorComponent } from './components/home-professor/home-professor.component';
 import { SobreComponent } from './public-components/sobre/sobre.component';
 import { PublicNavbarComponent } from './public-components/public-navbar/public-navbar.component';
 import { TurmaComponent } from './components/turma/turma.component';
@@ -63,13 +64,9 @@ import { AulaComponent } from './components/aula/aula.component';
     AppComponent,
     LoginComponent,
     MainComponent,
-    HomeComponent,
+    HomeComponentPublic,
     LocalDateTimePipe,
-    BlocosComponent,
     CadastroComponent,
-    NewLinePipe,
-    HomeAlunoComponent,
-    HomeProfessorComponent,
     SobreComponent,
     PublicNavbarComponent,
     TurmaComponent,
@@ -115,13 +112,15 @@ import { AulaComponent } from './components/aula/aula.component';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    AulaModule
+    AulaModule,
+    HomeModule,
+    ComponentsModule
    ],
   providers: [
     UsuarioService,
     AuthService,
     LocalDateTimePipe,
-    NewLinePipe,
+    Global,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

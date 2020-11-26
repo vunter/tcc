@@ -4,7 +4,7 @@ import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import jQuery from 'jquery';
-import { User } from 'src/app/shared/entity/user';
+import { User } from 'src/app/shared/entity/User';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.user = new User();
     this.user.nome = "";
     this.username = this.authService.getCurrentUser();
-    this.usuarioService.getLoggedUser(this.username).subscribe(
+    this.usuarioService.getLoggedUser().subscribe(
       (response) => {
         this.user = response;
       },
@@ -63,6 +63,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       $("#show-sidebar").click(function () {
         $(".page-wrapper").addClass("toggled");
       });
+
     });
   }
 

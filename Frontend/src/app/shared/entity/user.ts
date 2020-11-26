@@ -5,7 +5,7 @@ export class User {
     password: string;
     email: string;
     matricula: string;
-    roles: string;
+    roles: string[];
     cpf: string;
 
     constructor(formValues?: any) {

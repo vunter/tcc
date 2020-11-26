@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 })
 export class TurmaService {
 
-  apiURL: string = environment.apiURL + "/turma";
+  apiURL: string = environment.apiURL + "/turma/";
   constructor(
     private api: HttpClient
   ) {  }
@@ -16,7 +16,7 @@ export class TurmaService {
   getPublicacoes(idturma): Observable<any> {
     const params = new HttpParams()
       .set('idTurma', idturma);
-    return this.api.get<any>(this.apiURL + '/list/publicacoes', { params });
+    return this.api.get<any>(this.apiURL + 'list/publicacoes', { params });
   }
 
 }

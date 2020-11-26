@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
-    
+
     Optional<Aluno> findByMatricula(String matricula);
 
     Optional<List<Aluno>> findAllByTurmasId(Long turmaId);

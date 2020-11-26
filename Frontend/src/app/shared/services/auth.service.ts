@@ -1,4 +1,4 @@
-import { User } from './../entity/user';
+import { User } from '../entity/User';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable, Optional } from '@angular/core';

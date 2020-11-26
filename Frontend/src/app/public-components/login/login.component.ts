@@ -1,3 +1,6 @@
+import { ToastService } from './../../toast.service';
+import { UsuarioService } from './../../shared/services/usuario.service';
+import { Global } from './../../shared/Global';
 import { AuthService } from './../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +17,11 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
 
   constructor(private service: AuthService,
-    private router: Router) { }
+    private usuarioService: UsuarioService,
+    private globals: Global,
+    private toast: ToastService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.login = new LoginForm();
@@ -25,7 +32,7 @@ export class LoginComponent implements OnInit {
       response => {
         const access_token = JSON.stringify(response);
         localStorage.setItem('access_token', access_token);
-        window.location.href = '/home';
+        this.setUserGlobalsAndRedirect();
         this.loginError = false;
       }, errorResponse => {
         this.loginError = true;
@@ -38,6 +45,16 @@ export class LoginComponent implements OnInit {
       }
     )
 
+  }
+
+  setUserGlobalsAndRedirect() {
+    this.usuarioService.getLoggedUser().subscribe(
+      (response) => {
+        this.globals.user = response;
+        this.router.navigate(['/home']);
+      },
+      (errorResponse) => {this.toast.showWarning('Não foi possível definir usuário como global, o sistema pode não funcionar corretamente!', 6000);}
+    );
   }
 
 }

@@ -19,7 +19,7 @@ public class AulaController {
     private final ModelMapper modelMapper;
 
     @GetMapping("{id}")
-    public Aula buscaAula(@PathVariable("id") Long id) {
+    public AulaDTO buscaAula(@PathVariable("id") Long id) {
         return service.findOneById(id);
     }
 

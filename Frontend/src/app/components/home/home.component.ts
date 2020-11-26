@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { remove } from 'src/app/utils/arrayUtils/removeFromArray';
 import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  user_role: string = "";
 
   constructor(
-    private auth: AuthService,
-    private router: Router
-  ) {
+    private authService: AuthService
+  ) { }
 
-  }
+  ngOnInit(): void {
 
-  ngOnInit() {
-    if (this.auth.isAuthenticated()) this.router.navigate(['/home']);
+    this.user_role = remove(this.authService.getRole(), 'ROLE_USER')[0];
+
   }
 
 }
