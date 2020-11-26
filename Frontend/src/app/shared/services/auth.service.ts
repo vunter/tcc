@@ -1,3 +1,5 @@
+import { Global } from './../Global';
+import { UsuarioService } from './usuario.service';
 import { User } from '../entity/User';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -19,8 +21,7 @@ export class AuthService {
   jwtHelper: JwtHelperService = new JwtHelperService();
 
   constructor(
-    private api: HttpClient,
-    private router: Router
+    private api: HttpClient
   ) { }
 
   getToken() {
@@ -81,5 +82,4 @@ export class AuthService {
     }
     return null;
   }
-
 }

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
@@ -12,7 +13,8 @@ import { NavbarComponent } from './navbar/navbar.component';
   declarations: [
     NavbarComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
     ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { NavbarComponent } from './navbar/navbar.component';
   exports: [
     NavbarComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ]
 })
 export class TemplateModule { }

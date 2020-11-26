@@ -1,3 +1,4 @@
+import { NgxBlocklyModule } from 'ngx-blockly';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,11 +13,12 @@ import { AulaProfessorComponent } from './aula-professor/aula-professor.componen
     AulaProfessorComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgxBlocklyModule
   ],
   exports: [
     AulaAlunoComponent,
     AulaProfessorComponent
   ]
 })
-export class AulaModule { }
+export class AulaModule {}

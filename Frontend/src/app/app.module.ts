@@ -14,7 +14,7 @@ import { TokenInterceptor } from './token.interceptor';
 import { TemplateModule } from './template/template.module';
 import { MainComponent } from './main/main.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,6 +58,7 @@ import { SobreComponent } from './public-components/sobre/sobre.component';
 import { PublicNavbarComponent } from './public-components/public-navbar/public-navbar.component';
 import { TurmaComponent } from './components/turma/turma.component';
 import { AulaComponent } from './components/aula/aula.component';
+import { NgxBlocklyModule } from 'ngx-blockly';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { AulaComponent } from './components/aula/aula.component';
   ],
   imports: [
     BrowserModule,
+    NgxBlocklyModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TemplateModule,
@@ -129,6 +131,12 @@ import { AulaComponent } from './components/aula/aula.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (service: UsuarioService) => () => service.configGlobal(),
+      deps: [UsuarioService],
       multi: true
     }
   ],

@@ -15,9 +15,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.user_role = remove(this.authService.getRole(), 'ROLE_USER')[0];
-
   }
 
 }

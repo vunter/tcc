@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './template/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { HomeComponentPublic } from './public-components/home-public/home-public.component';
 import { AulaComponent } from './components/aula/aula.component';
@@ -21,7 +22,8 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'turma', component: TurmaComponent },
     { path: 'aula', component: AulaComponent }
-  ], canActivate: [AuthGuard]}
+  ], canActivate: [AuthGuard]},
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

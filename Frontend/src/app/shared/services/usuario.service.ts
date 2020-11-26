@@ -1,3 +1,4 @@
+import { Global } from './../Global';
 import { AuthService } from './auth.service';
 import { User } from 'src/app/shared/entity/User';
 import { environment } from './../../../environments/environment';
@@ -14,7 +15,8 @@ export class UsuarioService {
 
   constructor(
     private api: HttpClient,
-    private auth: AuthService
+    private auth: AuthService,
+    private globals: Global
   ) { }
 
 
@@ -25,7 +27,15 @@ export class UsuarioService {
   getLoggedUser(): Observable<User> {
     const params = new HttpParams()
       .set('username', this.auth.getCurrentUser());
-    return this.api.get<User>(this.apiURL + 'user', {params});
+    return this.api.get<User>(this.apiURL + 'user', { params });
   }
 
+  configGlobal(): Promise<any> {
+    if (this.auth.isAuthenticated()) {
+      return this.getLoggedUser().toPromise().then((response) => {
+
+        this.globals.user = response;
+      }).catch(() => this.globals.user = new User())
+    }
+  }
 }

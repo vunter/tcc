@@ -28,11 +28,22 @@
               "./node_modules/ngx-toastr/toastr.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.css"
-
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js"
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/ngx-blockly/scripts/blockly/blockly_compressed.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks_compressed.js",
+              "node_modules/ngx-blockly/scripts/blockly/javascript_compressed.js",
+              "node_modules/ngx-blockly/scripts/blockly/msg/js/pt-br.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/lists.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/logic.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/loops.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/math.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/procedures.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/text.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/variables_dynamic.js",
+              "node_modules/ngx-blockly/scripts/blockly/blocks/variables.js"
             ]
           },
           "configurations": {

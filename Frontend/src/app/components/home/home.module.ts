@@ -1,6 +1,5 @@
 import { HomeComponent } from './home.component';
 import { ComponentsModule } from './../components.module';
-import { BlocosComponent } from './../blocos/blocos.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeProfessorComponent } from './home-professor/home-professor.component';

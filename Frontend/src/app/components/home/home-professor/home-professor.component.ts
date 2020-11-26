@@ -31,21 +31,10 @@ export class HomeProfessorComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-
     if (this.auth.isAuthenticated()) {
       this.router.navigate(['home'])
     }
-    if (!this.globals.user) {
-      this.usuarioService.getLoggedUser().subscribe((response) => {
-        this.globals.user = response;
-        this.doInitConfigs();
-      }, (errorResponse) => {
-        errorResponse.error.erros.forEach((e) => { this.toast.showError(e) });
-      })
-    } else {
-      this.doInitConfigs();
-    }
+    this.doInitConfigs();
   }
 
   doInitConfigs() {
