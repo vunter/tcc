@@ -40,6 +40,9 @@ public @Data class Aula {
     @ManyToOne
     private Turma turma;
 
+    @Column
+    private Integer quantidadeMaxBlocos;
+
     @OneToMany
     private List<Bloco> blocos;
 

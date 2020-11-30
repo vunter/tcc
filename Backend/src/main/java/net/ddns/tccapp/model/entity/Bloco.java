@@ -21,6 +21,7 @@ class Bloco {
     @Column
     @NotBlank
     @NotNull
+    @Lob
     private String conteudo;
 
     @JoinColumn(name = "PROFESSOR_ID")

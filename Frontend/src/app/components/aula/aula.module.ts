@@ -1,3 +1,5 @@
+import { AulaService } from './../../shared/services/aula.service';
+import { BlocosService } from './../../shared/services/blocos.service';
 import { NgxBlocklyModule } from 'ngx-blockly';
 
 import { NgModule } from '@angular/core';
@@ -19,6 +21,10 @@ import { AulaProfessorComponent } from './aula-professor/aula-professor.componen
   exports: [
     AulaAlunoComponent,
     AulaProfessorComponent
+  ],
+  providers: [
+    BlocosService,
+    AulaService
   ]
 })
 export class AulaModule {}

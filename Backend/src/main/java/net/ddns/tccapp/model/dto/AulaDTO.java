@@ -38,5 +38,7 @@ public @Data class AulaDTO {
     @NotNull(message = "{campo.obrigatorio}")
     private Long turmaId;
 
+    private Integer quantidadeMaxBlocos;
+
 
 }

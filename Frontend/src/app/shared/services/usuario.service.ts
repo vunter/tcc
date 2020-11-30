@@ -33,7 +33,6 @@ export class UsuarioService {
   configGlobal(): Promise<any> {
     if (this.auth.isAuthenticated()) {
       return this.getLoggedUser().toPromise().then((response) => {
-
         this.globals.user = response;
       }).catch(() => this.globals.user = new User())
     }

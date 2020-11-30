@@ -1,8 +1,8 @@
+import { Aula } from './../entity/Aula';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Aula } from '../entity/Aula';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AulaService {
 
 
     getAula(id: number): Observable<Aula> {
-      return this.http.get<Aula>(this.apiURL + id);
+      return this.http.get<any>(this.apiURL + id);
     }
 
     listByTurmaId(idTurma: number): Observable<Aula[]> {

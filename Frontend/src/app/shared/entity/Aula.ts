@@ -6,4 +6,5 @@ export class Aula {
   objetivo: string;
   titulo: string;
   turmaId: number;
+  quantidadeMaxBlocos: number;
 }

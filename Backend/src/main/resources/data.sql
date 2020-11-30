@@ -50,14 +50,49 @@ INSERT INTO PUBLICACAO(CONTEUDO, AUTOR_USER_ID, TURMA_ID) VALUES ('TESTE REPLY',
 INSERT INTO PUBLICACAO_REPLIES(PUBLICACAO_ID, REPLIES_ID) VALUES (1, 2);
 
 /* INSERT  AULA */
-INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID)
-VALUES (SYSDATE, '15:00:00', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1);
+INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, QUANTIDADE_MAX_BLOCOS)
+VALUES (SYSDATE, '15:00:00', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1, 12);
 
 /* INSERT  AVALIACAO */
 INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1);
 
 /* INSERT BLOCO */
-INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('let teste = true;\n\nif (teste) { \nconsole.log("teste funciona")\n}', 'Bloco de Teste', 3);
+-- INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('let teste = true;\n\nif (teste) { \nconsole.log("teste funciona")\n}', 'Bloco de Teste', 3);
+INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="hv!t3yf{?VO2hD*S!_{F">aa</variable>
+  </variables>
+  <block type="procedures_defnoreturn" id="rNiQ%nAKp7(?bQ7MFn0D" x="166" y="207">
+    <field name="NAME">teste</field>
+    <comment pinned="false" h="80" w="160">Descreva esta função...</comment>
+    <statement name="STACK">
+      <block type="variables_set" id="$fxal,A#B9~!YeW5Is2P">
+        <field name="VAR" id="hv!t3yf{?VO2hD*S!_{F">aa</field>
+        <value name="VALUE">
+          <block type="math_number" id="9u5Z_@lvlw.(o^EHc0_2">
+            <field name="NUM">12</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>', 'Bloco de Teste', 3);
+INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable id="hv!t3yf{?VO2hD*S!_{F">teste</variable>
+  </variables>
+  <block type="text_append" id="G2{D/zatJ}A7F!tpDZ(K" x="342" y="369">
+    <field name="VAR" id="hv!t3yf{?VO2hD*S!_{F">teste</field>
+    <value name="TEXT">
+      <block type="variables_get" id="Y=3n{aytP1b^DpzDEy;o">
+        <field name="VAR" id="hv!t3yf{?VO2hD*S!_{F">teste</field>
+      </block>
+    </value>
+    <next>
+      <block type="controls_if" id="YyMnMq4*e[Ih}_X{d=sG"></block>
+    </next>
+  </block>
+</xml>', 'Bloco de Teste 2', 3);
 
 /* INSERT AULA_BLOCOS */
 INSERT INTO AULA_BLOCOS(AULA_ID, BLOCOS_ID) VALUES (1, 1);
