@@ -1,4 +1,5 @@
-import { User } from 'src/app/shared/entity/user';
+import { User } from './User';
+
 export class Publicacao {
   id: number;
   autor: User;

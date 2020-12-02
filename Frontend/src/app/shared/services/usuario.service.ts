@@ -1,10 +1,10 @@
 import { Global } from '../GlobalUse';
 import { AuthService } from './auth.service';
-import { User } from 'src/app/shared/entity/User';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '../entity/User';
 
 @Injectable({
   providedIn: 'root'

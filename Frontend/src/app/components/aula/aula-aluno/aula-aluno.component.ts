@@ -1,5 +1,4 @@
 import { WebsocketService } from './../../../shared/services/websocket/websocket.service';
-import { User } from 'src/app/shared/entity/user';
 import { Message } from './../../../shared/entity/Message';
 import { ToastService } from './../../../toast.service';
 import { Aula } from './../../../shared/entity/Aula';
@@ -9,7 +8,7 @@ import { Global } from '../../../shared/GlobalUse';
 import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LOOP_CATEGORY, MATH_CATEGORY, NgxBlocklyComponent, NgxBlocklyConfig, NgxBlocklyGeneratorConfig, NgxToolboxBuilderService, TEXT_CATEGORY, VARIABLES_CATEGORY } from 'ngx-blockly';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as Blockly from 'node_modules/ngx-blockly/scripts/blockly/blockly_compressed.js';
+import { User } from '../../../shared/entity/User';
 @Component({
   selector: 'app-aula-aluno',
   templateUrl: './aula-aluno.component.html',

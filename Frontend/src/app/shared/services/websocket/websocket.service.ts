@@ -1,5 +1,4 @@
 import { Global } from '../../GlobalUse';
-import { ToastService } from 'src/app/toast.service';
 import { environment } from './../../../../environments/environment';
 import { Message } from './../../entity/Message';
 import { Injectable } from '@angular/core';
@@ -7,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client'
 import html2canvas from 'html2canvas';
+import { ToastService } from '../../../toast.service';
 
 @Injectable({
   providedIn: 'root'

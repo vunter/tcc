@@ -1,6 +1,6 @@
-import { remove } from 'src/app/utils/arrayUtils/removeFromArray';
 import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { remove } from '../../utils/arrayUtils/removeFromArray';
 
 @Component({
   selector: 'app-home',

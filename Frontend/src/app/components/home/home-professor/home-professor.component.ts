@@ -3,11 +3,11 @@ import { UsuarioService } from './../../../shared/services/usuario.service';
 import { Global } from '../../../shared/GlobalUse';
 import { Bloco } from './../../../shared/entity/Bloco';
 import { Component, OnInit } from '@angular/core';
-import { TurmaService } from 'src/app/shared/services/turma.service';
-import { BlocosService } from 'src/app/shared/services/blocos.service';
-import { ToastService } from 'src/app/toast.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { TurmaService } from '../../../shared/services/turma.service';
+import { BlocosService } from '../../../shared/services/blocos.service';
+import { ToastService } from '../../../toast.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-home-professor',
