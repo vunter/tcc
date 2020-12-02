@@ -1,6 +1,6 @@
 import { ToastService } from './../../toast.service';
 import { AuthService } from './../../shared/services/auth.service';
-import { User } from '../../shared/entity/User';
+import { User } from '../../shared/entity/user';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';

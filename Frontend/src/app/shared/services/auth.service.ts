@@ -1,6 +1,6 @@
 import { Global } from '../GlobalUse';
 import { UsuarioService } from './usuario.service';
-import { User } from '../entity/User';
+import { User } from '../entity/user';
 import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable, Optional } from '@angular/core';

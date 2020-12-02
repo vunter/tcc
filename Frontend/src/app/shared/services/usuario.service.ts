@@ -4,7 +4,7 @@ import { environment } from './../../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../entity/User';
+import { User } from '../entity/user';
 
 @Injectable({
   providedIn: 'root'

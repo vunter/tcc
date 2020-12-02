@@ -8,7 +8,7 @@ import { Global } from '../../../shared/GlobalUse';
 import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LOOP_CATEGORY, MATH_CATEGORY, NgxBlocklyComponent, NgxBlocklyConfig, NgxBlocklyGeneratorConfig, NgxToolboxBuilderService, TEXT_CATEGORY, VARIABLES_CATEGORY } from 'ngx-blockly';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../shared/entity/User';
+import { User } from '../../../shared/entity/user';
 @Component({
   selector: 'app-aula-aluno',
   templateUrl: './aula-aluno.component.html',

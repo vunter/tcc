@@ -4,7 +4,7 @@ import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import jQuery from 'jquery';
-import { User } from '../../shared/entity/User';
+import { User } from '../../shared/entity/user';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
