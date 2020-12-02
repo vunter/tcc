@@ -2,6 +2,7 @@ package net.ddns.tccapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
+import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
 import net.ddns.tccapp.model.service.AulaService;
 import org.modelmapper.ModelMapper;
@@ -32,6 +33,12 @@ public class AulaController {
     @PostMapping("salvar")
     public Aula save(@RequestBody @Valid AulaDTO dto) {
         return service.salvar(modelMapper.map(dto, Aula.class));
+    }
+
+
+    @GetMapping("professor/{id}")
+    public ProfessorDTO getProfessorAula(@PathVariable("id") Long aulaId) {
+        return service.findProfessorByAula(aulaId);
     }
 
 }

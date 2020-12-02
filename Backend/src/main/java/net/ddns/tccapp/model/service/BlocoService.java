@@ -20,6 +20,9 @@ public class BlocoService {
     private final ModelMapper modelMapper;
 
     public Bloco salvar(BlocoDTO dto) {
+
+        dto.setConteudo(dto.getConteudo().replaceAll("id=\"[^\"]*\"", ""));
+
         return repository.save(modelMapper.map(dto, Bloco.class));
     }
 
@@ -30,4 +33,5 @@ public class BlocoService {
                         .collect(Collectors.toList()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem blocos criados por este professor!"));
     }
+    //id=".*"
 }

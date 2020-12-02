@@ -36,4 +36,12 @@ public @Data class ProfessorDTO {
 
     private String cpf;
 
+    public ProfessorDTO(Long id, String nome, String user, String password, String email, String cpf) {
+        this.id = id;
+        this.nome = nome;
+        this.user = user;
+        this.password = password;
+        this.email = email;
+        this.cpf = cpf;
+    }
 }

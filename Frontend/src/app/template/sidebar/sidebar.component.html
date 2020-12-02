@@ -2,7 +2,7 @@
   <div class="sidebar-content">
     <div class="sidebar-brand">
       <a [routerLink]="['/home']" style="cursor: pointer;">SALP</a>
-      <div id="close-sidebar">
+      <div id="close-sidebar" style="margin-left: 1rem;">
         <i class="fas fa-times"></i>
       </div>
     </div>
@@ -12,9 +12,9 @@
           src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
           alt="User picture" />
       </div>
-      <div class="user-info"  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      <div class="user-info text-wrap" >
         <span class="user-name">{{ user.nome.split(" ")[0] }} </span>
-        <strong>{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
+        <strong style="word-break: break-all;">{{ user.nome.replace(user.nome.split(" ")[0], '') }}</strong>
         <span class="user-role">{{ user.roles }}</span>
         <span class="user-role">{{ user.user }}</span>
         <span class="user-status">

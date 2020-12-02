@@ -1,6 +1,6 @@
 export interface Message {
     message: string,
-    fromId: string,
-    toId: string,
+    fromId: number,
+    toId: number,
     takePrint: boolean
 }

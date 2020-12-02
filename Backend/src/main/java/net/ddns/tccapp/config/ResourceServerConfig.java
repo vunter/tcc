@@ -23,6 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/api/usuario/**",
                         "/api/cadastro/**",
                         "/api/public/**",
+                        "/socket/**",
                         "/h2-console/**",
                         "/favicon.ico"
                 ).permitAll()

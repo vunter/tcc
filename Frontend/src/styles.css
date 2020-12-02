@@ -213,6 +213,7 @@ body {
 
 .sidebar-wrapper .sidebar-header .user-info {
   float: left;
+  word-wrap: break-word;
 }
 
 .sidebar-wrapper .sidebar-header .user-info > span {

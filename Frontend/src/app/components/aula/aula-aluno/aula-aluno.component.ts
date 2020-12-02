@@ -1,3 +1,6 @@
+import { WebsocketService } from './../../../shared/services/websocket/websocket.service';
+import { User } from 'src/app/shared/entity/user';
+import { Message } from './../../../shared/entity/Message';
 import { ToastService } from './../../../toast.service';
 import { Aula } from './../../../shared/entity/Aula';
 import { AulaService } from './../../../shared/services/aula.service';
@@ -20,7 +23,10 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   maxBlocks: number = 10;
   leftBlocks: string = '';
   aula: Aula;
-
+  messages: Message[] = [];
+  mensagemForm: MessageForm;
+  usuario: User;
+  professor: User;
 
   public config: NgxBlocklyConfig = {
     scrollbars: true,
@@ -52,10 +58,13 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private globals: Global,
     private blocoService: BlocosService,
-    private aulaService: AulaService
+    private aulaService: AulaService,
+    private socket: WebsocketService
   ) {
+    this.usuario = this.globals.user;
 
-    this.route.queryParams.subscribe(params => { this.idAula = params['id'] })
+    this.route.queryParams.subscribe(params => { this.idAula = params['id'] });
+
     this.aulaService.getAula(this.idAula).toPromise().then(
       (response) => {
         this.aula = response;
@@ -91,6 +100,17 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.mensagemForm = new MessageForm();
+    this.aulaService.getProfessor(this.idAula).subscribe(
+      (response) => {
+        this.professor = response;
+      }, (errorResponse) => {
+        errorResponse.error.erros.forEach(e => {
+          this.toast.showError(e);
+        });
+      })
+      this.socket.initializeWebSocketConnection()
+      this.socket.openSocket();
   }
 
   ngAfterViewInit() {
@@ -103,8 +123,11 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
       }
     } else {
       this.blocoService.getBlocosByProfessor(3).toPromise().then((r) => {
-        this.workspace.fromXml(r[0].conteudo);
-      //  this.workspace.appendFromXml(r[1].conteudo);
+        setTimeout(() => {
+          r.forEach((o) => {
+            this.workspace.appendFromXml(o.conteudo);
+          })
+        }, 500);
       })
     }
   }
@@ -119,12 +142,30 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
       localStorage.removeItem('saved_workspace');
     }
     this.leftBlocks = this.workspace.workspace.remainingCapacity();
-
+    this.workspace.onResize();
   }
 
+
+  sendMessage() {
+    if (this.mensagemForm.mensagem) {
+      this.socket.sendMessageUsingSocket(this.mensagemForm.mensagem, this.professor.id)
+      this.messages.push({
+        message: this.mensagemForm.mensagem,
+        fromId: this.globals.user.id,
+        toId: 1,
+        takePrint: false
+      })
+    }
+    this.mensagemForm.mensagem = "";
+
+  }
 
   getCode(): string {
     return this.conteudo;
   }
 
+}
+
+class MessageForm {
+  mensagem: string;
 }

@@ -3,6 +3,7 @@ package net.ddns.tccapp.model.service;
 
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
+import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
 import net.ddns.tccapp.model.repository.AulaRepository;
 import org.modelmapper.ModelMapper;
@@ -38,4 +39,7 @@ public class AulaService {
         return repository.save(aula);
     }
 
+    public ProfessorDTO findProfessorByAula(Long aulaId) {
+        return repository.findProfessorByAula(aulaId).get();
+    }
 }

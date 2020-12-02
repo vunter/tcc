@@ -1,2 +1,29 @@
-<p>{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</p>
-<ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)"></ngx-blockly>
+<div class="container.fluid">
+  <div class="row justify-content-between">
+    <div class="col-md-8" style="height: 43rem; position: relative;">
+      <p>{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</p>
+      <div id="capture">
+        <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
+        </ngx-blockly>
+      </div>
+    </div>
+    <div class="col-md-3 border" style="right: 1.35rem;">
+      <h1 class="text-center">Chat</h1>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let message of messages">
+          <p>{{message.fromId == usuario.id ? usuario.nome : professor.nome}}</p>
+          {{message.message}}
+        </li>
+      </ul>
+      <form class="form-inline mt-2" #messageForm="ngForm" (submit)="sendMessage()">
+        <div class="input-group mb-3  w-100" style="margin-right: 1.35rem;">
+          <input type="text" class="form-control" placeholder="Digite sua mensagem" name="mensagem"
+            aria-label="mensagem" [(ngModel)]="mensagemForm.mensagem" autocomplete="off" aria-describedby="basic-addon2" />
+          <div class="input-group-append float-right">
+            <button class="btn btn-primary" type="submit"> > </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

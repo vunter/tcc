@@ -1,6 +1,7 @@
 package net.ddns.tccapp.model.service;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Professor;
 import net.ddns.tccapp.model.repository.ProfessorRepository;
 import org.springframework.http.HttpStatus;
@@ -22,4 +23,5 @@ public class ProfessorService {
         return repository.findById(professorUserId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Professor não encontrado!"));
     }
+
 }

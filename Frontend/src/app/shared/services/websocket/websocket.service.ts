@@ -1,10 +1,12 @@
+import { Global } from './../../Global';
+import { ToastService } from 'src/app/toast.service';
+import { environment } from './../../../../environments/environment';
 import { Message } from './../../entity/Message';
-import { environment } from './../../../environments/environment';
-import { ToastService } from './../../toast.service';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client'
+import html2canvas from 'html2canvas';
 
 @Injectable({
   providedIn: 'root'
@@ -14,42 +16,25 @@ export class WebsocketService {
   isLoaded: boolean = false;
   isCustomSocketOpened = false;
   private stompClient;
-  form: FormGroup;
-  userForm: FormGroup;
+
   messages: Message[] = [];
-  userId;
-  constructor(private toastr: ToastService) { }
+  constructor(
+    private toastr: ToastService,
+    private globals: Global
+    ) { }
 
   ngOnInit(): void {
 
-    this.form = new FormGroup({
-      message: new FormControl(null, [Validators.required])
-    });
-    this.userForm = new FormGroup({
-      fromId: new FormControl(null, [Validators.required]),
-      toId: new FormControl(null)
-    });
-    this.initializeWebSocketConnection();
+  }
+  sendMessageUsingSocket(messageCustom : string, toId : number, takePrint? : boolean) {
+
+      let message: Message = { message: messageCustom, fromId: this.globals.user.id, toId: toId, takePrint: takePrint ? takePrint : true };
+      this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
 
   }
-  sendMessageUsingSocket(messageCustom? : string, takePrint? : boolean, toId? : string) {
-    if (this.form.valid) {
-      let message: Message = { message: messageCustom ? messageCustom : this.form.value.message, fromId: this.userForm.value.fromId, toId: toId ? toId : this.userForm.value.toId, takePrint: takePrint ? takePrint : true };
-      this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
-    }
-  }
-  /*
-  sendMessageUsingRest() {
-    if (this.form.valid) {
-      let message: Message = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId, takePrint: true }
-      this.socketService.post(message).subscribe(res => {
-        console.log(res);
-      })
-    }
-  }
-*/
-  sendPrintRequest() {
-    this.stompClient.send("/socket-subscriber/print", {}, JSON.stringify({originId: this.userId, targetId: this.userForm.value.toId}))
+
+  sendPrintRequest(targetid) {
+    this.stompClient.send("/socket-subscriber/print", {}, JSON.stringify({originId: this.globals.user.id, targetId: targetid}))
   }
 
   initializeWebSocketConnection() {
@@ -70,7 +55,7 @@ export class WebsocketService {
   openSocket() {
     if(this.isLoaded) {
       this.isCustomSocketOpened = true;
-      this.stompClient.subscribe("/socket-publisher/" + this.userForm.value.fromId, (message) => {
+      this.stompClient.subscribe("/socket-publisher/" + this.globals.user.id, (message) => {
         this.handleResult(message);
       });
       this.openPrintConnection();
@@ -80,8 +65,7 @@ export class WebsocketService {
   openPrintConnection() {
     if (this.isLoaded) {
       this.isCustomSocketOpened = true;
-      this.userId = this.userForm.value.fromId;
-      this.stompClient.subscribe("/print-socket/" + this.userId, (request) => {
+      this.stompClient.subscribe("/print-socket/" + this.globals.user.id, (request) => {
         this.handlePrint(request)
       });
 
