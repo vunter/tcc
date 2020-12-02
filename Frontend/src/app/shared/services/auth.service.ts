@@ -1,4 +1,4 @@
-import { Global } from './../Global';
+import { Global } from '../GlobalUse';
 import { UsuarioService } from './usuario.service';
 import { User } from '../entity/User';
 import { environment } from './../../../environments/environment';

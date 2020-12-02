@@ -1,4 +1,4 @@
-import { Global } from './../../Global';
+import { Global } from '../../GlobalUse';
 import { ToastService } from 'src/app/toast.service';
 import { environment } from './../../../../environments/environment';
 import { Message } from './../../entity/Message';

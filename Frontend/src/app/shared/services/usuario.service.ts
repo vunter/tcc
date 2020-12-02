@@ -1,4 +1,4 @@
-import { Global } from './../Global';
+import { Global } from '../GlobalUse';
 import { AuthService } from './auth.service';
 import { User } from 'src/app/shared/entity/User';
 import { environment } from './../../../environments/environment';

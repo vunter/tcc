@@ -5,7 +5,7 @@ import { ToastService } from './../../../toast.service';
 import { Aula } from './../../../shared/entity/Aula';
 import { AulaService } from './../../../shared/services/aula.service';
 import { BlocosService } from './../../../shared/services/blocos.service';
-import { Global } from './../../../shared/Global';
+import { Global } from '../../../shared/GlobalUse';
 import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LOOP_CATEGORY, MATH_CATEGORY, NgxBlocklyComponent, NgxBlocklyConfig, NgxBlocklyGeneratorConfig, NgxToolboxBuilderService, TEXT_CATEGORY, VARIABLES_CATEGORY } from 'ngx-blockly';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';

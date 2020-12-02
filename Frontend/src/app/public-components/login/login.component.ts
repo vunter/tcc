@@ -1,6 +1,6 @@
 import { ToastService } from './../../toast.service';
 import { UsuarioService } from './../../shared/services/usuario.service';
-import { Global } from './../../shared/Global';
+import { Global } from '../../shared/GlobalUse';
 import { AuthService } from './../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';

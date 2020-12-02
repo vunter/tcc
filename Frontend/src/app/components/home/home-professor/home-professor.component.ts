@@ -1,6 +1,6 @@
 import { Publicacao } from './../../../shared/entity/Publicacao';
 import { UsuarioService } from './../../../shared/services/usuario.service';
-import { Global } from './../../../shared/Global';
+import { Global } from '../../../shared/GlobalUse';
 import { Bloco } from './../../../shared/entity/Bloco';
 import { Component, OnInit } from '@angular/core';
 import { TurmaService } from 'src/app/shared/services/turma.service';

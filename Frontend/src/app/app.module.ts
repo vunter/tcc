@@ -1,7 +1,7 @@
 import { ComponentsModule } from './components/components.module';
 import { HomeComponentPublic } from './public-components/home-public/home-public.component';
 import { HomeModule } from './components/home/home.module';
-import { Global } from './shared/Global';
+import { Global } from './shared/GlobalUse';
 import { AulaModule } from './components/aula/aula.module';
 import { CadastroComponent } from './public-components/cadastro/cadastro.component';
 import { LoginComponent } from './public-components/login/login.component';
