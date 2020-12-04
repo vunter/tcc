@@ -1,0 +1,26 @@
+
+ul {
+  height: 40rem;
+  width: 20rem;
+  max-width: 20rem;
+  padding: 0px;
+  margin: 0px;
+  text-align: left;
+  overflow-y: hidden;
+  display: flex;
+  display: -ms-flexbox;           /* IE 10 */
+  display: -webkit-flex;          /* Safari 6.1+. iOS 7.1+ */
+  display: flex;
+  -webkit-flex-flow: wrap column; /* Safari 6.1+ */
+  flex-flow: wrap column;
+  column-count: 2;
+  columns: 2;
+}
+
+.new-message {
+  position: relative;
+  color: #39ff14;
+  top: -2.3rem;
+  left: 3px;
+  z-index: 10;
+}

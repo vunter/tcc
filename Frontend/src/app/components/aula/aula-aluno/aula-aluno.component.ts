@@ -57,8 +57,7 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private globals: Global,
     private blocoService: BlocosService,
-    private aulaService: AulaService,
-    private socket: WebsocketService
+    private aulaService: AulaService
   ) {
     this.usuario = this.globals.user;
 
@@ -99,7 +98,6 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.mensagemForm = new MessageForm();
     this.aulaService.getProfessor(this.idAula).subscribe(
       (response) => {
         this.professor = response;
@@ -108,8 +106,6 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
           this.toast.showError(e);
         });
       })
-      this.socket.initializeWebSocketConnection()
-      this.socket.openSocket();
   }
 
   ngAfterViewInit() {
@@ -142,21 +138,6 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     }
     this.leftBlocks = this.workspace.workspace.remainingCapacity();
     this.workspace.onResize();
-  }
-
-
-  sendMessage() {
-    if (this.mensagemForm.mensagem) {
-      this.socket.sendMessageUsingSocket(this.mensagemForm.mensagem, this.professor.id)
-      this.messages.push({
-        message: this.mensagemForm.mensagem,
-        fromId: this.globals.user.id,
-        toId: 1,
-        takePrint: false
-      })
-    }
-    this.mensagemForm.mensagem = "";
-
   }
 
   getCode(): string {

@@ -1,1 +1,23 @@
-<p>aula-professor works!</p>
+<div class="container.fluid">
+  <div class="row justify-content-between">
+    <div class="col-md-8">
+      <div id="capture">
+        <ul>
+          <li class="list-group-item" *ngFor="let aluno of alunos" style="width: 10rem; height: 3rem;">
+            <span>
+
+              <button class="btn btn-primary" type="button" (click)="selectAluno(aluno)"
+                style="position: relative; height: 2rem; top: -0.2rem;">{{ aluno.nome }} </button>
+                <div *ngIf="chat.mensagensMap.get(aluno.id).newMessage">
+                  <i class="fa fa-circle float-right new-message"></i>
+                </div>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-3 border" style="right: 1.35rem;">
+      <app-chat [toUser]="alunoSelecionado"></app-chat>
+    </div>
+  </div>
+</div>

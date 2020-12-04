@@ -8,13 +8,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AulaAlunoComponent } from './aula-aluno/aula-aluno.component';
 import { AulaProfessorComponent } from './aula-professor/aula-professor.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 
 @NgModule({
   declarations: [
     AulaAlunoComponent,
-    AulaProfessorComponent
+    AulaProfessorComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,

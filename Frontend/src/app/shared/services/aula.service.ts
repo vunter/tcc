@@ -31,6 +31,5 @@ export class AulaService {
 
     getProfessor(idAula: number): Observable<User> {
       return this.http.get<User>(this.apiURL + 'professor/' + idAula);
-
     }
 }
