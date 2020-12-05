@@ -1,7 +1,8 @@
 <h1 class="text-center">Chat</h1>
 <ul class="list-group list-group-flush">
   <li class="list-group-item" *ngFor="let message of messages">
-    <p>{{message.fromId == usuario.id ? usuario.nome : toUser.nome}}</p>
+    <p><span *ngIf="message.toId == undefined" class="badge badge-info mr-2"> (GLOBAL)
+      </span>{{ message.fromId == usuario.id ? usuario.nome : toUser.nome }}</p>
     {{message.message}}
   </li>
 </ul>
