@@ -1,3 +1,5 @@
+import { User } from './../../shared/entity/user';
+import { Global } from './../../shared/GlobalUse';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(
+    globals: Global
+  ) {
+    this.user = globals.user
+   }
 
   ngOnInit(): void {
   }
