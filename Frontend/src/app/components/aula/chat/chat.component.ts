@@ -3,7 +3,7 @@ import { environment } from './../../../../environments/environment';
 import { ToastService } from './../../../toast.service';
 import { Global } from './../../../shared/GlobalUse';
 import * as SockJS from 'sockjs-client';
-import  Stomp  from 'stompjs';
+import Stomp from 'stompjs';
 import { Message } from './../../../shared/entity/Message';
 import { Component, Input, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
@@ -26,7 +26,7 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   usuario: User;
   mensagemForm: MessageForm;
-  mensagensMap: Map<number, {mensagens: Message[], newMessage: boolean}> = new Map<number,  {mensagens: Message[], newMessage: boolean}>();
+  mensagensMap: Map<number, { mensagens: Message[], newMessage: boolean }> = new Map<number, { mensagens: Message[], newMessage: boolean }>();
 
   constructor(
     private toastr: ToastService,
@@ -43,10 +43,10 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
 
-    let message: Message = { message: this.mensagemForm.mensagem, fromId: this.globals.user.id, toId: this.toUser.id };
+    let message: Message = { message: this.mensagemForm.mensagem, fromId: this.globals.user.id, toId: this.toUser.id == 0 ? undefined : this.toUser.id };
     this.messages.push(message);
     this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
-
+    this.mensagemForm.mensagem = '';
   }
 
   sendPrintRequest(targetid) {
@@ -116,13 +116,15 @@ export class ChatComponent implements OnInit {
   handleResult(message) {
     if (message.body) {
       let messageResult: Message = JSON.parse(message.body);
-      if(messageResult.fromId == this.toUser.id) {
+      if (messageResult.fromId == this.toUser.id) {
         this.messages.push(messageResult);
       } else {
-        let arrayMessage = this.mensagensMap.get(Number(messageResult.fromId));
-        arrayMessage.mensagens.push(messageResult);
-        arrayMessage.newMessage = true;
-        this.mensagensMap.set(messageResult.toId, arrayMessage);
+        if (messageResult.toId) {
+          let arrayMessage = this.mensagensMap.get(Number(messageResult.fromId));
+          arrayMessage.mensagens.push(messageResult);
+          arrayMessage.newMessage = true;
+          this.mensagensMap.set(messageResult.toId, arrayMessage);
+        }
       }
 
     }
@@ -130,7 +132,7 @@ export class ChatComponent implements OnInit {
 
 
   changeChatAluno(idNew, idOld) {
-    this.mensagensMap.set(idOld, {mensagens: this.messages, newMessage: false});
+    this.mensagensMap.set(idOld, { mensagens: this.messages, newMessage: false });
     let newConversation = this.mensagensMap.get(idNew);
     this.messages = newConversation.mensagens;
     newConversation.newMessage = false;
@@ -140,8 +142,9 @@ export class ChatComponent implements OnInit {
 
 
   createMapAlunosMensagens(array: User[]) {
+    this.mensagensMap.set(0, { mensagens: [], newMessage: false })
     array.forEach((a) => {
-      this.mensagensMap.set(a.id, {mensagens: [], newMessage: false});
+      this.mensagensMap.set(a.id, { mensagens: [], newMessage: false });
     })
   }
 

@@ -22,6 +22,8 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   idAula: number;
   aula: Aula;
   usuario: User;
+
+  globalMsg: User = new User();
   alunos: User[];
   alunoSelecionado: User;
 
@@ -40,7 +42,7 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.alunoSelecionado = new User()
+    this.alunoSelecionado = this.globalMsg;
   }
 
   ngAfterViewInit() {
@@ -56,6 +58,7 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   }
 
   populaAlunosByTurma() {
+    this.globalMsg.id = 0;
     this.alunoService.listByTurma(this.aula.id).subscribe(
       (response) => {
         this.alunos = response;
