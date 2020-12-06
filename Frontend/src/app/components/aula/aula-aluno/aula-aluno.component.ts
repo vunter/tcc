@@ -1,4 +1,6 @@
-import { WebsocketService } from './../../../shared/services/websocket/websocket.service';
+import { Resposta } from './../../../shared/entity/Resposta';
+import jQuery from 'jquery';
+import { Bloco } from './../../../shared/entity/Bloco';
 import { Message } from './../../../shared/entity/Message';
 import { ToastService } from './../../../toast.service';
 import { Aula } from './../../../shared/entity/Aula';
@@ -9,6 +11,8 @@ import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LO
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../shared/entity/user';
+import html2canvas from 'html2canvas';
+import * as Blockly from 'blockly';
 @Component({
   selector: 'app-aula-aluno',
   templateUrl: './aula-aluno.component.html',
@@ -21,11 +25,12 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   idAula: number;
   maxBlocks: number = 10;
   leftBlocks: string = '';
-  aula: Aula;
+  aula: Aula = new Aula();
   messages: Message[] = [];
   mensagemForm: MessageForm;
-  usuario: User;
-  professor: User;
+  usuario: User = new User();
+  professor: User = new User();
+  blocosProf: Bloco[] = [];
 
   public config: NgxBlocklyConfig = {
     scrollbars: true,
@@ -98,17 +103,17 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.aulaService.getProfessor(this.idAula).subscribe(
-      (response) => {
-        this.professor = response;
-      }, (errorResponse) => {
-        errorResponse.error.erros.forEach(e => {
-          this.toast.showError(e);
-        });
-      })
+
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
+
+    let p = await this.aulaService.getProfessor(this.idAula).toPromise();
+    this.professor = p;
+    await this.blocoService.getBlocosAula(this.idAula).toPromise().then((r) => {
+      this.blocosProf = r;
+
+    });
     let saved_id = localStorage.getItem('saved_id');
     if (saved_id && this.idAula) {
       if (Number.parseInt(saved_id) == this.idAula) {
@@ -117,14 +122,23 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
           this.workspace.fromXml(saved);
       }
     } else {
-      this.blocoService.getBlocosByProfessor(3).toPromise().then((r) => {
-        setTimeout(() => {
-          r.forEach((o) => {
-            this.workspace.appendFromXml(o.conteudo);
-          })
-        }, 500);
+      this.blocosProf.forEach((bloco) => {
+        this.workspace.appendFromXml(bloco.conteudo);
       })
     }
+
+    jQuery(function ($) {
+      var sec = 2;
+      function pad(val) { return val > 9 ? val : "0" + val; }
+      var interval = setInterval(function () {
+        $("#seconds").html(pad(--sec % 60));
+        $("#minutes").html(parseInt(pad(Number(sec) / 60)));
+        if (sec == 0) {
+          clearInterval(interval);
+        }
+      }, 1000);
+
+    });
   }
 
   onCode(code: string) {
@@ -142,6 +156,22 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
 
   getCode(): string {
     return this.conteudo;
+  }
+
+  limparWorkspace() {
+    this.workspace.clear();
+    this.blocosProf.forEach((b) => { this.workspace.appendFromXml(b.conteudo) })
+  }
+
+  entregar() {
+    let resposta = new Resposta();
+    resposta.alunoId = this.usuario.id;
+    resposta.aulaId = this.idAula;
+    resposta.resposta = this.conteudo;
+    html2canvas(document.querySelector("#capture")).then(canvas => {
+      resposta.print = canvas.toDataURL();
+      console.log(resposta.print)
+    });
   }
 
 }

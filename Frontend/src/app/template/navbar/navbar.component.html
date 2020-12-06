@@ -1,7 +1,17 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-  <button class="btn btn-sm btn-dark btn-sm order-1 order-lg-0" id="show-sidebar" style="padding-top: 8px;">
-      <i class="fas fa-bars"></i>
-  </button>
-  <a class="navbar-brand" href="#">S A L P</a>
-  <h2 class="navbar-brand float-right"> Olá, {{ user.nome }} </h2>
+<nav class="sb-topnav navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <button class="btn btn-sm btn-dark btn-sm order-1 order-lg-0" id="show-sidebar" style="padding-top: 8px;">
+        <i class="fas fa-bars"></i>
+      </button>
+    </li>
+    <li class="nav-item">
+      <a class="navbar-brand ml-4" href="#">S A L P</a>
+    </li>
+  </ul>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <h3 class="navbar-brand"> Olá, {{ user.nome }} </h3>
+    </li>
+  </ul>
 </nav>

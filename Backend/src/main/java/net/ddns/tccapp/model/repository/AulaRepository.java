@@ -1,7 +1,9 @@
 package net.ddns.tccapp.model.repository;
 
+import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
+import net.ddns.tccapp.model.entity.Bloco;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,7 @@ public interface AulaRepository extends JpaRepository<Aula, Long> {
             "JOIN Aula a ON a.turma.id = t.id " +
             "WHERE a.id = ?1")
     Optional<ProfessorDTO> findProfessorByAula(Long aulaId);
+
+    @Query("SELECT a.blocos FROM Aula a WHERE a.id = ?1")
+    List<Bloco> findBlocosById(Long idAula);
 }

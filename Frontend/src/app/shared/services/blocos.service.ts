@@ -18,6 +18,10 @@ export class BlocosService {
     return this.api.get<Bloco[]>(this.apiURL + 'list/professor/' + idProfessor);
   }
 
+  getBlocosAula(idAula) {
+    return this.api.get<Bloco[]>(this.apiURL + 'list/aula/' + idAula);
+  }
+
   save(bloco: Bloco): Observable<any> {
     return this.api.post<any>(this.apiURL + 'salvar', bloco);
   }

@@ -1,14 +1,28 @@
 <div class="container.fluid">
-  <div class="row justify-content-between">
-    <div class="col-md-8" style="height: 43rem; position: relative;">
-      <p>{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</p>
-      <div id="capture">
-        <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
-        </ngx-blockly>
+  <div class="row justify-content-between" style="height: 44rem;">
+    <div class="col-md-9">
+      <!-- <p>{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</p> -->
+      <div class="card bg-light mb-3">
+        <div class="card-header text-center text-uppercase"><h3>Aula: {{ aula.titulo }}, Professor: {{ professor.nome }}</h3> </div>
+        <div class="card-body" style="height: 40rem;"  id="capture">
+          <h5 class="card-title">{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</h5>
+          <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
+          </ngx-blockly>
+        </div>
       </div>
     </div>
-    <div class="col-md-3 border" style="right: 1.35rem;">
-      <app-chat [toUser]="professor"></app-chat>
+    <div class="col-md-3">
+      <div class="alert alert-warning" role="alert">
+        Tempo restante: <span id="minutes"></span>:<span id="seconds"></span>
+      </div>
+      <div>
+        <button type="button" class="btn btn-danger mb-2 mr-1" (click)="limparWorkspace()">Limpar workspace</button>
+        <button type="button" class="btn btn-warning mb-2 mr-1">Pedir ajuda</button>
+        <button type="button" class="btn btn-success mb-2 float-right" (click)="entregar()">Entregar</button>
+      </div>
+      <div class="border" style="height: 87%; max-height: 87%;">
+        <app-chat [toUser]="professor"></app-chat>
+      </div>
     </div>
   </div>
 </div>

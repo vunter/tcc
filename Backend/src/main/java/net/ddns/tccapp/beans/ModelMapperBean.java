@@ -3,9 +3,7 @@ package net.ddns.tccapp.beans;
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.*;
 import net.ddns.tccapp.model.entity.*;
-import net.ddns.tccapp.model.repository.ProfessorRepository;
-import net.ddns.tccapp.model.repository.TurmaRepository;
-import net.ddns.tccapp.model.repository.UsuarioRepository;
+import net.ddns.tccapp.model.repository.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -19,6 +17,8 @@ public class ModelMapperBean {
     private final UsuarioRepository usuarioRepository;
     private final TurmaRepository turmaRepository;
     private final ProfessorRepository professorRepository;
+    private final AlunoRepository alunoRepository;
+    private final AulaRepository aulaRepository;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -32,7 +32,8 @@ public class ModelMapperBean {
         modelMapper.addConverter(aulaDTOToEntityConverter());
         modelMapper.addConverter(blocoToDtoConverter());
         modelMapper.addConverter(blocoDTOToEntityConverter());
-
+        modelMapper.addConverter(respostaToDtoConverter());
+        modelMapper.addConverter(respostaDTOToEntityConverter());
 
         return modelMapper;
     }
@@ -159,6 +160,36 @@ public class ModelMapperBean {
                 dto.setConteudo(bloco.getConteudo());
                 dto.setProfessorId(bloco.getProfessorCriador().getId());
                 return dto;
+            }
+        };
+    }
+
+    private Converter<Resposta, RespostaDTO> respostaToDtoConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected RespostaDTO convert(Resposta resposta) {
+                var dto = new RespostaDTO();
+                dto.setId(resposta.getId());
+                dto.setResposta(resposta.getResposta());
+                dto.setAlunoId(resposta.getAluno().getId());
+                dto.setAulaId(resposta.getAula().getId());
+                dto.setPrint(resposta.getPrint());
+                return dto;
+            }
+        };
+    }
+
+    private Converter<RespostaDTO, Resposta> respostaDTOToEntityConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected Resposta convert(RespostaDTO dto) {
+                var resposta = new Resposta();
+                resposta.setId(dto.getId());
+                resposta.setResposta(dto.getResposta());
+                resposta.setAluno(alunoRepository.findById(dto.getAlunoId()).orElse(null));
+                resposta.setAula(aulaRepository.findById(dto.getAulaId()).orElse(null));
+                resposta.setPrint(dto.getPrint());
+                return resposta;
             }
         };
     }

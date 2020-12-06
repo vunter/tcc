@@ -26,4 +26,9 @@ public class BlocoController {
         return service.findAllByProfessorId(idProfessor);
     }
 
+    @GetMapping("list/aula/{id}")
+    public List<BlocoDTO> listBlocosByAula(@PathVariable("id") Long idAula) {
+        return service.findAllByAulaId(idAula);
+    }
+
 }

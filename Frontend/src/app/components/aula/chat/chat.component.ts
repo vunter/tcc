@@ -42,11 +42,12 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-
-    let message: Message = { message: this.mensagemForm.mensagem, fromId: this.globals.user.id, toId: this.toUser.id == 0 ? undefined : this.toUser.id };
-    this.messages.push(message);
-    this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
-    this.mensagemForm.mensagem = '';
+    if (this.mensagemForm.mensagem && this.mensagemForm.mensagem != '') {
+      let message: Message = { message: this.mensagemForm.mensagem, fromId: this.globals.user.id, toId: this.toUser.id == 0 ? undefined : this.toUser.id };
+      this.messages.push(message);
+      this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
+      this.mensagemForm.mensagem = '';
+    }
   }
 
   sendPrintRequest(targetid) {
@@ -94,10 +95,8 @@ export class ChatComponent implements OnInit {
   }
 
   handlePrint(request) {
-    console.log(request);
     if (request.body) {
       let requestHandled = JSON.parse(request.body);
-      console.log(requestHandled);
       if (!requestHandled.base64Image) {
 
         html2canvas(document.querySelector("#capture")).then(canvas => {
