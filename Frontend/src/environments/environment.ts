@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:8080/',
-  apiURL: 'http://localhost:8080/api',
+  url: 'http://raspvunter.ddns.net:8080/',
+  apiURL: 'http://raspvunter.ddns.net:8080/',
   clientId: 'salp-app',
   clientSecret: '@9012',//$2a$10$FKh6Bq9ExfML4J6LH1c6aOZU99qBlAwno83nJXKiiHnpsasjq6x1a',
-  tokenURL: 'http://localhost:8080/oauth/token'
+  tokenURL: 'http://raspvunter.ddns.net:8080/'
 
 };
 
