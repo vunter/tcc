@@ -1,44 +1,28 @@
 
 .publicacao{
-    width: auto;
-    height: auto;
-    padding: auto;
+    width: 200 rem;
+    height: 2.5 rem;
+    padding: 5 rem;
 }
 
 
 .aula-andamento {
     cursor: pointer;
     text-align: center;
-    margin-right: left;
+    margin-right: center;
+    padding: 1em;
     }
     .aula-andamento:hover {
         z-index: 4;
         border: 1;
         border-color: orange;
         box-shadow: 0 0 20px rgba(33,33,33,.2);
-        margin: right;
     }
 
-    #info-lateral{
-        width: 240px;
-        float: right;
-        
-    }
-
-    .nome-publicacao{
-        border: 1;
-        border-color:red ;
-        padding: 10px;
-    }
-
+    
     .info-prof{
-        border: 1;
-        border-color: blue;
-        padding: 10px;
-        box-shadow: blue;
+        background-color: gray;
+        margin-bottom:200px ;
     }
 
-    .listagem-aulas{
-        border: 1;
-        border-color: black;
-    }
+ 
