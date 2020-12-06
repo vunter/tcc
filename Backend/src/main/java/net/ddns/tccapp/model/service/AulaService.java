@@ -3,6 +3,7 @@ package net.ddns.tccapp.model.service;
 
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
+import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
 import net.ddns.tccapp.model.repository.AulaRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +43,14 @@ public class AulaService {
 
     public ProfessorDTO findProfessorByAula(Long aulaId) {
         return repository.findProfessorByAula(aulaId).get();
+    }
+
+    public List<BlocoDTO> findBlocosByAula(Long idAula) {
+        return repository.findBlocosById(idAula).stream()
+//                .map(blocos -> blocos.stream()
+                        .map(b -> modelMapper.map(b, BlocoDTO.class))
+                        .collect(Collectors.toList());
+//                )
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrado blocos para aula com id " + idAula));
     }
 }

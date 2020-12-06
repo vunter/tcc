@@ -3,6 +3,7 @@ package net.ddns.tccapp.model.service;
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.entity.Bloco;
+import net.ddns.tccapp.model.repository.AulaRepository;
 import net.ddns.tccapp.model.repository.BlocoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class BlocoService {
 
     private final BlocoRepository repository;
+    private final AulaService aulaService;
     private final ModelMapper modelMapper;
 
     public Bloco salvar(BlocoDTO dto) {
@@ -33,5 +35,8 @@ public class BlocoService {
                         .collect(Collectors.toList()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem blocos criados por este professor!"));
     }
-    //id=".*"
+
+    public List<BlocoDTO> findAllByAulaId(Long idAula) {
+        return aulaService.findBlocosByAula(idAula);
+    }
 }
