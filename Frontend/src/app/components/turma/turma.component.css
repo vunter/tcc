@@ -19,6 +19,18 @@
         box-shadow: 0 0 20px rgba(33,33,33,.2);
     }
 
+    h2 {
+        text-align: center;
+    }
+
+    ul {
+        height: 85%;
+        padding: 0px;
+        margin: 0px;
+        text-align: left;
+        overflow-y: scroll;
+      }
+
     
     .info-prof{
         background-color: gray;

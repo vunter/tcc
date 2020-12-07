@@ -6,13 +6,15 @@
                     <h1>Turma</h1>
                 </div>
                 <div class="card-body">
+
+                    <div><br><input type="text" name="publique" id="publique" placeholder="Publique algo..."
+                            class="publicacao">
+                    </div>
                     <div>
-                        <p>
-                            <br><input type="text" name="publique" id="publique" placeholder="Publique algo..."
-                                class="publicacao">
-                            <input type="button" value="Limpar" class="btn btn-info">
-                            <input type="button" value="Enviar" class="btn btn-success">
-                        </p>
+                        <input type="button" value="Limpar" class="btn btn-info">
+                    </div>
+                    <div>
+                        <input type="button" value="Enviar" class="btn btn-success">
                     </div>
 
                     <div class="alert alert-warning aula-andamento" role="alert">
@@ -22,7 +24,7 @@
                     <div>
                         <ul>
                             <li>
-                                <h2>Nome de quem publicou</h2>
+                                <h3>Nome de quem publicou</h3>
                                 <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis doloribus
                                     sequi,
                                     laborum
@@ -55,9 +57,40 @@
 
                 </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Próximas Aulas</h2>
+                    </div>
 
-                <div>
-                    <h2>Próximas Aulas</h2>
+                    <div class="card-body">
+                        <table class="table table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ordem Aula</th>
+                                    <th scope="col">Professor</th>
+                                    <th scope="col">Data/Horário</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1°</th>
+                                    <td>Otto</td>
+                                    <td>Hoje `as 13:00 hrs</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2°</th>
+                                    <td>Thornton</td>
+                                    <td>Amanhã às 15:00 hrs</td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">3°</th>
+                                    <td>Larry</td>
+                                    <td>25/04/2021</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
