@@ -1,7 +1,7 @@
 export class Aula {
   id: number;
   dataAula: string;
-  duracao: string;
+  duracao: number;
   gabarito: string;
   objetivo: string;
   titulo: string;

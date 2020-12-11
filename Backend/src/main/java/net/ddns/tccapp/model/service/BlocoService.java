@@ -3,8 +3,8 @@ package net.ddns.tccapp.model.service;
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.entity.Bloco;
-import net.ddns.tccapp.model.repository.AulaRepository;
 import net.ddns.tccapp.model.repository.BlocoRepository;
+import net.ddns.tccapp.utils.aula.XMLUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class BlocoService {
 
     public Bloco salvar(BlocoDTO dto) {
 
-        dto.setConteudo(dto.getConteudo().replaceAll("id=\"[^\"]*\"", ""));
+        dto.setConteudo(XMLUtils.removeIdFromXml(dto.getConteudo()));
 
         return repository.save(modelMapper.map(dto, Bloco.class));
     }

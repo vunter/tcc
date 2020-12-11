@@ -1,4 +1,4 @@
-import { WebsocketService } from './../../shared/services/websocket/websocket.service';
+import { RespostaService } from './../../shared/services/resposta.service';
 import { FormsModule } from '@angular/forms';
 import { AulaService } from './../../shared/services/aula.service';
 import { BlocosService } from './../../shared/services/blocos.service';
@@ -29,8 +29,7 @@ import { ChatComponent } from './chat/chat.component';
   ],
   providers: [
     BlocosService,
-    AulaService,
-    WebsocketService
+    AulaService
   ]
 })
 export class AulaModule {}

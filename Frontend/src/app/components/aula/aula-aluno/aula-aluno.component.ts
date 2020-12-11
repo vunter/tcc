@@ -1,3 +1,5 @@
+import { RespostaService } from './../../../shared/services/resposta.service';
+import { ChatComponent } from './../chat/chat.component';
 import { Resposta } from './../../../shared/entity/Resposta';
 import jQuery from 'jquery';
 import { Bloco } from './../../../shared/entity/Bloco';
@@ -11,8 +13,6 @@ import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LO
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../shared/entity/user';
-import html2canvas from 'html2canvas';
-import * as Blockly from 'blockly';
 @Component({
   selector: 'app-aula-aluno',
   templateUrl: './aula-aluno.component.html',
@@ -21,6 +21,9 @@ import * as Blockly from 'blockly';
 export class AulaAlunoComponent implements OnInit, AfterViewInit {
 
   @ViewChild(NgxBlocklyComponent) workspace;
+  @ViewChild(ChatComponent) chat;
+  interval: any;
+
   conteudo: string;
   idAula: number;
   maxBlocks: number = 10;
@@ -48,7 +51,6 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
       minScale: 0.3,
       scaleSpeed: 1.2
     }
-
   };
 
 
@@ -62,8 +64,10 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private globals: Global,
     private blocoService: BlocosService,
-    private aulaService: AulaService
+    private aulaService: AulaService,
+    private respostaService: RespostaService
   ) {
+    let that = this;
     this.usuario = this.globals.user;
 
     this.route.queryParams.subscribe(params => { this.idAula = params['id'] });
@@ -71,6 +75,13 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     this.aulaService.getAula(this.idAula).toPromise().then(
       (response) => {
         this.aula = response;
+
+        jQuery(function ($) {
+          function pad(val) { return val > 9 ? val : "0" + val; }
+          $("#seconds").html(pad(that.aula.duracao % 60));
+          $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)));
+        });
+
         this.config.maxBlocks = this.aula.quantidadeMaxBlocos;
       }, (errorResponse) => {
         errorResponse.error.erros.forEach((e) => {
@@ -107,7 +118,7 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   }
 
   async ngAfterViewInit() {
-
+    let that = this;
     let p = await this.aulaService.getProfessor(this.idAula).toPromise();
     this.professor = p;
     await this.blocoService.getBlocosAula(this.idAula).toPromise().then((r) => {
@@ -126,24 +137,11 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
         this.workspace.appendFromXml(bloco.conteudo);
       })
     }
-
-    jQuery(function ($) {
-      var sec = 2;
-      function pad(val) { return val > 9 ? val : "0" + val; }
-      var interval = setInterval(function () {
-        $("#seconds").html(pad(--sec % 60));
-        $("#minutes").html(parseInt(pad(Number(sec) / 60)));
-        if (sec == 0) {
-          clearInterval(interval);
-        }
-      }, 1000);
-
-    });
   }
 
   onCode(code: string) {
+    this.conteudo = code;
     if (code) {
-      this.conteudo = code;
       localStorage.setItem('saved_workspace', this.workspace.toXml());
       localStorage.setItem('saved_id', this.idAula.toString());
     } else {
@@ -154,8 +152,8 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     this.workspace.onResize();
   }
 
-  getCode(): string {
-    return this.conteudo;
+  getWorkspace() {
+    this.chat.returnWorkspace(this.workspace.toXml());
   }
 
   limparWorkspace() {
@@ -168,10 +166,46 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     resposta.alunoId = this.usuario.id;
     resposta.aulaId = this.idAula;
     resposta.resposta = this.conteudo;
-    html2canvas(document.querySelector("#capture")).then(canvas => {
-      resposta.print = canvas.toDataURL();
-      console.log(resposta.print)
+    resposta.print = this.workspace.toXml();
+    this.respostaService.salvar(resposta).subscribe(
+      (response) => {
+        resposta = response;
+      }, (error) => {
+        error.error.erros.forEach(element => {
+          this.toast.showError(element)
+        });
+      });
+  }
+
+  askHelp() {
+    this.chat.askHelp()
+  }
+
+  executar() {
+    eval(this.conteudo);
+  }
+
+  classStarted() {
+    let that = this;
+    jQuery(function ($) {
+      var sec = that.aula.duracao;
+      function pad(val) { return val > 9 ? val : "0" + val; }
+      that.interval = setInterval(function () {
+        $("#seconds").html(pad(--sec % 60));
+        $("#minutes").html(parseInt(pad(Number(sec) / 60)));
+        if (sec == 0) {
+          clearInterval(that.interval);
+        }
+      }, 1000);
     });
+  }
+
+  classFinished() {
+    var that = this;
+    jQuery(function ($) {
+      clearInterval(that.interval);
+    });
+    this.toast.showInfoTitle('Esta aula foi finalizada!', 'Aula finalizada', 5000);
   }
 
 }

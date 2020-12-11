@@ -7,6 +7,7 @@ import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
 import net.ddns.tccapp.model.repository.AulaRepository;
+import net.ddns.tccapp.utils.converters.DuracaoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class AulaService {
     }
 
     public Aula salvar(Aula aula) {
+
+        aula.setDuracao(DuracaoConverter.minuteToSeconds(aula.getDuracao()));
+
         return repository.save(aula);
     }
 
@@ -47,10 +51,7 @@ public class AulaService {
 
     public List<BlocoDTO> findBlocosByAula(Long idAula) {
         return repository.findBlocosById(idAula).stream()
-//                .map(blocos -> blocos.stream()
                         .map(b -> modelMapper.map(b, BlocoDTO.class))
                         .collect(Collectors.toList());
-//                )
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrado blocos para aula com id " + idAula));
     }
 }

@@ -18,10 +18,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/api/bloco/**",
                         "/api/professor/**",
                         "/api/publicacao/**",
-                        "/api/turma/**"
+                        "/api/turma/**",
+                        "/api/resposta/**",
+                        "/api/usuario/**"
                 ).fullyAuthenticated()
-                .antMatchers("/api/usuario/**",
-                        "/api/cadastro/**",
+                .antMatchers("/api/cadastro/**",
                         "/api/public/**",
                         "/socket/**",
                         "/h2-console/**",

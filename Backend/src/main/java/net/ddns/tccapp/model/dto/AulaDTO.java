@@ -1,20 +1,17 @@
 package net.ddns.tccapp.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.ddns.tccapp.utils.converters.SqlTimeDeserializer;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public @Data class AulaDTO {
+public @Data
+class AulaDTO {
 
     private Long id;
 
@@ -22,9 +19,7 @@ public @Data class AulaDTO {
     private LocalDateTime dataAula;
 
     @NotNull(message = "{campo.obrigatorio}")
-    @JsonFormat(pattern = "HH:mm")
-    @JsonDeserialize(using = SqlTimeDeserializer.class)
-    private Time duracao;
+    private Long duracao;
 
     @NotBlank(message = "{campo.notBlank}")
     private String gabarito;

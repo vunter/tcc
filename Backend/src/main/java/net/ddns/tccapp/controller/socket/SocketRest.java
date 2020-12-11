@@ -1,48 +1,33 @@
 package net.ddns.tccapp.controller.socket;
 
+import lombok.RequiredArgsConstructor;
+import net.ddns.tccapp.model.dto.AlunoDTO;
 import net.ddns.tccapp.model.vo.socket.Message;
-import net.ddns.tccapp.model.vo.socket.PrintCanvas;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import net.ddns.tccapp.model.vo.socket.TipoOperacaoEnum;
+import net.ddns.tccapp.utils.aula.XMLUtils;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/socket")
 public class SocketRest {
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
-    @PutMapping
-    public ResponseEntity<?> useSimpleRest(@RequestBody Map<String, String> message) {
-        if (message.containsKey("message")) {
-            if (message.containsKey("told") && message.get("toId") != null && Boolean.FALSE.equals(message.get("toId").equals(""))) {
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("toId"), message);
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("fromId"), message);
-
-            } else {
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.get("fromId"), message);
-            }
-            return new ResponseEntity<>(message, new HttpHeaders(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(new HttpHeaders(), HttpStatus.BAD_REQUEST);
-    }
+    private static final String SOCKET_PUBLISHER = "/socket-publisher/";
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/send/message")
     public Message useSocketCommunication(Message message) {
         if (message != null) {
-            if (message.getToId() != null && !message.getToId().isBlank()) {
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/" + message.getToId(), message);
-                //this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.getFromId(), message);
+            message.setOperacao(TipoOperacaoEnum.COMMON_MESSAGE.getCod());
+
+            if (message.getToId() != null &&
+                    Boolean.FALSE.equals(Long.valueOf(0L).equals(message.getToId().longValue()))) {
+                this.simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + message.getToId(), message);
             } else {
                 this.simpMessagingTemplate.convertAndSend("/socket-publisher", message);
             }
@@ -50,15 +35,49 @@ public class SocketRest {
         return message;
     }
 
-    @MessageMapping("/print")
-    public PrintCanvas getCanvasImage(PrintCanvas printCanvas) {
-        simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
-        return printCanvas;
+    @MessageMapping("/xmlAluno")
+    public void requestXmlAluno(Long idAluno) {
+        var message = new Message();
+        message.setOperacao(TipoOperacaoEnum.REQUEST_WORKSPACE.getCod());
+
+        simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + idAluno, message);
     }
 
-    @MessageMapping("/printReturn")
-    public PrintCanvas handleReceivedPrint(PrintCanvas printCanvas) {
-        simpMessagingTemplate.convertAndSend("/print-socket/" + printCanvas.getTargetId(), printCanvas);
-        return printCanvas;
+    @MessageMapping("/returnXml")
+    public Message returnXml(Message print) {
+        print.setOperacao(TipoOperacaoEnum.RESPONSE_WORKSPACE.getCod());
+
+        print.setMessage(XMLUtils.removeIdFromXml(print.getMessage()));
+        simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + print.getToId(), print);
+        return print;
+    }
+
+    @MessageMapping("/start")
+    public void startAula(List<AlunoDTO> alunos) {
+        var message = new Message();
+        message.setOperacao(TipoOperacaoEnum.START_CLASS.getCod());
+
+        alunos.forEach(a -> {
+            message.setToId(a.getId());
+            simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + a.getId(), message);
+        });
+    }
+
+    @MessageMapping("/end")
+    public void endAula(List<AlunoDTO> alunos) {
+        var message = new Message();
+        message.setOperacao(TipoOperacaoEnum.END_CLASS.getCod());
+
+        alunos.forEach(a -> {
+            message.setToId(a.getId());
+            simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + a.getId(), message);
+        });
+    }
+
+    @MessageMapping("/askHelp")
+    public void askHelp(Message message) {
+        message.setOperacao(TipoOperacaoEnum.NEED_HELP.getCod());
+
+        simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + message.getToId(), message);
     }
 }

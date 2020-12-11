@@ -3,4 +3,5 @@ export class Message {
     fromId: number;
     toId: number;
     takePrint?: boolean;
+    operacao?: number;
 }
