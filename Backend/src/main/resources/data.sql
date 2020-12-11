@@ -52,7 +52,7 @@ INSERT INTO PUBLICACAO_REPLIES(PUBLICACAO_ID, REPLIES_ID) VALUES (1, 2);
 
 /* INSERT  AULA */
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID)
-VALUES (SYSDATE, '15:00:00', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1);
+VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1);
 
 /* INSERT  AVALIACAO */
 INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1); -- style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"  style="width: 31.65rem;"

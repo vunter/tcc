@@ -1,26 +1,93 @@
 <div class="container.fluid">
-  <div class="row justify-content-between">
-    <div class="col-md-8">
-      <div id="capture">
+    <div class="row justify-content-between" style="height: 100%;">
+        <div class="col-md-7">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <span>
+            <div>
+              <h3 class=" text-center text-uppercase">Aula: {{ aula.titulo }}, Professor: {{ usuario.nome }}</h3>
+              <span class="float-right">
+                <a (click)="executar()" title="Executar programa">
+                  <i class="fa fa-play mr-2" aria-hidden="true" style="cursor: pointer;"></i>
+                </a>
+                <a (click)="atualizarCodigoAluno()" title="Atualizar">
+                  <i class="fas fa-sync mr-2" style="cursor: pointer;"></i>
+                </a>
+                <a data-toggle="modal" data-target="#modalSeeCode" title="Ver código gerado">
+                  <i class="fa fa-eye" aria-hidden="true" title="Ver código gerado" style="cursor: pointer;"></i>
+                </a>
+              </span>
+                </div>
+                </span>
+            </div>
+            <div class="card-body" style="height: 40rem;">
+                <h5 class="card-title">{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</h5>
+                <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
+                </ngx-blockly>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 border">
+        <div>
+            <i class="fa fa-circle" style="color: #39ff14;"></i> Nova mensagem
+        </div>
+        <div>
+            <i class="fa fa-circle" style="color: red;"></i> Precisa de ajuda
+        </div>
         <ul>
-          <li class="list-group-item" style="width: 10rem; height: 3rem;">
-            <button class="btn btn-info" type="button" (click)="selectAluno(globalMsg)"
-              style="position: relative; height: 2rem; width: 7.5rem; top: -0.2rem;"> GLOBAL </button>
-          </li>
-          <li class="list-group-item" *ngFor="let aluno of alunos" style="width: 10rem; height: 3rem;">
-            <span>
-              <button class="btn btn-primary" type="button" (click)="selectAluno(aluno)"
-                style="position: relative; height: 2rem; top: -0.2rem; width: 7.5rem;">{{ aluno.nome }} </button>
-              <div *ngIf="chat.mensagensMap.get(aluno.id).newMessage">
-                <i class="fa fa-circle float-right new-message"></i>
-              </div>
-            </span>
-          </li>
+            <li class="list-group-item" style="width: 10rem; height: 3rem;">
+                <button class="btn btn-info" type="button" (click)="selectAluno(globalMsg)" style="position: relative; height: 2rem; width: 7.5rem; top: -0.2rem;"> GLOBAL </button>
+            </li>
+            <li class="list-group-item" *ngFor="let aluno of alunos" style="width: 10rem; height: 3rem;">
+                <span>
+            <button class="btn btn-primary" type="button" (click)="selectAluno(aluno)"
+              style="position: relative; height: 2rem; top: -0.2rem; width: 7.5rem;">{{ aluno.nome }} </button>
+            <div *ngIf="chat.mensagensMap.get(aluno.id).newMessage && !chat.mensagensMap.get(aluno.id).needHelp">
+              <i class="fa fa-circle float-right new-message"></i>
+            </div>
+            <div *ngIf="chat.mensagensMap.get(aluno.id).needHelp">
+              <i class="fa fa-circle float-right need-help"></i>
+            </div>
+          </span>
+            </li>
         </ul>
-      </div>
     </div>
-    <div class="col-md-3 border" style="right: 1.35rem;">
-      <app-chat [toUser]="alunoSelecionado"></app-chat>
+    <div class="col-md-3" style="height: 46rem; max-height: 46rem;">
+        <div class="alert alert-warning" role="alert" style="z-index: 1;">
+            Tempo restante: <span id="minutes"></span>:<span id="seconds"></span>
+            <button type="button" (click)="startAula()" *ngIf="!started" class="btn btn-success float-right" style="bottom: 60px;">Iniciar</button>
+            <button type="button" (click)="finalizarAula()" *ngIf="started" class="btn btn-danger float-right" style="bottom: 60px;">Finalizar</button>
+        </div>
+        <div class="justify-content-between" style="width: 100%;">
+            <button type="button" class="btn btn-success mb-2 mr-1" (click)="parabenizar()">Parabenizar</button>
+            <button type="button" class="btn btn-warning mb-2 mr-1" (click)="precisaDeAjuda()">Precisa de ajuda?</button>
+
+        </div>
+        <div class="border" style="height: 85%;">
+            <app-chat (workspaceReceived)="setWorkspace($event)" [toUser]="alunoSelecionado"></app-chat>
+        </div>
     </div>
-  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="modalSeeCode" tabindex="-1" role="dialog" aria-labelledby="modalSeeCode" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Código Gerado</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <textarea [ngModel]="this.conteudo" disabled style="width: 100%; height: 30rem; max-height: 30rem; min-height: 25rem;">
+
+        </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
 </div>

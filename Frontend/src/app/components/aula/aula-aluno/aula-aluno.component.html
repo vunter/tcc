@@ -1,28 +1,63 @@
 <div class="container.fluid">
-  <div class="row justify-content-between" style="height: 44rem;">
-    <div class="col-md-9">
-      <!-- <p>{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</p> -->
-      <div class="card bg-light mb-3">
-        <div class="card-header text-center text-uppercase"><h3>Aula: {{ aula.titulo }}, Professor: {{ professor.nome }}</h3> </div>
-        <div class="card-body" style="height: 40rem;"  id="capture">
-          <h5 class="card-title">{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</h5>
-          <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
-          </ngx-blockly>
+    <div class="row justify-content-between" style="height: 100%;">
+        <div class="col-md-9">
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    <span>
+            <div>
+              <h3 class=" text-center text-uppercase">Aula: {{ aula.titulo }}, Professor: {{ professor.nome }}</h3>
+              <span class="float-right">
+                <a (click)="executar()" title="Executar programa">
+                  <i class="fa fa-play mr-2" aria-hidden="true" style="cursor: pointer;"></i>
+                </a>
+                <a data-toggle="modal" data-target="#modalSeeCode" title="Ver código gerado">
+                  <i class="fa fa-eye" aria-hidden="true" title="Ver código gerado" style="cursor: pointer;"></i>
+                </a>
+              </span>
+                </div>
+                </span>
+            </div>
+            <div class="card-body" style="height: 38rem;">
+                <h5 class="card-title">{{ leftBlocks == "Infinity" ? '' : 'Blocos restantes ' + leftBlocks }}</h5>
+                <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
+                </ngx-blockly>
+            </div>
         </div>
-      </div>
     </div>
     <div class="col-md-3">
-      <div class="alert alert-warning" role="alert">
-        Tempo restante: <span id="minutes"></span>:<span id="seconds"></span>
-      </div>
-      <div>
-        <button type="button" class="btn btn-danger mb-2 mr-1" (click)="limparWorkspace()">Limpar workspace</button>
-        <button type="button" class="btn btn-warning mb-2 mr-1">Pedir ajuda</button>
-        <button type="button" class="btn btn-success mb-2 float-right" (click)="entregar()">Entregar</button>
-      </div>
-      <div class="border" style="height: 87%; max-height: 87%;">
-        <app-chat [toUser]="professor"></app-chat>
-      </div>
+        <div class="alert alert-warning" role="alert" style="z-index: 1;">
+            Tempo restante: <span id="minutes"></span>:<span id="seconds"></span>
+        </div>
+        <div>
+            <button type="button" class="btn btn-danger mb-2 mr-1" (click)="limparWorkspace()">Limpar workspace</button>
+            <button type="button" class="btn btn-warning mb-2" (click)="askHelp()">Pedir ajuda</button>
+            <button type="button" class="btn btn-success mb-2 float-right" (click)="entregar()">Entregar</button>
+        </div>
+        <div class="border" style="height: 87%; max-height: 87%;">
+            <app-chat (workspaceRequired)="getWorkspace()" (classStarted)="classStarted()" (classFinished)="classFinished()" [toUser]="professor"></app-chat>
+        </div>
     </div>
-  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="modalSeeCode" tabindex="-1" role="dialog" aria-labelledby="modalSeeCode" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Código Gerado</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <textarea [ngModel]="this.conteudo" disabled style="width: 100%; height: 30rem; max-height: 30rem; min-height: 25rem;">
+
+        </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
 </div>
