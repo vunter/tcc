@@ -37,6 +37,12 @@ class Aula {
     @Column
     private Integer quantidadeMaxBlocos;
 
+    @Column
+    private Boolean iniciada;
+
+    @Column
+    private Boolean finalizada;
+
     @OneToMany
     private List<Bloco> blocos;
 

@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+import * as $ from 'jquery';
 import { NgxBlocklyGeneratorConfig, NgxBlocklyConfig, NgxBlocklyComponent } from 'ngx-blockly';
 import { ChatComponent } from './../chat/chat.component';
 import { AlunoService } from './../../../shared/services/aluno.service';
@@ -7,9 +7,9 @@ import { Message } from './../../../shared/entity/Message';
 import { User } from './../../../shared/entity/user';
 import { AulaService } from './../../../shared/services/aula.service';
 import { Global } from './../../../shared/GlobalUse';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from './../../../toast.service';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-aula-professor',
@@ -20,12 +20,13 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
 
   @ViewChild(ChatComponent) chat: ChatComponent;
   @ViewChild(NgxBlocklyComponent) workspace;
+
+  @Input()
+  aula: Aula;
+
   interval: any;
 
   conteudo: string;
-
-  idAula: number;
-  aula: Aula = new Aula();
   started: boolean = false;
   usuario: User;
 
@@ -54,40 +55,36 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   };
   constructor(
     private toast: ToastService,
-    private route: ActivatedRoute,
     private globals: Global,
     private aulaService: AulaService,
-    private alunoService: AlunoService
+    private alunoService: AlunoService,
+    private router: Router
   ) {
     this.usuario = this.globals.user;
-
-    this.route.queryParams.subscribe(params => { this.idAula = params['id'] });
-
 
   }
 
   ngOnInit(): void {
     this.globalMsg.nome = 'Global';
     this.alunoSelecionado = this.globalMsg;
+
+    this.aulaService.iniciarAula(this.aula.id).subscribe(
+      (response) => {
+        this.toast.showInfoTitle('Os alunos já podem acessar a aula e constará como "Iniciada" para aqueles que acessarem a turma!', 'Aula aberta', 5000)
+      }
+    )
   }
 
   ngAfterViewInit() {
     let that = this;
-    this.aulaService.getAula(this.idAula).toPromise().then(
-      (response) => {
-        this.aula = response;
-        jQuery(function ($) {
-          function pad(val) { return val > 9 ? val : "0" + val; }
-          $("#seconds").html(pad(that.aula.duracao % 60));
-          $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)));
 
-        });
-        this.populaAlunosByTurma();
-      }, (errorResponse) => {
-        errorResponse.error.erros.forEach((e) => {
-          this.toast.showError(e)
-        })
-      });
+    jQuery(function ($) {
+      function pad(val) { return val > 9 ? val : "0" + val; }
+      $("#seconds").html(pad(that.aula.duracao % 60));
+      $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)).toString());
+
+    });
+    this.populaAlunosByTurma();
 
 
 
@@ -132,7 +129,7 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
       function pad(val) { return val > 9 ? val : "0" + val; }
       that.interval = setInterval(function () {
         $("#seconds").html(pad(--sec % 60));
-        $("#minutes").html(parseInt(pad(Number(sec) / 60)));
+        $("#minutes").html(parseInt(pad(Number(sec) / 60)).toString());
         if (sec == 0) {
           clearInterval(that.interval);
         }
@@ -144,11 +141,21 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
 
   finalizarAula() {
     this.chat.finishClass(this.alunos)
-    var that = this;
+    let that = this;
     jQuery(function ($) {
       clearInterval(that.interval);
     });
     this.toast.showInfoTitle('Esta aula foi finalizada!', 'Aula finalizada', 5000);
+    this.toast.showWarning('Aguardando entrega forçada dos próximos alunos, redirecionando em 15 segundos!', 15000);
+    this.aula.finalizada = true;
+    setTimeout(function () {
+      that.aulaService.finalizarAula(that.aula).subscribe(
+        (response) => {
+          that.toast.showSuccessTitle('Aula finalizada com sucesso!', 'Sucesso!', 4000);
+          that.router.navigate(['/home']);
+        }
+      );
+    }, 15000)
   }
 
   executar() {

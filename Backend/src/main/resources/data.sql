@@ -51,14 +51,13 @@ INSERT INTO PUBLICACAO(CONTEUDO, AUTOR_USER_ID, TURMA_ID) VALUES ('TESTE REPLY',
 INSERT INTO PUBLICACAO_REPLIES(PUBLICACAO_ID, REPLIES_ID) VALUES (1, 2);
 
 /* INSERT  AULA */
-INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID)
-VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1);
+INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
+VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste', 1, false, false);
 
 /* INSERT  AVALIACAO */
-INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1); -- style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"  style="width: 31.65rem;"
+INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1);
 
 /* INSERT BLOCO */
--- INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('let teste = true;\n\nif (teste) { \nconsole.log("teste funciona")\n}', 'Bloco de Teste', 3);
 INSERT INTO BLOCO(CONTEUDO, TITULO, PROFESSOR_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
   <variables>
     <variable >aa</variable>

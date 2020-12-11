@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   url: 'http://localhost:8080/',
-  apiURL: 'http://localhost:8080/',
+  apiURL: 'http://localhost:8080/api',
   clientId: 'salp-app',
   clientSecret: '@9012',//$2a$10$FKh6Bq9ExfML4J6LH1c6aOZU99qBlAwno83nJXKiiHnpsasjq6x1a',
-  tokenURL: 'http://localhost:8080/'
+  tokenURL: 'http://localhost:8080/oauth/token'
 
 };
 

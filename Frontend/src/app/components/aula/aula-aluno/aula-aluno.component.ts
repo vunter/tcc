@@ -1,7 +1,7 @@
-import { RespostaService } from './../../../shared/services/resposta.service';
+import { RespostaService } from 'src/app/shared/services/resposta.service';
 import { ChatComponent } from './../chat/chat.component';
 import { Resposta } from './../../../shared/entity/Resposta';
-import jQuery from 'jquery';
+import * as jQuery from 'jquery';
 import { Bloco } from './../../../shared/entity/Bloco';
 import { Message } from './../../../shared/entity/Message';
 import { ToastService } from './../../../toast.service';
@@ -10,9 +10,10 @@ import { AulaService } from './../../../shared/services/aula.service';
 import { BlocosService } from './../../../shared/services/blocos.service';
 import { Global } from '../../../shared/GlobalUse';
 import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LOOP_CATEGORY, MATH_CATEGORY, NgxBlocklyComponent, NgxBlocklyConfig, NgxBlocklyGeneratorConfig, NgxToolboxBuilderService, TEXT_CATEGORY, VARIABLES_CATEGORY } from 'ngx-blockly';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../shared/entity/user';
+
 @Component({
   selector: 'app-aula-aluno',
   templateUrl: './aula-aluno.component.html',
@@ -22,13 +23,15 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
 
   @ViewChild(NgxBlocklyComponent) workspace;
   @ViewChild(ChatComponent) chat;
-  interval: any;
 
+  @Input()
+  aula: Aula;
+
+
+  interval: any;
   conteudo: string;
-  idAula: number;
   maxBlocks: number = 10;
   leftBlocks: string = '';
-  aula: Aula = new Aula();
   messages: Message[] = [];
   mensagemForm: MessageForm;
   usuario: User = new User();
@@ -61,34 +64,13 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   constructor(
     private toast: ToastService,
     private ngxToolboxBuilder: NgxToolboxBuilderService,
-    private route: ActivatedRoute,
     private globals: Global,
     private blocoService: BlocosService,
     private aulaService: AulaService,
-    private respostaService: RespostaService
+    private respostaService: RespostaService,
+    private router: Router
   ) {
-    let that = this;
     this.usuario = this.globals.user;
-
-    this.route.queryParams.subscribe(params => { this.idAula = params['id'] });
-
-    this.aulaService.getAula(this.idAula).toPromise().then(
-      (response) => {
-        this.aula = response;
-
-        jQuery(function ($) {
-          function pad(val) { return val > 9 ? val : "0" + val; }
-          $("#seconds").html(pad(that.aula.duracao % 60));
-          $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)));
-        });
-
-        this.config.maxBlocks = this.aula.quantidadeMaxBlocos;
-      }, (errorResponse) => {
-        errorResponse.error.erros.forEach((e) => {
-          toast.showError(e)
-        })
-      });
-
 
     LOGIC_CATEGORY.name = 'Lógica';
     LOOP_CATEGORY.name = 'Loops';
@@ -114,20 +96,28 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    let that = this;
+
+    function pad(val) { return val > 9 ? val : "0" + val; }
+    $("#seconds").html(pad(that.aula.duracao % 60));
+    $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)).toString());
+
+    this.config.maxBlocks = this.aula.quantidadeMaxBlocos;
+
 
   }
 
   async ngAfterViewInit() {
     let that = this;
-    let p = await this.aulaService.getProfessor(this.idAula).toPromise();
+    let p = await this.aulaService.getProfessor(this.aula.id).toPromise();
     this.professor = p;
-    await this.blocoService.getBlocosAula(this.idAula).toPromise().then((r) => {
+    await this.blocoService.getBlocosAula(this.aula.id).toPromise().then((r) => {
       this.blocosProf = r;
 
     });
     let saved_id = localStorage.getItem('saved_id');
-    if (saved_id && this.idAula) {
-      if (Number.parseInt(saved_id) == this.idAula) {
+    if (saved_id && this.aula.id) {
+      if (Number.parseInt(saved_id) == this.aula.id) {
         let saved = localStorage.getItem('saved_workspace');
         if (saved)
           this.workspace.fromXml(saved);
@@ -143,7 +133,7 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     this.conteudo = code;
     if (code) {
       localStorage.setItem('saved_workspace', this.workspace.toXml());
-      localStorage.setItem('saved_id', this.idAula.toString());
+      localStorage.setItem('saved_id', this.aula.id.toString());
     } else {
       localStorage.removeItem('saved_id');
       localStorage.removeItem('saved_workspace');
@@ -164,12 +154,15 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
   entregar() {
     let resposta = new Resposta();
     resposta.alunoId = this.usuario.id;
-    resposta.aulaId = this.idAula;
+    resposta.aulaId = this.aula.id;
     resposta.resposta = this.conteudo;
     resposta.print = this.workspace.toXml();
+
     this.respostaService.salvar(resposta).subscribe(
       (response) => {
         resposta = response;
+        this.toast.showSuccessTitle('Resposta enviada com sucesso!', 'Entregue com sucesso!', 10000);
+        this.router.navigate(['home'])
       }, (error) => {
         error.error.erros.forEach(element => {
           this.toast.showError(element)
@@ -192,7 +185,7 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
       function pad(val) { return val > 9 ? val : "0" + val; }
       that.interval = setInterval(function () {
         $("#seconds").html(pad(--sec % 60));
-        $("#minutes").html(parseInt(pad(Number(sec) / 60)));
+        $("#minutes").html(parseInt(pad(Number(sec) / 60)).toString());
         if (sec == 0) {
           clearInterval(that.interval);
         }
@@ -205,7 +198,13 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     jQuery(function ($) {
       clearInterval(that.interval);
     });
-    this.toast.showInfoTitle('Esta aula foi finalizada!', 'Aula finalizada', 5000);
+
+    this.toast.showInfoTitle('Esta aula foi finalizada!', 'Aula finalizada', 3000);
+    this.toast.showWarningTitle('Esta aula foi finalizada! Entregando tarefa automaticamente em 10 segundos!', 'Aula chegou ao fim!', 10000);
+
+    setTimeout(function () {
+      that.entregar();
+    }, 10000);
   }
 
 }

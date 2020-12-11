@@ -23,6 +23,7 @@
     "@angular/router": "^11.0.2",
     "@auth0/angular-jwt": "^5.0.2",
     "@stomp/stompjs": "^6.0.0",
+    "@types/jquery": "^3.5.5",
     "angular-validate-br": "0.1.0-beta",
     "blockly": "^3.20200924.4",
     "bootstrap": "^4.5.3",

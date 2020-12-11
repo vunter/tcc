@@ -2,6 +2,7 @@ import { delay } from 'rxjs/operators';
 import { SpinnerOverlayService } from './shared/services/spinner-overlay.service';
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

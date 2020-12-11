@@ -51,7 +51,25 @@ public class AulaService {
 
     public List<BlocoDTO> findBlocosByAula(Long idAula) {
         return repository.findBlocosById(idAula).stream()
-                        .map(b -> modelMapper.map(b, BlocoDTO.class))
-                        .collect(Collectors.toList());
+                .map(b -> modelMapper.map(b, BlocoDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public Aula finalizarAula(AulaDTO dto) {
+
+        return repository.findById(dto.getId())
+                .map(a -> {
+                    dto.setId(a.getId());
+                    return repository.save(modelMapper.map(dto, Aula.class));
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao finalizar aula"));
+
+    }
+
+    public Aula iniciarAula(Long idAula) {
+        return repository.findById(idAula)
+                .map(a -> {
+                    a.setIniciada(true);
+                    return repository.save(a);
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao iniciar aula"));
     }
 }

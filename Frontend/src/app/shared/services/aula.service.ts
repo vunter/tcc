@@ -32,4 +32,12 @@ export class AulaService {
     getProfessor(idAula: number): Observable<User> {
       return this.http.get<User>(this.apiURL + 'professor/' + idAula);
     }
+
+    finalizarAula(aula: Aula): Observable<Aula> {
+      return this.http.put<any>(this.apiURL + 'finalizar', aula);
+    }
+
+    iniciarAula(idAula: number): Observable<Aula> {
+      return this.http.put<any>(this.apiURL + 'iniciar', idAula);
+    }
 }

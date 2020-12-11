@@ -35,5 +35,9 @@ class AulaDTO {
 
     private Integer quantidadeMaxBlocos;
 
+    private Boolean iniciada;
+
+    private Boolean finalizada;
+
 
 }

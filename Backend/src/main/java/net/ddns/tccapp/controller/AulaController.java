@@ -41,4 +41,14 @@ public class AulaController {
         return service.findProfessorByAula(aulaId);
     }
 
+    @PutMapping("finalizar")
+    public Aula finalizarAula(@RequestBody @Valid AulaDTO dto) {
+        return service.finalizarAula(dto);
+    }
+
+    @PutMapping("inciar")
+    public Aula iniciarAula(@RequestBody Long idAula) {
+        return service.iniciarAula(idAula);
+    }
+
 }
