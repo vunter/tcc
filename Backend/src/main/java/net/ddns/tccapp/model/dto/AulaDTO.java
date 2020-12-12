@@ -39,5 +39,7 @@ class AulaDTO {
 
     private Boolean finalizada;
 
+    private String nomeProfessor;
+
 
 }

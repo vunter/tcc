@@ -1,36 +1,88 @@
 <div class="container.fluid">
-    <div class="row">
+    <div class="row mb-2">
         <div class="col-md-6">
-            <div class="card bg-light mb-3">
-                <div class="card">
-                    <div class="card-header">
+            <div class="card text-white bg-light mb-3">
+                <div class="card-header text-center" style="background-color: #337AB7; height: 4rem;">
+                    <span>
+            <div>
+              <h1>Minhas Turmas</h1>
+            </div>
+            <div>
+              <button type="button" class="btn btn-info float-right" style="position: relative;top: -3rem;">+ Entrar em
+                nova turma </button>
+            </div>
+          </span>
+                </div>
+                <div class="card-body" style="max-height: 15rem">
+                    <carousel [arrowsTheme]="'dark'" [loop]="true" *ngIf="turmas">
+                        <div class="carousel-cell" *ngFor="let item of turmas">
+                            <div class="card mt-2" style="height: 80%;width: 100%; background-color: #ddd;" (click)="selectTurma(item)">
+                                <div class="card-body ">
+                                    <h2 class="card-title text-center" style="color: black;">{{ item.titulo }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </carousel>
+
+                    <div class="card-header text-center" style="height: 12rem;" *ngIf="!turmas">
+                        <h1 class="vertical-middle" style="margin-top: 10%;">Ainda não faz parte de nenhuma turma!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ">
+            <div class="card text-white bg-primary">
+                <div class="card-header text-center" style="background-color: #337AB7; height: 4rem;">
+                    <h2>Aulas ao vivo agora</h2>
+                </div>
+                <div class="card-body" style="background-color: aliceblue;max-height: 15rem;overflow-y: scroll;">
+                    <table class="table table-bordered table">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col ">Aula</th>
+                                <th scope="col ">Professor</th>
+                                <th scope="col ">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of proximasAulas" class="text-center">
+                                <th scope="row ">{{ a.titulo }}</th>
+                                <td>{{ a.nomeProfessor}}</td>
+                                <td class="justify-content-center text-center">
+                                    <button type="button" class="btn btn-danger">Ignorar</button>
+                                    <button type="button" class="btn btn-success ml-1">Entrar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-6 ">
+            <div class="card text-white bg-primary mb-3 ">
+                <div class="card text-white bg-primary" style="height: 25rem;overflow-y: scroll;">
+                    <div class="card-header text-center" style="background-color: #337AB7; height: 4rem; ">
                         <h2>Turmas Públicas</h2>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="background-color: aliceblue;">
                         <table class="table table-bordered table">
                             <thead>
-                                <tr>
-                                    <th scope="col">Ordem Aula</th>
-                                    <th scope="col">Professor</th>
-                                    <th scope="col">Data/Horário</th>
+                                <tr class="text-center">
+                                    <th scope="col ">Título</th>
+                                    <th scope="col ">Professor</th>
+                                    <th scope="col">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1°</th>
-                                    <td>Otto</td>
-                                    <td>Hoje `as 13:00 hrs</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2°</th>
-                                    <td>Thornton</td>
-                                    <td>Amanhã às 15:00 hrs</td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="row">3°</th>
-                                    <td>Larry</td>
-                                    <td>25/04/2021</td>
+                                <tr *ngFor="let t of turmaPublic" class="text-center">
+                                    <th scope="row ">{{ t.titulo }}</th>
+                                    <td>{{ t.nomeProfessor }}</td>
+                                    <td class="justify-content-center text-center">
+                                        <button type="button" class="btn btn-danger">Sem interesse</button>
+                                        <button type="button" class="btn btn-success ml-1">Entrar</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -38,46 +90,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="float-right">
-
-                <div>
-                    <h3>Aulas ao vivo agora</h3>
-
+        <div class="col-md-6 ">
+            <div class="card text-white bg-primary" style="height: 25rem;overflow-y: scroll;">
+                <div class="card-header text-center" style="background-color: #337AB7; height: 4rem;">
+                    <h2>Próximas Aulas</h2>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Próximas Aulas</h2>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-bordered table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Ordem Aula</th>
-                                    <th scope="col">Professor</th>
-                                    <th scope="col">Data/Horário</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1°</th>
-                                    <td>Otto</td>
-                                    <td>Hoje `as 13:00 hrs</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2°</th>
-                                    <td>Thornton</td>
-                                    <td>Amanhã às 15:00 hrs</td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="row">3°</th>
-                                    <td>Larry</td>
-                                    <td>25/04/2021</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="card-body" style="background-color: aliceblue;">
+                    <table class="table table-bordered table ">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col ">Título</th>
+                                <th scope="col ">Professor</th>
+                                <th scope="col ">Data e Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of proximasAulas" class="text-center">
+                                <th scope="row ">{{ a.titulo }}</th>
+                                <td>{{ a.nomeProfessor}}</td>
+                                <td>{{ a.dataAula | localDateTime }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

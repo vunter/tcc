@@ -18,6 +18,9 @@ public @Data class TurmaDTO {
     private String codigo;
 
     @NotBlank(message = "{campo.notBlank}")
+    private String titulo;
+
+    @NotBlank(message = "{campo.notBlank}")
     private String descricao;
 
     @NotNull(message = "{campo.notBlank}")
@@ -25,6 +28,8 @@ public @Data class TurmaDTO {
 
     @NotNull(message = "{campo.notBlank}")
     private Long professorUserId;
+
+    private String nomeProfessor;
 
 
 }

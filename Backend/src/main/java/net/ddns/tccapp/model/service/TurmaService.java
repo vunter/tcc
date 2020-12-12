@@ -79,5 +79,21 @@ public class TurmaService {
 
         return publicacaoService.findAllByTurmaID(idTurma);
     }
+
+    public List<TurmaDTO> listTurmasByAlunoId(Long idUser) {
+        return repository.findAllByAlunosId(idUser)
+                .map(turmas -> turmas.stream()
+                .map(t -> modelMapper.map(t, TurmaDTO.class))
+                .collect(Collectors.toList()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma turma encontrada"));
+    }
+
+    public List<TurmaDTO> listTurmasByProfessorId(Long idUser) {
+        return repository.findAllByProfessorId(idUser)
+                .map(turmas -> turmas.stream()
+                .map(t -> modelMapper.map(t, TurmaDTO.class))
+                .collect(Collectors.toList()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma turma encontrada"));
+    }
 }
 

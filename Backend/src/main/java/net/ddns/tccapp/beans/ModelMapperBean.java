@@ -59,6 +59,7 @@ public class ModelMapperBean {
             protected Turma convert(TurmaDTO turmaDTO) {
                 var turma = new Turma();
                 turma.setProfessor(professorRepository.findById(turmaDTO.getProfessorUserId()).orElse(null));
+                turma.setTitulo(turmaDTO.getTitulo());
                 turma.setDescricao(turmaDTO.getDescricao());
                 turma.setCapacidade(turmaDTO.getCapacidade());
                 return turma;
@@ -72,6 +73,8 @@ public class ModelMapperBean {
             protected TurmaDTO convert(Turma turma) {
                 var turmaDTO = new TurmaDTO();
                 turmaDTO.setProfessorUserId(turma.getProfessor().getId());
+                turmaDTO.setNomeProfessor(turma.getProfessor().getNome());
+                turmaDTO.setTitulo(turma.getTitulo());
                 turmaDTO.setDescricao(turma.getDescricao());
                 turmaDTO.setCapacidade(turma.getCapacidade());
                 turmaDTO.setCodigo(turma.getCodigo());
@@ -114,6 +117,7 @@ public class ModelMapperBean {
                 aulaDTO.setQuantidadeMaxBlocos(aula.getQuantidadeMaxBlocos());
                 aulaDTO.setFinalizada(aula.getFinalizada());
                 aulaDTO.setIniciada(aula.getIniciada());
+                aulaDTO.setNomeProfessor(aula.getTurma().getProfessor().getNome());
                 return aulaDTO;
             }
         };

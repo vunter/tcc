@@ -22,6 +22,9 @@ class Turma {
     private String codigo;
 
     @Column
+    private String titulo;
+
+    @Column
     private String descricao;
 
     @Column

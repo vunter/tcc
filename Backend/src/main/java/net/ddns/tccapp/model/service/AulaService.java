@@ -1,11 +1,15 @@
 package net.ddns.tccapp.model.service;
 
 
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
+import net.ddns.tccapp.model.entity.QAluno;
+import net.ddns.tccapp.model.entity.QAula;
+import net.ddns.tccapp.model.entity.QTurma;
 import net.ddns.tccapp.model.repository.AulaRepository;
 import net.ddns.tccapp.utils.converters.DuracaoConverter;
 import org.modelmapper.ModelMapper;
@@ -13,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +27,7 @@ public class AulaService {
 
     private final AulaRepository repository;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
 
     public AulaDTO findOneById(Long id) {
         return repository.findById(id)
@@ -71,5 +77,26 @@ public class AulaService {
                     a.setIniciada(true);
                     return repository.save(a);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao iniciar aula"));
+    }
+
+    public List<AulaDTO> findNext5ByAlunoId(Long id) {
+        JPAQuery<Aula> query = new JPAQuery<>(entityManager);
+
+        QAluno aluno = QAluno.aluno;
+        QAula aula = QAula.aula;
+        QTurma turma = QTurma.turma;
+
+        query.from(aula)
+                .join(aula.turma, turma)
+                .join(turma.alunos, aluno)
+                .where(
+                        aula.finalizada.eq(false)
+                                .and(aluno.id.eq(id))
+                )
+                .orderBy(aula.dataAula.asc())
+                .limit(5);
+        return query.fetch().stream()
+                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .collect(Collectors.toList());
     }
 }

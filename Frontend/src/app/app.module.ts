@@ -1,3 +1,4 @@
+import { SharedModule } from './shared/shared/shared.module';
 import { RespostaService } from './shared/services/resposta.service';
 import { ComponentsModule } from './components/components.module';
 import { HomeComponentPublic } from './public-components/home-public/home-public.component';
@@ -67,7 +68,6 @@ import { NgxBlocklyModule } from 'ngx-blockly';
     LoginComponent,
     MainComponent,
     HomeComponentPublic,
-    LocalDateTimePipe,
     CadastroComponent,
     SobreComponent,
     PublicNavbarComponent,
@@ -117,12 +117,12 @@ import { NgxBlocklyModule } from 'ngx-blockly';
     MatPaginatorModule,
     AulaModule,
     HomeModule,
-    ComponentsModule
+    ComponentsModule,
+    SharedModule
    ],
   providers: [
     UsuarioService,
     AuthService,
-    LocalDateTimePipe,
     Global,
     {
       provide: HTTP_INTERCEPTORS,

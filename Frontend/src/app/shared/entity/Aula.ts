@@ -8,4 +8,6 @@ export class Aula {
   turmaId: number;
   quantidadeMaxBlocos: number;
   finalizada: boolean;
+
+  nomeProfessor: string;
 }

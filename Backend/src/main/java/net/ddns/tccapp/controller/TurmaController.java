@@ -38,4 +38,16 @@ public class TurmaController {
         return service.listPublicacoesTurma(idTurma);
     }
 
+    @GetMapping("list/aluno/{id}")
+    @ResponseBody
+    public List<TurmaDTO> listTurmasByAlunoId(@PathVariable("id") Long idUser) {
+        return service.listTurmasByAlunoId(idUser);
+    }
+
+    @GetMapping("list/professor/{id}")
+    @ResponseBody
+    public List<TurmaDTO> listTurmasByProfessorId(@PathVariable("id") Long idUser) {
+        return service.listTurmasByProfessorId(idUser);
+    }
+
 }

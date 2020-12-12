@@ -30,6 +30,11 @@ public class AulaController {
         return service.findAllByTurma(id);
     }
 
+    @GetMapping("aluno/{id}")
+    public List<AulaDTO> listaAulaPorAlunoid(@PathVariable("id") Long id) {
+        return service.findNext5ByAlunoId(id);
+    }
+
     @PostMapping("salvar")
     public Aula save(@RequestBody @Valid AulaDTO dto) {
         return service.salvar(modelMapper.map(dto, Aula.class));

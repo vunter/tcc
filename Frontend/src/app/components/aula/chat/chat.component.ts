@@ -170,6 +170,7 @@ export class ChatComponent implements OnInit {
           let arrayMessage = this.mensagensMap.get(Number(messageResult.fromId));
           arrayMessage.needHelp = true;
           this.mensagensMap.set(messageResult.toId, arrayMessage);
+          
           break;
         default:
           this.toastr.showError('Erro de comunicação, operação não encontrada!');
