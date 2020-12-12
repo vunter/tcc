@@ -77,7 +77,7 @@ public class AlunoService {
     }
 
     public List<AlunoDTO> findAllByTurmaId(Long turmaId) {
-        return repository.findAllByTurmasId(turmaId)
+        return repository.findAllByTurmasIdOrderByNomeAsc(turmaId)
                 .map(alunos -> alunos.stream()
                         .map(a -> mapper.map(a, AlunoDTO.class))
                         .collect(Collectors.toList()))

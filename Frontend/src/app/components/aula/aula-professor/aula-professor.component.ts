@@ -86,16 +86,18 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
     });
     this.populaAlunosByTurma();
 
-
-
   }
 
   populaAlunosByTurma() {
+    let that = this;
     this.globalMsg.id = 0;
     this.alunoService.listByTurma(this.aula.id).subscribe(
       (response) => {
         this.alunos = response;
         this.chat.createMapAlunosMensagens(response);
+        setTimeout(function () {
+          that.chat.requestConnecteds(response)
+        }, 1000)
       },
       (errorResponse) => {
         this.alunos = [];

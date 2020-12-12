@@ -13,6 +13,9 @@ public enum TipoOperacaoEnum {
     START_CLASS(4L, "Start class timer"),
     END_CLASS(5L, "End class and stop timer"),
     NEED_HELP(6L, "Student need help"),
+    CONNECT(7L, "Student connect"),
+    DISCONNECT(8L, "Student disconnect"),
+    REQUEST_CONNECTEDS(9L, "Request connected students"),
     ;
 
     private Long cod;

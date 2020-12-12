@@ -38,7 +38,7 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   usuario: User;
   mensagemForm: MessageForm;
-  mensagensMap: Map<number, { mensagens: Message[], newMessage: boolean, needHelp?: boolean }> = new Map<number, { mensagens: Message[], newMessage: boolean, needHelp?: boolean }>();
+  mensagensMap: Map<number, { mensagens: Message[], newMessage: boolean, needHelp?: boolean, connected: boolean }> = new Map<number, { mensagens: Message[], newMessage: boolean, needHelp?: boolean, connected: boolean }>();
 
   constructor(
     private toastr: ToastService,
@@ -77,6 +77,7 @@ export class ChatComponent implements OnInit {
       this.stompClient.subscribe("/socket-publisher/" + this.globals.user.id, (message) => {
         this.handleResult(message);
       });
+      this.connect();
     }
   }
 
@@ -116,8 +117,22 @@ export class ChatComponent implements OnInit {
     this.stompClient.send("/socket-subscriber/end", {}, JSON.stringify(user));
   }
 
+  connect() {
+    let message: Message = { message: '', fromId: this.globals.user.id, toId: this.toUser.id };
+    this.stompClient.send("/socket-subscriber/connect", {}, JSON.stringify(message));
+  }
+
+  disconnect() {
+    let message: Message = { message: '', fromId: this.globals.user.id, toId: this.toUser.id };
+    this.stompClient.send("/socket-subscriber/disconnect", {}, JSON.stringify(message));
+  }
+
+  requestConnecteds(user: User[]) {
+    this.stompClient.send("/socket-subscriber/connecteds", {}, JSON.stringify(user));
+  }
+
   changeChatAluno(idNew, idOld) {
-    this.mensagensMap.set(idOld, { mensagens: this.messages, newMessage: false });
+    this.mensagensMap.set(idOld, { mensagens: this.messages, newMessage: false, connected: true });
     let newConversation = this.mensagensMap.get(idNew);
     this.messages = newConversation.mensagens;
     newConversation.newMessage = false;
@@ -126,9 +141,9 @@ export class ChatComponent implements OnInit {
   }
 
   createMapAlunosMensagens(array: User[]) {
-    this.mensagensMap.set(0, { mensagens: [], newMessage: false })
+    this.mensagensMap.set(0, { mensagens: [], newMessage: false, connected: false })
     array.forEach((a) => {
-      this.mensagensMap.set(a.id, { mensagens: [], newMessage: false });
+      this.mensagensMap.set(a.id, { mensagens: [], newMessage: false, connected: false });
     })
   }
 
@@ -170,7 +185,25 @@ export class ChatComponent implements OnInit {
           let arrayMessage = this.mensagensMap.get(Number(messageResult.fromId));
           arrayMessage.needHelp = true;
           this.mensagensMap.set(messageResult.toId, arrayMessage);
-          
+
+          break;
+        case 7:
+          let connect = this.mensagensMap.get(Number(messageResult.fromId));
+          connect.connected = true;
+
+          this.mensagensMap.set(messageResult.toId, connect);
+
+          break;
+        case 8:
+          let disconnect = this.mensagensMap.get(Number(messageResult.fromId));
+          disconnect.connected = false;
+
+          this.mensagensMap.set(messageResult.toId, disconnect);
+
+          break;
+        case 9:
+          this.connect();
+
           break;
         default:
           this.toastr.showError('Erro de comunicação, operação não encontrada!');

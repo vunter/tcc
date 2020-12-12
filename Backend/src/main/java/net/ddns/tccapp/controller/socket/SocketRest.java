@@ -80,4 +80,30 @@ public class SocketRest {
 
         simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + message.getToId(), message);
     }
+
+    @MessageMapping("/connect")
+    public void connect(Message message) {
+        message.setOperacao(TipoOperacaoEnum.CONNECT.getCod());
+
+        simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + message.getToId(), message);
+    }
+
+    @MessageMapping("/disconnect")
+    public void disconnect(Message message) {
+        message.setOperacao(TipoOperacaoEnum.DISCONNECT.getCod());
+
+        simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + message.getToId(), message);
+    }
+
+
+    @MessageMapping("/connecteds")
+    public void requestConnecteds(List<AlunoDTO> alunos) {
+        var message = new Message();
+        message.setOperacao(TipoOperacaoEnum.REQUEST_CONNECTEDS.getCod());
+
+        alunos.forEach(a -> {
+            message.setToId(a.getId());
+            simpMessagingTemplate.convertAndSend(SOCKET_PUBLISHER + a.getId(), message);
+        });
+    }
 }

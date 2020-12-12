@@ -10,7 +10,7 @@ import { AulaService } from './../../../shared/services/aula.service';
 import { BlocosService } from './../../../shared/services/blocos.service';
 import { Global } from '../../../shared/GlobalUse';
 import { COLOUR_CATEGORY, FUNCTIONS_CATEGORY, LISTS_CATEGORY, LOGIC_CATEGORY, LOOP_CATEGORY, MATH_CATEGORY, NgxBlocklyComponent, NgxBlocklyConfig, NgxBlocklyGeneratorConfig, NgxToolboxBuilderService, TEXT_CATEGORY, VARIABLES_CATEGORY } from 'ngx-blockly';
-import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../shared/entity/user';
 
@@ -19,7 +19,7 @@ import { User } from '../../../shared/entity/user';
   templateUrl: './aula-aluno.component.html',
   styleUrls: ['./aula-aluno.component.css']
 })
-export class AulaAlunoComponent implements OnInit, AfterViewInit {
+export class AulaAlunoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(NgxBlocklyComponent) workspace;
   @ViewChild(ChatComponent) chat;
@@ -127,6 +127,11 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
         this.workspace.appendFromXml(bloco.conteudo);
       })
     }
+
+  }
+
+  ngOnDestroy() {
+    this.disconnect();
   }
 
   onCode(code: string) {
@@ -162,6 +167,7 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
       (response) => {
         resposta = response;
         this.toast.showSuccessTitle('Resposta enviada com sucesso!', 'Entregue com sucesso!', 10000);
+        this.disconnect();
         this.router.navigate(['home'])
       }, (error) => {
         error.error.erros.forEach(element => {
@@ -205,6 +211,10 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit {
     setTimeout(function () {
       that.entregar();
     }, 10000);
+  }
+
+  disconnect() {
+    this.chat.disconnect();
   }
 
 }

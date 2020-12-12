@@ -40,7 +40,7 @@
             </li>
             <li class="list-group-item" *ngFor="let aluno of alunos" style="width: 10rem; height: 3rem;">
                 <span>
-            <button class="btn btn-primary" type="button" (click)="selectAluno(aluno)"
+            <button class="btn btn-primary" type="button" [disabled]="!chat.mensagensMap.get(aluno.id).connected" (click)="selectAluno(aluno)"
               style="position: relative; height: 2rem; top: -0.2rem; width: 7.5rem;">{{ aluno.nome }} </button>
             <div *ngIf="chat.mensagensMap.get(aluno.id).newMessage && !chat.mensagensMap.get(aluno.id).needHelp">
               <i class="fa fa-circle float-right new-message"></i>

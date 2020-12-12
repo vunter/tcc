@@ -12,5 +12,5 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
     Optional<Aluno> findByMatricula(String matricula);
 
-    Optional<List<Aluno>> findAllByTurmasId(Long turmaId);
+    Optional<List<Aluno>> findAllByTurmasIdOrderByNomeAsc(Long turmaId);
 }
