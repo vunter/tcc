@@ -28,6 +28,10 @@ class Aluno extends Usuario {
     @JsonIgnore
     private List<Avaliacao> avaliacoes;
 
+    @OneToMany(mappedBy = "aluno")
+    @JsonIgnore
+    private List<Resposta> respostas;
+
     @ManyToMany(mappedBy = "alunos", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Turma> turmas;

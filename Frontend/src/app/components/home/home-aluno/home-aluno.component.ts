@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Aula } from './../../../shared/entity/Aula';
 import { AulaService } from './../../../shared/services/aula.service';
 import { PublicService } from './../../../shared/services/public.service';
@@ -17,11 +18,13 @@ export class HomeAlunoComponent implements OnInit {
   turmas: Turma[];
   turmaPublic: Turma[];
   proximasAulas: Aula[];
+  aulasIniciadas: Aula[];
 
 
   constructor(
     private globals: Global,
     private toast: ToastService,
+    private router: Router,
     private turmaService: TurmaService,
     private aulaService: AulaService,
     private publicService: PublicService
@@ -47,12 +50,24 @@ export class HomeAlunoComponent implements OnInit {
     );
 
     this.aulaService.list5ByAlunoId(this.globals.user.id).subscribe(
-      (response) => { this.proximasAulas = response}
+      (response) => { this.proximasAulas = response }
+    )
+
+    this.aulaService.listIniciadasByAlunoId(this.globals.user.id).subscribe(
+      (response) => { this.aulasIniciadas = response }
     )
   }
 
   selectTurma(turma: Turma) {
     console.log('Turma selecionada: ' + turma.titulo)
+  }
+
+  entrarTurmaPublic(turma: Turma) {
+
+  }
+
+  entrarAulaAoVivo(aula: Aula) {
+    this.router.navigate(['/aula'], { queryParams: { id: aula.id } });
   }
 
 }

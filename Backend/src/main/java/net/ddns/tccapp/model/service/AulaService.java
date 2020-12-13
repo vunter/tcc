@@ -1,15 +1,13 @@
 package net.ddns.tccapp.model.service;
 
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
-import net.ddns.tccapp.model.entity.Aula;
-import net.ddns.tccapp.model.entity.QAluno;
-import net.ddns.tccapp.model.entity.QAula;
-import net.ddns.tccapp.model.entity.QTurma;
+import net.ddns.tccapp.model.entity.*;
 import net.ddns.tccapp.model.repository.AulaRepository;
 import net.ddns.tccapp.utils.converters.DuracaoConverter;
 import org.modelmapper.ModelMapper;
@@ -95,6 +93,32 @@ public class AulaService {
                 )
                 .orderBy(aula.dataAula.asc())
                 .limit(5);
+        return query.fetch().stream()
+                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<AulaDTO> listarAulasAoVivoPorAlunoId(Long id) {
+        JPAQuery<Aula> query = new JPAQuery<>(entityManager);
+
+        QAluno aluno = QAluno.aluno;
+        QAula aula = QAula.aula;
+        QTurma turma = QTurma.turma;
+        QResposta resposta = QResposta.resposta1;
+
+        var sub = JPAExpressions.select(resposta.aula).from(resposta)
+                .join(resposta.aula, aula)
+                .where(resposta.aluno.id.eq(id));
+
+        query.from(aula)
+                .join(aula.turma, turma)
+                .join(turma.alunos, aluno)
+                .where(aula.finalizada.eq(false)
+                        .and(aula.iniciada.eq(true))
+                        .and(aluno.id.eq(id))
+                        .and(aula.notIn(sub))
+                )
+                .orderBy(aula.dataAula.asc());
         return query.fetch().stream()
                 .map(a -> modelMapper.map(a, AulaDTO.class))
                 .collect(Collectors.toList());

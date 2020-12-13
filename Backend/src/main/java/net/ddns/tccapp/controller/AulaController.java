@@ -35,6 +35,12 @@ public class AulaController {
         return service.findNext5ByAlunoId(id);
     }
 
+    @GetMapping("iniciada/aluno/{id}")
+    public List<AulaDTO> listarAulasAoVivoPorAlunoId(@PathVariable("id") Long id) {
+        return service.listarAulasAoVivoPorAlunoId(id);
+    }
+
+
     @PostMapping("salvar")
     public Aula save(@RequestBody @Valid AulaDTO dto) {
         return service.salvar(modelMapper.map(dto, Aula.class));
@@ -51,7 +57,7 @@ public class AulaController {
         return service.finalizarAula(dto);
     }
 
-    @PutMapping("inciar")
+    @PutMapping("iniciar")
     public Aula iniciarAula(@RequestBody Long idAula) {
         return service.iniciarAula(idAula);
     }

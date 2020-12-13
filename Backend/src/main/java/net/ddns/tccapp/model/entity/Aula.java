@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@EqualsAndHashCode(exclude = {"avaliacoes"})
+@EqualsAndHashCode(exclude = {"respostas"})
 public @Data
 class Aula {
 
@@ -52,6 +52,6 @@ class Aula {
 
     @OneToMany(mappedBy = "aula")
     @JsonBackReference
-    private List<Avaliacao> avaliacoes;
+    private List<Resposta> respostas;
 
 }

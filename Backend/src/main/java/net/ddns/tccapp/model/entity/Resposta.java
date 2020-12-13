@@ -18,10 +18,10 @@ public class Resposta {
     @Lob
     private String print;
 
-    @OneToOne
+    @ManyToOne
     private Aluno aluno;
 
-    @OneToOne
+    @ManyToOne
     private Aula aula;
 
 }

@@ -43,4 +43,8 @@ export class AulaService {
     iniciarAula(idAula: number): Observable<Aula> {
       return this.http.put<any>(this.apiURL + 'iniciar', idAula);
     }
+
+    listIniciadasByAlunoId(idAluno: number): Observable<Aula[]> {
+      return this.http.get<Aula[]>(this.apiURL + 'iniciada/aluno/' + idAluno);
+    }
 }
