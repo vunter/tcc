@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { SharedModule } from './../../shared/shared/shared.module';
 import { LocalDateTimePipe } from './../../shared/pipes/local-date-time.pipe';
 import { HomeComponent } from './home.component';
@@ -18,6 +19,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ComponentsModule,
     IvyCarouselModule,
     SharedModule
@@ -28,7 +30,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     HomeComponent
   ],
   providers: [
-    
+
   ]
 })
 export class HomeModule { }

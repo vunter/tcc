@@ -80,6 +80,7 @@ public class ModelMapperBean {
                 turmaDTO.setCodigo(turma.getCodigo());
                 turmaDTO.setPublico(turma.getPublico());
                 turmaDTO.setId(turma.getId());
+                turmaDTO.setQtdAlunosMatriculados(turma.getAlunos().size());
 
                 return turmaDTO;
             }

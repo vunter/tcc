@@ -30,11 +30,13 @@ export class UsuarioService {
     return this.api.get<User>(this.apiURL + 'user', { params });
   }
 
-  configGlobal(): Promise<any> {
+  configGlobal(): Promise<User> {
     if (this.auth.isAuthenticated()) {
-      return this.getLoggedUser().toPromise().then((response) => {
+      return this.getLoggedUser().toPromise<User>().then((response) => {
         this.globals.user = response;
-      }).catch(() => this.globals.user = new User())
+        return this.globals.user;
+      })
+      .catch(() => this.globals.user = new User())
     }
   }
 }

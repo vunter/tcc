@@ -29,7 +29,7 @@ public class AlunoController {
     }
 
     @GetMapping("{id}")
-    public AlunoDTO findById(@PathVariable("id") Long id) {
+    public Aluno findById(@PathVariable("id") Long id) {
         return alunoService.findById(id);
     }
 

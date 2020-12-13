@@ -25,9 +25,8 @@ public class AlunoService {
         return repository.save(aluno);
     }
 
-    public AlunoDTO findById(Long id) {
+    public Aluno findById(Long id) {
         return repository.findById(id)
-                .map(a -> mapper.map(a, AlunoDTO.class))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrado nenhum aluno cadastrado com ID " + id));
     }
 

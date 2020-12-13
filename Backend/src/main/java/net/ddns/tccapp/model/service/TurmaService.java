@@ -1,6 +1,7 @@
 package net.ddns.tccapp.model.service;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.tccapp.model.dto.AlunoDTO;
 import net.ddns.tccapp.model.dto.PublicacaoDTO;
 import net.ddns.tccapp.model.dto.TurmaDTO;
 import net.ddns.tccapp.model.entity.Turma;
@@ -21,6 +22,7 @@ public class TurmaService {
     private final TurmaRepository repository;
     private final ModelMapper modelMapper;
     private final ProfessorService professorService;
+    private final AlunoService alunoService;
     private final PublicacaoService publicacaoService;
 
     public Turma salvar(TurmaDTO turmaDTO) {
@@ -66,6 +68,7 @@ public class TurmaService {
     public List<TurmaDTO> findAllPublic() {
         return repository.findAllByPublico(Boolean.TRUE)
                 .map(turmas -> turmas.stream()
+                        .filter(turma -> (turma.getCapacidade() == 0 || turma.getAlunos().size() < turma.getCapacidade()))
                         .map(t -> {
                             var turma = modelMapper.map(t, TurmaDTO.class);
                             turma.setProfessorUserId(t.getProfessor().getId());
@@ -83,17 +86,36 @@ public class TurmaService {
     public List<TurmaDTO> listTurmasByAlunoId(Long idUser) {
         return repository.findAllByAlunosId(idUser)
                 .map(turmas -> turmas.stream()
-                .map(t -> modelMapper.map(t, TurmaDTO.class))
-                .collect(Collectors.toList()))
+                        .map(t -> modelMapper.map(t, TurmaDTO.class))
+                        .collect(Collectors.toList()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma turma encontrada"));
     }
 
     public List<TurmaDTO> listTurmasByProfessorId(Long idUser) {
         return repository.findAllByProfessorId(idUser)
                 .map(turmas -> turmas.stream()
-                .map(t -> modelMapper.map(t, TurmaDTO.class))
-                .collect(Collectors.toList()))
+                        .map(t -> modelMapper.map(t, TurmaDTO.class))
+                        .collect(Collectors.toList()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma turma encontrada"));
+    }
+
+    public TurmaDTO entrarEmTurma(String codTurma, AlunoDTO dto) {
+
+        return repository.findByCodigo(codTurma)
+                .map(turma -> {
+                    var aluno = alunoService.findById(dto.getId());
+
+                    if (turma.getAlunos().contains(aluno))
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você já faz parte desta turma!");
+
+                    if ((turma.getCapacidade() == 0 || turma.getAlunos().size() < turma.getCapacidade())) {
+                        turma.getAlunos().add(aluno);
+                    } else {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Turma já se encontra com capacidade máxima!");
+                    }
+                    return modelMapper.map(repository.save(turma), TurmaDTO.class);
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi encontrada turma com código: " + codTurma));
+
     }
 }
 

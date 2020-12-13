@@ -7,4 +7,5 @@ export class Turma {
   publico: boolean;
   professorUserId: number;
   nomeProfessor: string;
+  qtdAlunosMatriculados: number;
 }

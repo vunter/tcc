@@ -31,5 +31,7 @@ public @Data class TurmaDTO {
 
     private String nomeProfessor;
 
+    private int qtdAlunosMatriculados;
+
 
 }

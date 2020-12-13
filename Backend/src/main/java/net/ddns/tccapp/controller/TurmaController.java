@@ -1,6 +1,7 @@
 package net.ddns.tccapp.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.tccapp.model.dto.AlunoDTO;
 import net.ddns.tccapp.model.dto.PublicacaoDTO;
 import net.ddns.tccapp.model.dto.TurmaDTO;
 import net.ddns.tccapp.model.entity.Turma;
@@ -48,6 +49,13 @@ public class TurmaController {
     @ResponseBody
     public List<TurmaDTO> listTurmasByProfessorId(@PathVariable("id") Long idUser) {
         return service.listTurmasByProfessorId(idUser);
+    }
+
+    @PutMapping("entrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TurmaDTO entrarTurma(@RequestParam("codTurma") String codTurma, @RequestBody @Valid AlunoDTO dto) {
+
+        return service.entrarEmTurma(codTurma, dto);
     }
 
 }

@@ -8,15 +8,16 @@
               <h1>Minhas Turmas</h1>
             </div>
             <div>
-              <button type="button" class="btn btn-info float-right" style="position: relative;top: -3rem;">+ Entrar em
-                nova turma </button>
+              <button type="button" class="btn btn-info float-right" style="position: relative;top: -3rem;"
+                data-toggle="modal" data-target="#entrarEmTurma">
+                + Entrar em nova turma </button>
             </div>
           </span>
                 </div>
                 <div class="card-body" style="max-height: 15rem">
-                    <carousel [arrowsTheme]="'dark'" [loop]="true" *ngIf="turmas">
+                    <carousel [arrowsTheme]="'dark'" [loop]="true" *ngIf="turmas" style="z-index: 1;">
                         <div class="carousel-cell" *ngFor="let item of turmas">
-                            <div class="card mt-2" style="height: 80%;width: 100%; background-color: #ddd;" (click)="selectTurma(item)">
+                            <div class="card mt-2" style="height: 80%;width: 100%; background-color: #ddd; " (click)="selectTurma(item)">
                                 <div class="card-body ">
                                     <h2 class="card-title text-center" style="color: black;">{{ item.titulo }}</h2>
                                 </div>
@@ -71,6 +72,7 @@
                                 <tr class="text-center">
                                     <th scope="col ">Título</th>
                                     <th scope="col ">Professor</th>
+                                    <th scope="col ">Capacidade</th>
                                     <th scope="col">Ações</th>
                                 </tr>
                             </thead>
@@ -78,6 +80,7 @@
                                 <tr *ngFor="let t of turmaPublic" class="text-center">
                                     <th scope="row ">{{ t.titulo }}</th>
                                     <td>{{ t.nomeProfessor }}</td>
+                                    <td>{{ t.qtdAlunosMatriculados + '/' + t.capacidade }}</td>
                                     <td class="justify-content-center text-center">
                                         <button type="button" class="btn btn-success ml-1" (click)="entrarTurmaPublic(t)">Entrar</button>
                                     </td>
@@ -112,6 +115,34 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="entrarEmTurma" tabindex="-1" role="dialog" aria-labelledby="entrarEmTurmaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="entrarEmTurmaLabel">Entrar em turma</h1>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <form #enterTurmaForm="ngForm" (submit)="onSubmit()">
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="codTurma" name="codTurma" (ngModelChange)="validarCodTurma()" class="form-control form-control-lg" id="codigo " maxlength="6 " minlength="6 " aria-describedby="codigo " placeholder="Insira código da Turma" />
+                        <small id="codHelp" class="form-text text-muted ">Códigos de turma contém 6 caracteres.</small>
+                        <small id="codValid" *ngIf="!codTurmaValid" style="color: red;">Código de turma inválido!</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
