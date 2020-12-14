@@ -38,7 +38,7 @@ public class AulaService {
     }
 
     public List<Aula> findAllByTurma(Long id) {
-        return repository.findAllByTurmaId(id)
+        return repository.findAllByTurmaIdAndIniciadaFalse(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem aulas programadas para esta turma"));
     }
 
@@ -129,5 +129,16 @@ public class AulaService {
         return repository.findByTurmaIdAndIniciadaTrueAndFinalizadaFalse(id)
                 .map(a -> modelMapper.map(a, AulaDTO.class))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma aula iniciada"));
+    }
+
+    public void delete(Long id) {
+
+        repository.findById(id)
+                .map(a -> {
+                    repository.delete(a);
+                    return a;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível deletar aula!"));
+
     }
 }

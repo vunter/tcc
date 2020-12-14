@@ -32,8 +32,13 @@ export class AulaService {
     list5ByAlunoId(idAluno: number): Observable<Aula[]> {
       return this.http.get<Aula[]>(this.apiURL + 'aluno/' + idAluno);
     }
+
     save(aula: Aula): Observable<any> {
       return this.http.post<any>(this.apiURL + 'salvar', aula);
+    }
+
+    delete(aula: Aula): Observable<any> {
+      return this.http.delete<any>(this.apiURL + 'delete/' + aula.id)
     }
 
     getProfessor(idAula: number): Observable<User> {

@@ -6,6 +6,7 @@ import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
 import net.ddns.tccapp.model.service.AulaService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -50,6 +51,11 @@ public class AulaController {
         return service.salvar(modelMapper.map(dto, Aula.class));
     }
 
+    @DeleteMapping("delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long aula) {
+         service.delete(aula);
+    }
 
     @GetMapping("professor/{id}")
     public ProfessorDTO getProfessorAula(@PathVariable("id") Long aulaId) {

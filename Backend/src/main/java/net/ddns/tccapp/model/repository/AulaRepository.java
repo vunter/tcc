@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface AulaRepository extends JpaRepository<Aula, Long> {
-    Optional<List<Aula>> findAllByTurmaId(Long id);
+
+    Optional<List<Aula>> findAllByTurmaIdAndIniciadaFalse(Long id);
 
     @Query("SELECT new net.ddns.tccapp.model.dto.ProfessorDTO(p.id, p.nome, p.user, p.password, p.email, p.cpf) FROM Professor p " +
             "JOIN Turma t ON t.professor.id = p.id " +

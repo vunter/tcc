@@ -1,6 +1,7 @@
 package net.ddns.tccapp.controller.restcontroller;
 
 import net.ddns.tccapp.model.exceptions.ApiErrors;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,14 @@ public class ApplicationControllerAdvice {
     public ResponseEntity<ApiErrors> handleResponseStatusException(ResponseStatusException ex) {
         String errorMessage = ex.getReason();
         HttpStatus statusCode = ex.getStatus();
+        ApiErrors apiErrors = new ApiErrors(errorMessage);
+        return new ResponseEntity<>(apiErrors, statusCode);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiErrors> handleConstraintException(ConstraintViolationException ex) {
+        String errorMessage = "Erro de relacionamento na base de dados, por favor contate o administrador!";
+        HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
         ApiErrors apiErrors = new ApiErrors(errorMessage);
         return new ResponseEntity<>(apiErrors, statusCode);
     }

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TurmaService } from './../../shared/services/turma.service';
 import { AulaService } from './../../shared/services/aula.service';
 import { Turma } from './../../shared/entity/Turma';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-turma',
@@ -15,6 +15,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./turma.component.css']
 })
 export class TurmaComponent implements OnInit {
+
+  @ViewChild('closebutton') closebutton;
 
   turma: Turma = new Turma();
 
@@ -26,8 +28,9 @@ export class TurmaComponent implements OnInit {
   aulaAoVivo: Aula = new Aula();
   isAulaAoVivo: boolean = false;
 
-  isProfessor: boolean = false;
 
+  isProfessor: boolean = false;
+  selectedAula: Aula = new Aula();
 
   constructor(
     private globals: Global,
@@ -146,6 +149,25 @@ export class TurmaComponent implements OnInit {
 
   agendarAula() {
 
+  }
+
+  deletarAula() {
+    this.aulaService.delete(this.selectedAula).subscribe(
+      (response) => {
+        this.proximasaulas.splice(this.proximasaulas.indexOf(this.selectedAula), 1);
+        this.toast.showSuccess('Aula deletada com sucesso!')
+        this.closebutton.nativeElement.click();
+      },
+      (erroResponse) => {
+        erroResponse.error.erros.forEach((e) => {
+          this.toast.showErrorTitle(e, 'Erro Interno!');
+        })
+      }
+    )
+  }
+
+  selectAula(aula) {
+    this.selectedAula = aula;
   }
 
 }

@@ -109,8 +109,8 @@
                                     <th scope="row">{{ a.titulo }}</th>
                                     <td *ngIf="!isProfessor">{{ turma.nomeProfessor }}</td>
                                     <td>{{ a.dataAula | localDateTime }}</td>
-                                    <td *ngIf="isProfessor" class="text-center">
-                                        <a class="mr-1" title="Deletar" style="cursor: pointer; color: red;"><i class="fas fa-trash fa-lg"></i></a>
+                                    <td *ngIf="isProfessor" class="text-center" (click)="selectAula(a)">
+                                        <a class="mr-1" title="Deletar" style="cursor: pointer; color: red;" data-toggle="modal" data-target="#deleteAula"><i class="fas fa-trash fa-lg"></i></a>
                                         <a class="mr-1" title="Re-agendar" style="cursor: pointer; color: black;"><i class="far fa-calendar-check  fa-lg"></i></a>
                                         <a title="Editar" style="cursor: pointer;"><i class="fas fa-pen  fa-lg"></i></a>
                                     </td>
@@ -119,6 +119,27 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAula" tabindex="-1" aria-labelledby="deleteAulaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Confirmar exclusão</h1>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Deseja realmente excluir aula {{ selectedAula.titulo }} programada para {{ selectedAula.dataAula | localDateTime}}?</h3>
+                <h4 class="font-weight-bold" style="color: red;"> Esta ação não pode ser desfeita!</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="deletarAula()">Confirmar</button>
             </div>
         </div>
     </div>
