@@ -10,7 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface PublicacaoRepository extends JpaRepository<Publicacao, Long> {
-    Optional<List<Publicacao>> findAllByTurmaId(Long idTurma);
+
+    Optional<List<Publicacao>> findAllByTurmaIdOrderByDataDesc(Long idTurma);
 
     @Query(nativeQuery = true, value = "SELECT case when (count(p.REPLIES_ID) = 0)  then true else false end FROM PUBLICACAO_REPLIES p WHERE p.REPLIES_ID = ?1")
     boolean isReply(Long id);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,6 +22,8 @@ class PublicacaoDTO {
 
     @NotBlank(message = "{campo.notBlank}")
     private Long turmaId;
+
+    private LocalDateTime data;
 
     private List<PublicacaoDTO> replies;
 

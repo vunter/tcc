@@ -76,12 +76,12 @@ export class HomeAlunoComponent implements OnInit {
   }
 
   selectTurma(turma: Turma) {
-    this.router.navigate(['/turma'], { queryParams: { id: turma.id } });
+    this.router.navigate(['/turma'], { queryParams: { id: turma.id }, state: { turma: turma } });
   }
 
   entrarTurmaPublic(turma: Turma) {
     this.turmaService.entrarEmTurma(turma.codigo, this.globals.user).subscribe(
-      (response) => this.router.navigate(['turma'], { queryParams: { id: response.id } })
+      (response) => this.router.navigate(['turma'], { queryParams: { id: response.id }, state: { turma: response } })
     );
   }
 

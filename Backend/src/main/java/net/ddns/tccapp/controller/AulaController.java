@@ -40,6 +40,10 @@ public class AulaController {
         return service.listarAulasAoVivoPorAlunoId(id);
     }
 
+    @GetMapping("iniciada/turma/{id}")
+    public AulaDTO getAulaIniciadaPorTurma(@PathVariable("id") Long id) {
+        return service.findIniciadaPorTurmaId(id);
+    }
 
     @PostMapping("salvar")
     public Aula save(@RequestBody @Valid AulaDTO dto) {

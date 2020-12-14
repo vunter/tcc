@@ -5,5 +5,8 @@ export class Publicacao {
   autor: User;
   conteudo: string;
   turmaId: number;
+  data: string;
   replies: Publicacao[];
+
+  isReplying: boolean = false;
 }

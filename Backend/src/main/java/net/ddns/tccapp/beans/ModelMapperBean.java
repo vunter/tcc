@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Configuration
 public class ModelMapperBean {
@@ -47,6 +49,7 @@ public class ModelMapperBean {
                 pub.setAutor(usuarioRepository.findById(publicacaoDTO.getAutor().getId()).orElse(null));
                 pub.setTurma(turmaRepository.findById(publicacaoDTO.getTurmaId()).orElse(null));
                 pub.setConteudo(publicacaoDTO.getConteudo());
+                pub.setData(publicacaoDTO.getData());
 
                 return pub;
             }
@@ -62,6 +65,7 @@ public class ModelMapperBean {
                 turma.setTitulo(turmaDTO.getTitulo());
                 turma.setDescricao(turmaDTO.getDescricao());
                 turma.setCapacidade(turmaDTO.getCapacidade());
+
                 return turma;
             }
         };

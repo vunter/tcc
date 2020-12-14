@@ -18,6 +18,10 @@ export class TurmaService {
     private globals: Global
   ) { }
 
+  getTurmaById(idTurma: number): Observable<Turma> {
+    return this.api.get<Turma>(this.apiURL + idTurma);
+  }
+
   getPublicacoes(idturma): Observable<Publicacao[]> {
     const params = new HttpParams()
       .set('idTurma', idturma);

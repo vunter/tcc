@@ -21,6 +21,10 @@ export class AulaService {
       return this.http.get<any>(this.apiURL + id);
     }
 
+    getAulaIniciadaturma(idTurma: number): Observable<Aula> {
+      return this.http.get<Aula>(this.apiURL + 'iniciada/turma/' + idTurma);
+    }
+
     listByTurmaId(idTurma: number): Observable<Aula[]> {
       return this.http.get<Aula[]>(this.apiURL + 'turma/' + idTurma);
     }

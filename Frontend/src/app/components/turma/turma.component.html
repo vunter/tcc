@@ -1,92 +1,119 @@
-<div class="container.fluid">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="card bg-light mb-3">
-                <div class="card-header">
-                    <h1>Turma</h1>
+<div class="container-fluid">
+    <div class="row d-md-block">
+        <div class="col-md-4 float-right mb-2">
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <button type="button" value="Enviar" *ngIf="isProfessor" (click)="enviarPub()" class="btn btn-success float-right">
+                        Agendar Aula
+                    </button>
                 </div>
-                <div class="card-body">
-
-                    <div><br><input type="text" name="publique" id="publique" placeholder="Publique algo..."
-                            style="display:flex;margin: auto; padding: 1.1rem; width: 42rem; ">
-                    </div>
-                    <div>
-                        <input type="button" value="Limpar" class="btn btn-info">
-                    </div>
-                    <div>
-                        <input type="button" value="Enviar" class="btn btn-success">
-                    </div>
-
-                    <div class="alert alert-warning aula-andamento" role="alert">
-                        EXISTE UMA AULA EM ANDAMENTO CLIQUE AQUI PARA INGRESSAR.
-                    </div>
-
-                    <div>
-                        <ul>
-                            <li>
-                                <h3>Nome de quem publicou</h3>
-                                <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis doloribus
-                                    sequi,
-                                    laborum
-                                    beatae
-                                    est, cupiditate illum asperiores ut corporis aliquam sint exercitationem ratione
-                                    eos.
-                                    Reprehenderit
-                                    dignissimos nemo veniam eaque suscipit.</P>
-                            </li>
-
-                        </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="height:20rem;width:100%;">
+                        <div class="info-prof">
+                            <a class="float-right" title="Editar" style="cursor: pointer; color: black;" *ngIf="isProfessor"><i class="fas fa-edit"></i></a>
+                            <h2>
+                                Professor: <br />{{turma.nomeProfessor }}
+                            </h2>
+                            <h2>Sobre a turma:</h2>
+                            <br />
+                            <h3 class="ml-3 mr-3">
+                                {{ turma.descricao }}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-8 float-left order-1">
 
-
-        <div class="col-md-3">
-            <div class="float-right">
-
-                <div class="info-prof">
-
-                    <p>
-                        Info do professor:
-                    </p>
-
-                    <p>
-                        Info turma:
-                    </p>
-
+            <div style="height:50rem;width:100%;">
+                <div class="card bg-light mb-3" style="height: 50rem;">
+                    <div class="card-header" style="background-color: #D9EDF7;">
+                        <h1>Turma {{ turma.titulo }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <textarea type="text" [(ngModel)]="pubText" name="publique" id="publique" placeholder="Publique algo..." style="width: 100%; height: 4.5rem; max-height: 4.5rem; min-height: 100%; "></textarea>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" value="Limpar" (click)="pubText = ''" class="btn btn-info float-right text-center mb-1" style="height: 1.8rem; text-align: center; width: 5rem;">
+                                <input type="button" value="Enviar" (click)="enviarPub()" class="btn btn-success float-right" style="text-align: center; width: 5rem;">
+                            </div>
+                        </div>
+                        <div class="alert alert-info aula-andamento font-weight-bold" role="alert" *ngIf="isAulaAoVivo" (click)="ingressarAula()">
+                            EXISTE UMA AULA EM ANDAMENTO, CLIQUE AQUI PARA INGRESSAR!
+                        </div>
+                        <div>
+                            <ul>
+                                <li *ngFor="let pub of pubs">
+                                    <div class="card bg-light mb-3" style="max-width: 100%;">
+                                        <div class="card-header" style="background-color: #FCF8E3;">
+                                            {{pub.autor.nome}} <span class="float-right">{{ pub.data == 'Agora' ?
+                                                pub.data : pub.data|
+                                                localDateTime }}</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">{{pub.conteudo}}</p>
+                                            <a class="float-right" title="Responder" style="cursor: pointer;" (click)="pub.isReplying = !pub.isReplying"><i
+                                                    class="fas fa-reply"></i></a>
+                                        </div>
+                                        <div class="card-footer" *ngIf="pub.replies.length || pub.isReplying">
+                                            <div class="row mb-3" *ngIf="pub.isReplying">
+                                                <div class="col-md-11">
+                                                    <textarea type="text" name="responda" [(ngModel)]="replyText" id="responda" placeholder="Escreva sua resposta..." style="width: 100%; height: 2rem; max-height: 2rem; min-height: 100%; "></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input type="button" (click)="pub.isReplying = false" value="Cancelar" class="btn btn-danger float-right text-center mb-1" style="height: 1.8rem; text-align: center; width: 4.85rem;">
+                                                    <input type="button" (click)="enviarReply(pub)" value="Enviar" class="btn btn-success float-right" style="text-align: center; width: 4.85rem;">
+                                                </div>
+                                            </div>
+                                            <div class="card bg-light mb-1" style="max-width: 100%;" *ngFor="let replie of pub.replies">
+                                                <div class="card-header" style="background-color: #FCF8E3;">
+                                                    {{replie.autor.nome}} <span class="float-right">{{ replie.data ==
+                                                        'Agora' ? replie.data : replie.data| localDateTime
+                                                        }}</span></div>
+                                                <div class="card-body">
+                                                    <p class="card-text">{{ replie.conteudo }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="card">
+            </div>
+        </div>
+        <div class="col-md-4 float-right order-0">
+            <div style="height:27rem;width:100%;">
+                <div class="card" style="height: 100%; max-height: 100%;">
                     <div class="card-header">
                         <h2>Próximas Aulas</h2>
                     </div>
-
-                    <div class="card-body">
+                    <div class="card-body" style="overflow: scroll; max-height: 22rem;">
                         <table class="table table-bordered table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Ordem Aula</th>
-                                    <th scope="col">Professor</th>
-                                    <th scope="col">Data/Horário</th>
+                                    <th scope="col">Título</th>
+                                    <th scope="col" *ngIf="!isProfessor">Professor</th>
+                                    <th scope="col">Data e Hora</th>
+                                    <th scope="col" *ngIf="isProfessor">Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1°</th>
-                                    <td>Otto</td>
-                                    <td>Hoje `as 13:00 hrs</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2°</th>
-                                    <td>Thornton</td>
-                                    <td>Amanhã às 15:00 hrs</td>
-                                </tr>
-
-                                <tr>
-                                    <th scope="row">3°</th>
-                                    <td>Larry</td>
-                                    <td>25/04/2021</td>
+                                <tr *ngFor="let a of proximasaulas">
+                                    <th scope="row">{{ a.titulo }}</th>
+                                    <td *ngIf="!isProfessor">{{ turma.nomeProfessor }}</td>
+                                    <td>{{ a.dataAula | localDateTime }}</td>
+                                    <td *ngIf="isProfessor" class="text-center">
+                                        <a class="mr-1" title="Deletar" style="cursor: pointer; color: red;"><i class="fas fa-trash fa-lg"></i></a>
+                                        <a class="mr-1" title="Re-agendar" style="cursor: pointer; color: black;"><i class="far fa-calendar-check  fa-lg"></i></a>
+                                        <a title="Editar" style="cursor: pointer;"><i class="fas fa-pen  fa-lg"></i></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

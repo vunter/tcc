@@ -62,11 +62,7 @@ public @Data class UsuarioDTO {
             this.cpf = ((Professor) usuario).getCpf();
     }
 
-    public void setRoles(Set<Role> roles) {
-
-        this.roles = roles.stream()
-                .filter(r -> !r.getId().equals(1L))
-                .map(Role::getDescricao)
-                .toArray(String[]::new);
+    public void setRoles(String[] roles) {
+       this.roles = roles;
     }
 }

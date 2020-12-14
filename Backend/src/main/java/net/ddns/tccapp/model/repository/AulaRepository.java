@@ -1,5 +1,6 @@
 package net.ddns.tccapp.model.repository;
 
+import net.ddns.tccapp.model.dto.AulaDTO;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
 import net.ddns.tccapp.model.entity.Aula;
@@ -23,4 +24,6 @@ public interface AulaRepository extends JpaRepository<Aula, Long> {
 
     @Query("SELECT a.blocos FROM Aula a WHERE a.id = ?1")
     List<Bloco> findBlocosById(Long idAula);
+
+    Optional<Aula> findByTurmaIdAndIniciadaTrueAndFinalizadaFalse(Long idTurma);
 }

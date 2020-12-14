@@ -39,7 +39,7 @@ public class AulaService {
 
     public List<Aula> findAllByTurma(Long id) {
         return repository.findAllByTurmaId(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não encontrada aulas para turma com id " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem aulas programadas para esta turma"));
     }
 
     public Aula salvar(Aula aula) {
@@ -50,7 +50,8 @@ public class AulaService {
     }
 
     public ProfessorDTO findProfessorByAula(Long aulaId) {
-        return repository.findProfessorByAula(aulaId).get();
+        return repository.findProfessorByAula(aulaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Professor não encontrado."));
     }
 
     public List<BlocoDTO> findBlocosByAula(Long idAula) {
@@ -122,5 +123,11 @@ public class AulaService {
         return query.fetch().stream()
                 .map(a -> modelMapper.map(a, AulaDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public AulaDTO findIniciadaPorTurmaId(Long id) {
+        return repository.findByTurmaIdAndIniciadaTrueAndFinalizadaFalse(id)
+                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma aula iniciada"));
     }
 }
