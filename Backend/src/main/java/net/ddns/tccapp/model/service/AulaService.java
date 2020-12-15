@@ -37,16 +37,28 @@ public class AulaService {
         return repository.findAll();
     }
 
-    public List<Aula> findAllByTurma(Long id) {
-        return repository.findAllByTurmaIdAndIniciadaFalse(id)
+    public List<AulaDTO> findAllByTurma(Long id) {
+        return repository.findAllByTurmaIdAndIniciadaFalseOrderByDataAula(id)
+                .map(aulas -> aulas.stream()
+                        .map(aula -> modelMapper.map(aula, AulaDTO.class))
+                        .collect(Collectors.toList())
+                )
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem aulas programadas para esta turma"));
     }
 
-    public Aula salvar(Aula aula) {
+    public AulaDTO salvar(Aula aula) {
 
         aula.setDuracao(DuracaoConverter.minuteToSeconds(aula.getDuracao()));
 
-        return repository.save(aula);
+        return modelMapper.map(repository.save(aula), AulaDTO.class);
+    }
+
+    public AulaDTO edit(AulaDTO dto) {
+        return repository.findById(dto.getId())
+                .map(a -> {
+                    dto.setId(a.getId());
+                    return modelMapper.map(repository.save(modelMapper.map(dto, Aula.class)), AulaDTO.class);
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao editar aula"));
     }
 
     public ProfessorDTO findProfessorByAula(Long aulaId) {

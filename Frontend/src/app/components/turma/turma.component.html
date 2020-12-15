@@ -3,8 +3,11 @@
         <div class="col-md-4 float-right mb-2">
             <div class="row mb-1">
                 <div class="col-md-12">
-                    <button type="button" value="Enviar" *ngIf="isProfessor" (click)="enviarPub()" class="btn btn-success float-right">
-                        Agendar Aula
+                    <button type="button" value="Iniciar Próxima Aula" *ngIf="isProfessor" (click)="iniciarProximaAula()" class="btn btn-success float-right ml-2">
+                    Iniciar Próxima Aula
+                </button>
+                    <button type="button" value="Agendar Aula" *ngIf="isProfessor" (click)="agendarAula()" class="btn btn-primary float-right">
+                        + Nova Aula
                     </button>
                 </div>
             </div>
@@ -95,7 +98,7 @@
                         <h2>Próximas Aulas</h2>
                     </div>
                     <div class="card-body" style="overflow: scroll; max-height: 22rem;">
-                        <table class="table table-bordered table">
+                        <table class="table table-bordered table" *ngIf="proximasaulas.length">
                             <thead>
                                 <tr>
                                     <th scope="col">Título</th>
@@ -111,12 +114,15 @@
                                     <td>{{ a.dataAula | localDateTime }}</td>
                                     <td *ngIf="isProfessor" class="text-center" (click)="selectAula(a)">
                                         <a class="mr-1" title="Deletar" style="cursor: pointer; color: red;" data-toggle="modal" data-target="#deleteAula"><i class="fas fa-trash fa-lg"></i></a>
-                                        <a class="mr-1" title="Re-agendar" style="cursor: pointer; color: black;"><i class="far fa-calendar-check  fa-lg"></i></a>
-                                        <a title="Editar" style="cursor: pointer;"><i class="fas fa-pen  fa-lg"></i></a>
+                                        <a class="mr-1" title="Re-agendar" style="cursor: pointer; color: black;" data-toggle="modal" data-target="#reagendar"><i class="far fa-calendar-check  fa-lg"></i></a>
+                                        <a title="Editar" style="cursor: pointer;" (click)="agendarAula(a)"><i class="fas fa-pen  fa-lg"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div *ngIf="!proximasaulas.length" class="text-center">
+                            <h1>Nenhuma aula futura encontrada</h1>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +135,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title">Confirmar exclusão</h1>
-                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" #closebuttondelete class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -140,6 +146,29 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" (click)="deletarAula()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reagendar" tabindex="-1" aria-labelledby="reagendarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Reagendar Aula</h1>
+                <button type="button" #closebuttonreagendar class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <h3>Selecione o novo horário para a aula {{ selectedAula.titulo }} programada para {{ selectedAula.dataAula | localDateTime}}</h3>
+                <div class="form-group">
+                    <input type="datetime-local" class="form-control" [(ngModel)]="newDate" id="birthdaytime" name="birthdaytime">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="reagendarAula()">Confirmar</button>
             </div>
         </div>
     </div>

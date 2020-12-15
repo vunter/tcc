@@ -1,3 +1,5 @@
+import { BlocosComponent } from './components/blocos/blocos.component';
+import { GerenciarAulasComponent } from './components/gerenciar-aulas/gerenciar-aulas.component';
 import { NotFoundComponent } from './template/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';
 import { HomeComponentPublic } from './public-components/home-public/home-public.component';
@@ -21,7 +23,10 @@ const routes: Routes = [
   { path: '', component: MainComponent, children: [
     { path: 'home', component: HomeComponent },
     { path: 'turma', component: TurmaComponent },
-    { path: 'aula', component: AulaComponent }
+    { path: 'aula', component: AulaComponent },
+    { path: 'gerenciar/aulas', component: GerenciarAulasComponent },
+    { path: 'gerenciar/blocos', component: BlocosComponent }
+
   ], canActivate: [AuthGuard]},
   { path: '**', component: NotFoundComponent }
 ];

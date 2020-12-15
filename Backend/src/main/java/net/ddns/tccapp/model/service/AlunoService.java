@@ -31,7 +31,6 @@ public class AlunoService {
     }
 
     public Aluno edit(AlunoDTO aluno) {
-
         return repository.findById(aluno.getId())
                 .map(a -> {
                     aluno.setId(a.getId());

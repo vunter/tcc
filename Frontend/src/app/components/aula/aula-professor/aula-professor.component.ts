@@ -78,12 +78,11 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     let that = this;
 
-    jQuery(function ($) {
-      function pad(val) { return val > 9 ? val : "0" + val; }
-      $("#seconds").html(pad(that.aula.duracao % 60));
-      $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)).toString());
 
-    });
+    function pad(val) { return val > 9 ? val : "0" + val; }
+    $("#seconds").html(pad(that.aula.duracao % 60));
+    $("#minutes").html(parseInt(pad(Number(that.aula.duracao) / 60)).toString());
+
     this.populaAlunosByTurma();
 
   }
@@ -91,7 +90,7 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
   populaAlunosByTurma() {
     let that = this;
     this.globalMsg.id = 0;
-    this.alunoService.listByTurma(this.aula.id).subscribe(
+    this.alunoService.listByTurma(this.aula.turmaId).subscribe(
       (response) => {
         this.alunos = response;
         this.chat.createMapAlunosMensagens(response);
@@ -136,7 +135,6 @@ export class AulaProfessorComponent implements OnInit, AfterViewInit {
           clearInterval(that.interval);
         }
       }, 1000);
-
     });
     this.started = true;
   }

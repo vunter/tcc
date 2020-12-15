@@ -16,7 +16,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class TurmaComponent implements OnInit {
 
-  @ViewChild('closebutton') closebutton;
+  @ViewChild('closebuttondelete') closebuttonDelete;
+    @ViewChild('closebuttonreagendar') closebuttonReagendar;
+
 
   turma: Turma = new Turma();
 
@@ -31,6 +33,7 @@ export class TurmaComponent implements OnInit {
 
   isProfessor: boolean = false;
   selectedAula: Aula = new Aula();
+  newDate: string;
 
   constructor(
     private globals: Global,
@@ -53,6 +56,9 @@ export class TurmaComponent implements OnInit {
     if (history.state.turma) {
       this.turma = history.state.turma;
     } else {
+      if(!turmaId) {
+        this.toast.showErrorTitle('Nenhuma turma informada!', 'Erro de carregamento');
+      }
       this.turmaService.getTurmaById(turmaId).subscribe(
         (response) => this.turma = response,
         (errorResponse) => {
@@ -147,8 +153,27 @@ export class TurmaComponent implements OnInit {
     this.router.navigate(['/aula'], { queryParams: { id: this.aulaAoVivo.id } })
   }
 
-  agendarAula() {
+  agendarAula(aula?) {
+    this.router.navigate(['/gerenciar/aulas'], { state: { aula: aula ? aula : new Aula() } });
+  }
 
+  reagendarAula() {
+    this.selectedAula.dataAula = this.newDate;
+    this.aulaService.edit(this.selectedAula).subscribe(
+      (response) => {
+        this.toast.showSuccess('Data da aula atualizada com sucesso!');
+        this.proximasaulas.sort((a, b) => {
+          let dateA = new Date(a.dataAula); let dateB = new Date(b.dataAula);
+          return dateA.getTime() - dateB.getTime();
+        })
+        this.closebuttonReagendar.nativeElement.click();
+      },
+      (errorResponse) => {
+        errorResponse.error.erros.forEach((e) => {
+          this.toast.showError(e);
+        })
+      }
+    )
   }
 
   deletarAula() {
@@ -156,7 +181,7 @@ export class TurmaComponent implements OnInit {
       (response) => {
         this.proximasaulas.splice(this.proximasaulas.indexOf(this.selectedAula), 1);
         this.toast.showSuccess('Aula deletada com sucesso!')
-        this.closebutton.nativeElement.click();
+        this.closebuttonDelete.nativeElement.click();
       },
       (erroResponse) => {
         erroResponse.error.erros.forEach((e) => {
@@ -164,6 +189,10 @@ export class TurmaComponent implements OnInit {
         })
       }
     )
+  }
+
+  iniciarProximaAula() {
+    this.router.navigate(['/aula'], { queryParams: { id: this.proximasaulas[0].id } })
   }
 
   selectAula(aula) {

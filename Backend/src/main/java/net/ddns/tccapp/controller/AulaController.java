@@ -26,7 +26,7 @@ public class AulaController {
     }
 
     @GetMapping("turma/{id}")
-    public List<Aula> listaAulaPorTurmaid(@PathVariable("id") Long id) {
+    public List<AulaDTO> listaAulaPorTurmaid(@PathVariable("id") Long id) {
 
         return service.findAllByTurma(id);
     }
@@ -47,8 +47,13 @@ public class AulaController {
     }
 
     @PostMapping("salvar")
-    public Aula save(@RequestBody @Valid AulaDTO dto) {
+    public AulaDTO save(@RequestBody @Valid AulaDTO dto) {
         return service.salvar(modelMapper.map(dto, Aula.class));
+    }
+
+    @PutMapping("edit")
+    public AulaDTO edit(@RequestBody @Valid AulaDTO dto) {
+        return service.edit(dto);
     }
 
     @DeleteMapping("delete/{id}")

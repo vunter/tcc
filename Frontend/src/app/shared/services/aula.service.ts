@@ -37,6 +37,10 @@ export class AulaService {
       return this.http.post<any>(this.apiURL + 'salvar', aula);
     }
 
+    edit(aula: Aula): Observable<any> {
+      return this.http.put<any>(this.apiURL + 'edit', aula);
+    }
+
     delete(aula: Aula): Observable<any> {
       return this.http.delete<any>(this.apiURL + 'delete/' + aula.id)
     }
