@@ -3,4 +3,5 @@ export class Bloco {
   titulo: string;
   conteudo: string;
   professorId: number;
+  quantidade?: number;
 }

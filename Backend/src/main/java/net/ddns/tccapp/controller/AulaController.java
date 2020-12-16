@@ -77,4 +77,9 @@ public class AulaController {
         return service.iniciarAula(idAula);
     }
 
+    @GetMapping("list/professor/{id}")
+    public List<AulaDTO> listarAulasPorProfessor(@PathVariable("id") Long id) {
+        return service.findAulasByProfessor(id);
+    }
+
 }

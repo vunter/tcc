@@ -1,3 +1,4 @@
+import { PerfilGuard } from './perfil.guard';
 import { BlocosComponent } from './components/blocos/blocos.component';
 import { GerenciarAulasComponent } from './components/gerenciar-aulas/gerenciar-aulas.component';
 import { NotFoundComponent } from './template/not-found/not-found.component';
@@ -16,18 +17,20 @@ import { NgModule } from '@angular/core';
 import { CadastroComponent } from './public-components/cadastro/cadastro.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent },
   { path: 'cadastro', component: CadastroComponent },
   { path: 'sobre', component: SobreComponent },
   { path: '', component: HomeComponentPublic },
-  { path: '', component: MainComponent, children: [
-    { path: 'home', component: HomeComponent },
-    { path: 'turma', component: TurmaComponent },
-    { path: 'aula', component: AulaComponent },
-    { path: 'gerenciar/aulas', component: GerenciarAulasComponent },
-    { path: 'gerenciar/blocos', component: BlocosComponent }
+  {
+    path: '', component: MainComponent, children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'turma', component: TurmaComponent },
+      { path: 'aula', component: AulaComponent },
+      { path: 'gerenciar/aulas', component: GerenciarAulasComponent, canActivate: [PerfilGuard] },
+      { path: 'gerenciar/blocos', component: BlocosComponent, canActivate: [PerfilGuard] }
 
-  ], canActivate: [AuthGuard]},
+    ], canActivate: [AuthGuard]
+  },
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -39,6 +42,6 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) { }
 
 }

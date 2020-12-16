@@ -1,1 +1,175 @@
-<p>gerenciar-aulas works!</p>
+<div class="container.fluid">
+    <mat-accordion class="card bg-light mb-4" multi>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header class="card-header">
+                <mat-panel-title>
+                    Editar informações da aula
+                </mat-panel-title>
+                <mat-panel-description>
+                    Clique aqui para {{ panelOpenState ? 'fechar' : 'expandir'}} o formulário de edição de aula
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <form *ngIf="aulaForm" [formGroup]="aulaForm" (submit)="submit()" class="card-body">
+                <div class="row ">
+                    <div class="col-md-3">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Título da aula
+                            </mat-label>
+                            <input matInput formControlName="titulo" required>
+                            <mat-error *ngIf="aulaForm.controls.titulo.touched && aulaForm.controls.titulo.invalid">
+                                <span *ngIf="aulaForm.controls.titulo.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Turma </mat-label>
+                            <input type="text" matInput [formControl]="aulaForm.controls.turma" [matAutocomplete]="autoTurma" required>
+                            <mat-autocomplete #autoTurma="matAutocomplete" [displayWith]="displayTur">
+                                <mat-option *ngFor="let option of filteredOptionsTurma | async" [value]="option">
+                                    {{option.titulo}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <input matInput type="datetime-local" formControlName="dataAula" required>
+                            <mat-error *ngIf="aulaForm.controls.dataAula.touched && aulaForm.controls.dataAula.invalid">
+                                <span *ngIf="aulaForm.controls.dataAula.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Duração (em minutos)</mat-label>
+                            <input matInput #duracao formControlName="duracao" type="number" required>
+                            <mat-hint>Duração: {{ mathMinutes(duracao.value) }} minutos e {{ mathSeconds(duracao.value) }} segundos
+                            </mat-hint>
+                            <mat-error *ngIf="aulaForm.controls.duracao.touched && aulaForm.controls.duracao.invalid">
+                                <span *ngIf="aulaForm.controls.duracao.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Quantidade máxima de blocos </mat-label>
+                            <input matInput formControlName="quantidadeMaxBlocos" type="number">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Objetivo </mat-label>
+                            <textarea matInput formControlName="objetivo" style="max-height: 15rem; min-height: 3rem;" required></textarea>
+                            <mat-error *ngIf="aulaForm.controls.objetivo.touched && aulaForm.controls.objetivo.invalid">
+                                <span *ngIf="aulaForm.controls.objetivo.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Gabarito </mat-label>
+                            <textarea matInput formControlName="gabarito" style="max-height: 15rem; min-height: 3rem;"></textarea>
+                            <mat-error *ngIf="aulaForm.controls.gabarito.touched && aulaForm.controls.gabarito.invalid">
+                                <span *ngIf="aulaForm.controls.gabarito.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Blocos pré-definidos</h2>
+                        <mat-form-field style="width: 30%;">
+                            <mat-label> Título do bloco </mat-label>
+                            <input type="text" matInput [formControl]="aulaForm.controls.bloco" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                    {{option.titulo}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-form-field class="ml-2 mr-2">
+                            <mat-label> Quantidade </mat-label>
+                            <input matInput formControlName="quantidade" type="number">
+                        </mat-form-field>
+                        <button mat-raised-button color="basic" type="button" (click)="adicionarBloco()" style="background-color: rgb(45, 189, 45);color: white;">+ Adicionar</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="d-flex">
+                                        <th scope="col" class="col-6">Bloco</th>
+                                        <th scope="col" class="col-5">Quantidade</th>
+                                        <th scope="col" class="col-1">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="d-flex" *ngFor="let b of blocosAula">
+                                        <td class="col-6">{{ b.titulo }}</td>
+                                        <td class="col-5">{{ b.quantidade }}</td>
+                                        <td class="col-1">
+                                            <a class="mr-1" title="Remover" style="cursor: pointer; color: red;" (click)="blocosAula.splice(blocosAula.indexOf(b), 1)"><i class="fas fa-times fa-lg"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="float-right ml-3" mat-raised-button color="basic" type="submit" style="background-color: rgb(45, 189, 45);color: white;">Salvar</button>
+                        <button class="float-right" (click)="closeEditor()" mat-raised-button color="basic" type="button" style="background-color: red;color: white;">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="row">
+        <div class="col-md-12">
+            <button mat-button mat-flat-button color="primary">Add Row</button>
+
+            <table mat-table [dataSource]="dataSource" matSort #mytable class="my-table mat-elevation-z8" style="width: 100%;">
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="titulo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Titulo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="duracao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Duracao </th>
+                    <td mat-cell *matCellDef="let element"> {{element.duracao}} </td>
+                </ng-container>
+                <ng-container matColumnDef="turmaId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Turma </th>
+                    <td mat-cell *matCellDef="let element"> {{element.turmaId}} </td>
+                </ng-container>
+                <ng-container matColumnDef="dataAula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dataAula | localDateTime}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Ações">
+                    <th mat-header-cell *matHeaderCellDef> Ações </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a>Edit</a> |
+                        <a>Delete</a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

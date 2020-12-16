@@ -17,8 +17,7 @@ import java.util.stream.Collector;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public @Data
-class UserVO {
+public @Data class UserVO {
 
     private Long id;
 

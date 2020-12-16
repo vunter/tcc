@@ -153,4 +153,22 @@ public class AulaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível deletar aula!"));
 
     }
+
+    public List<AulaDTO> findAulasByProfessor(Long idProfessor) {
+        JPAQuery<Aula> query = new JPAQuery<>(entityManager);
+
+        QProfessor professor = QProfessor.professor;
+        QAula aula = QAula.aula;
+        QTurma turma = QTurma.turma;
+
+        query.from(aula)
+                .join(aula.turma, turma)
+                .join(turma.professor, professor)
+                .where(aula.finalizada.eq(false)
+                        .and(professor.id.eq(idProfessor)))
+                .orderBy(aula.dataAula.asc());
+        return query.fetch().stream()
+                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -29,6 +29,10 @@ export class AulaService {
       return this.http.get<Aula[]>(this.apiURL + 'turma/' + idTurma);
     }
 
+    listByProfessorId(idProfessor: number): Observable<Aula[]> {
+      return this.http.get<Aula[]>(this.apiURL + 'list/professor/' + idProfessor);
+    }
+
     list5ByAlunoId(idAluno: number): Observable<Aula[]> {
       return this.http.get<Aula[]>(this.apiURL + 'aluno/' + idAluno);
     }

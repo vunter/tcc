@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
+    public static final String USUARIO_NAO_ENCONTRADO = "Usuário não encontrado!";
     private final UsuarioRepository repository;
     private final AlunoService alunoService;
     private final ModelMapper modelMapper;
@@ -59,7 +60,7 @@ public class UsuarioService implements UserDetailsService {
         return repository
                 .findByUser(s)
                 .map(UserVO::new)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, USUARIO_NAO_ENCONTRADO));
     }
 
 
@@ -75,13 +76,13 @@ public class UsuarioService implements UserDetailsService {
     public UsuarioDTO findByIdDto(Long id) {
         return repository.findById(id)
                 .map(this::convertToDto)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, USUARIO_NAO_ENCONTRADO));
 
     }
 
     public Usuario findByIdEntity(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, USUARIO_NAO_ENCONTRADO));
     }
 
     private UsuarioDTO convertToDto(Usuario user) {
