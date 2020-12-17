@@ -26,7 +26,12 @@ export class BlocosService {
     return this.api.post<any>(this.apiURL + 'salvar', bloco);
   }
 
-  getQuantidade(): number {
-    return 90;
+  edit(bloco): Observable<Bloco> {
+    return null;
+
+  }
+
+  delete(bloco): Observable<Bloco> {
+    return null;
   }
 }

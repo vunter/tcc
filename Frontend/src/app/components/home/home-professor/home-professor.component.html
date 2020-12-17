@@ -1,12 +1,10 @@
 <h1 class="text-center mt-4">Bem Vindo!</h1>
 <ol class="breadcrumb mb-4">
-  <li class="breadcrumb-item active"><h4>Boas Vindas!</h4></li>
+    <li class="breadcrumb-item active">
+        <h4>Boas Vindas!</h4>
+    </li>
 </ol>
 
-<div *ngFor="let item of blocos">
-  <app-blocos [bloco]="item"></app-blocos>
-</div>
-
 <div *ngFor="let pub of pubs">
-{{ pub.conteudo }}
+    {{ pub.conteudo }}
 </div>

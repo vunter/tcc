@@ -19,5 +19,4 @@ public @Data class BlocoDTO {
 
     private Long professorId;
 
-
 }
