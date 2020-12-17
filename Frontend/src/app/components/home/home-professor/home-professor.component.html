@@ -1,10 +1,62 @@
-<h1 class="text-center mt-4">Bem Vindo!</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">
-        <h4>Boas Vindas!</h4>
-    </li>
-</ol>
+<div class="container.fluid">
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="card text-white bg-light mb-3">
+                <div class="card-header text-center" style="background-color: #337AB7; height: 4rem;">
+                    <span>
+            <div>
+              <h1>Minhas Turmas</h1>
+            </div>
+            <div>
+              <button [routerLink]="['/gerenciar/turmas']" type="button" class="btn btn-info float-right" style="position: relative;top: -3rem;">
+                + Criar nova turma
+              </button>
+            </div>
+          </span>
+                </div>
+                <div class="card-body" style="max-height: 15rem">
+                    <carousel [arrowsTheme]="'dark'" [loop]="true" *ngIf="turmas" style="z-index: 1;">
+                        <div class="carousel-cell" *ngFor="let item of turmas">
+                            <div class="card mt-2" style="height: 80%;width: 100%; background-color: #ddd; " (click)="selectTurma(item)">
+                                <div class="card-body ">
+                                    <h2 class="card-title text-center" style="color: black;">{{ item.nome }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </carousel>
 
-<div *ngFor="let pub of pubs">
-    {{ pub.conteudo }}
+                    <div class="card-header text-center" style="height: 12rem;" *ngIf="!turmas">
+                        <h1 class="vertical-middle" style="margin-top: 10%;">Ainda não faz parte de nenhuma turma!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-12 ">
+            <div class="card text-white bg-primary" style="height: 25rem;overflow-y: scroll;">
+                <div class="card-header text-center" style="background-color: #337AB7; height: 4rem;">
+                    <h2>Próximas Aulas</h2>
+                </div>
+                <div class="card-body" style="background-color: aliceblue;">
+                    <table class="table table-bordered table ">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col ">Título</th>
+                                <th scope="col ">Turma</th>
+                                <th scope="col ">Data e Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of proximasAulas" class="text-center">
+                                <th scope="row ">{{ a.titulo }}</th>
+                                <td>{{ a.turma.nome}}</td>
+                                <td>{{ a.dataAula | localDateTime }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

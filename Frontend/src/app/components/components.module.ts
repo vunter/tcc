@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { GerenciarAulasComponent } from './gerenciar-aulas/gerenciar-aulas.component';
 import { GerenciarAvaliacoesComponent } from './gerenciar-avaliacoes/gerenciar-avaliacoes.component';
 import { VerAvaliacoesComponent } from './ver-avaliacoes/ver-avaliacoes.component';
+import { GerenciarTurmasComponent } from './gerenciar-turmas/gerenciar-turmas.component';
 
 
 
@@ -16,7 +17,8 @@ import { VerAvaliacoesComponent } from './ver-avaliacoes/ver-avaliacoes.componen
     NewLinePipe,
     GerenciarAulasComponent,
     GerenciarAvaliacoesComponent,
-    VerAvaliacoesComponent
+    VerAvaliacoesComponent,
+    GerenciarTurmasComponent
   ],
   imports: [
     CommonModule,
