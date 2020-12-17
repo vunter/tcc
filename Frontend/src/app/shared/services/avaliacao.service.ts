@@ -19,4 +19,8 @@ export class AvaliacaoService {
   save(avaliacao: Avaliacao): Observable<Avaliacao> {
     return this.http.post<Avaliacao>(this.apiURL + 'salvar', avaliacao);
   }
+
+  findAllByAluno(id: number): Observable<Avaliacao[]> {
+    return this.http.get<Avaliacao[]>(this.apiURL + 'aluno/' + id);
+  }
 }

@@ -25,4 +25,6 @@ public @Data class AvaliacaoDTO {
     @NotNull(message = "{campo.obrigatorio}")
     private Long aulaId;
 
+    private AulaDTO aula;
+
 }

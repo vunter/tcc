@@ -34,6 +34,8 @@ public class ModelMapperBean {
         modelMapper.addConverter(blocoDTOToEntityConverter());
         modelMapper.addConverter(respostaToDtoConverter());
         modelMapper.addConverter(respostaDTOToEntityConverter());
+        modelMapper.addConverter(avaliacaoDTOAvaliacaoConverter());
+        modelMapper.addConverter(avaliacaoAvaliacaoDTOConverter());
 
         return modelMapper;
     }
@@ -208,6 +210,40 @@ public class ModelMapperBean {
                 resposta.setAula(aulaRepository.findById(dto.getAulaId()).orElse(null));
                 resposta.setPrint(dto.getPrint());
                 return resposta;
+            }
+        };
+    }
+
+    private Converter<AvaliacaoDTO, Avaliacao> avaliacaoDTOAvaliacaoConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected Avaliacao convert(AvaliacaoDTO dto) {
+                var avaliacao = new Avaliacao();
+
+                avaliacao.setId(dto.getId());
+                avaliacao.setJustificativa(dto.getJustificativa());
+                avaliacao.setNota(dto.getNota());
+                avaliacao.setAula(aulaRepository.findById(dto.getAulaId()).orElse(null));
+                avaliacao.setAluno(alunoRepository.findById(dto.getAlunoUserId()).orElse(null));
+
+                return avaliacao;
+            }
+        };
+    }
+    private Converter<Avaliacao, AvaliacaoDTO> avaliacaoAvaliacaoDTOConverter() {
+        return new AbstractConverter<>() {
+            @Override
+            protected AvaliacaoDTO convert(Avaliacao avaliacao) {
+                var dto = new AvaliacaoDTO();
+
+                dto.setId(avaliacao.getId());
+                dto.setJustificativa(avaliacao.getJustificativa());
+                dto.setAlunoUserId(avaliacao.getAluno().getId());
+                dto.setAulaId(avaliacao.getAula().getId());
+                dto.setNota(avaliacao.getNota());
+                dto.setAula(modelMapper().map(avaliacao.getAula(), AulaDTO.class));
+
+                return dto;
             }
         };
     }

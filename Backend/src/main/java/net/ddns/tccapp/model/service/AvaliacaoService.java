@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,10 @@ public class AvaliacaoService {
         return repository.save(modelMapper.map(dto, Avaliacao.class));
     }
 
-    public List<AvaliacaoDTO> findAllByAluno() {
-
+    public List<AvaliacaoDTO> findAllByAluno(Long idAluno) {
+        return repository.findAllByAlunoId(idAluno)
+                .stream()
+                .map(a -> modelMapper.map(a, AvaliacaoDTO.class))
+                .collect(Collectors.toList());
     }
 }
