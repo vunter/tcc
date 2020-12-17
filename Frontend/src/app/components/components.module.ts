@@ -5,6 +5,8 @@ import { BlocosComponent } from './blocos/blocos.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GerenciarAulasComponent } from './gerenciar-aulas/gerenciar-aulas.component';
+import { GerenciarAvaliacoesComponent } from './gerenciar-avaliacoes/gerenciar-avaliacoes.component';
+import { VerAvaliacoesComponent } from './ver-avaliacoes/ver-avaliacoes.component';
 
 
 
@@ -12,7 +14,9 @@ import { GerenciarAulasComponent } from './gerenciar-aulas/gerenciar-aulas.compo
   declarations: [
     BlocosComponent,
     NewLinePipe,
-    GerenciarAulasComponent
+    GerenciarAulasComponent,
+    GerenciarAvaliacoesComponent,
+    VerAvaliacoesComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +24,9 @@ import { GerenciarAulasComponent } from './gerenciar-aulas/gerenciar-aulas.compo
   ],
   exports: [
     BlocosComponent,
-    GerenciarAulasComponent
+    GerenciarAulasComponent,
+    GerenciarAvaliacoesComponent,
+    VerAvaliacoesComponent
   ],
   providers: [
     NewLinePipe,
