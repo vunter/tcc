@@ -41,7 +41,7 @@ export class HomeProfessorComponent implements OnInit {
       }
     );
 
-    this.aulaService.list5ByAlunoId(this.globals.user.id).subscribe(
+    this.aulaService.listByProfessorId(this.globals.user.id).subscribe(
       (response) => { this.proximasAulas = response }
     )
 

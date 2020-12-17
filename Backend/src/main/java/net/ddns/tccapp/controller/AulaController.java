@@ -36,6 +36,13 @@ public class AulaController {
         return service.findNext5ByAlunoId(id);
     }
 
+    @GetMapping("professor/{id}")
+    public List<AulaDTO> findNext5ByProfessorId(@PathVariable("id") Long id) {
+        return service.findNext5ByAlunoId(id);
+    }
+
+
+
     @GetMapping("iniciada/aluno/{id}")
     public List<AulaDTO> listarAulasAoVivoPorAlunoId(@PathVariable("id") Long id) {
         return service.listarAulasAoVivoPorAlunoId(id);

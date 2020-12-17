@@ -128,6 +128,27 @@ public class AulaService {
                 .collect(Collectors.toList());
     }
 
+    public List<AulaDTO> findNext5ByProfessorId(Long id) {
+        JPAQuery<Aula> query = new JPAQuery<>(entityManager);
+
+        QProfessor professor = QProfessor.professor;
+        QAula aula = QAula.aula;
+        QTurma turma = QTurma.turma;
+
+        query.from(aula)
+                .join(aula.turma, turma)
+                .join(turma.professor, professor)
+                .where(
+                        aula.finalizada.eq(false)
+                                .and(professor.id.eq(id))
+                )
+                .orderBy(aula.dataAula.asc())
+                .limit(5);
+        return query.fetch().stream()
+                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public List<AulaDTO> listarAulasAoVivoPorAlunoId(Long id) {
         JPAQuery<Aula> query = new JPAQuery<>(entityManager);
 

@@ -121,6 +121,7 @@ public class ModelMapperBean {
                 aulaDTO.setFinalizada(aula.getFinalizada());
                 aulaDTO.setIniciada(aula.getIniciada());
                 aulaDTO.setNomeProfessor(aula.getTurma().getProfessor().getNome());
+                aulaDTO.setTurma(modelMapper().map(aula.getTurma(), TurmaDTO.class));
                 return aulaDTO;
             }
         };
@@ -141,7 +142,8 @@ public class ModelMapperBean {
                 aula.setQuantidadeMaxBlocos(dto.getQuantidadeMaxBlocos());
                 aula.setFinalizada(dto.getFinalizada());
                 aula.setIniciada(dto.getIniciada());
-                aula.setTurma(turmaRepository.findById(dto.getTurmaId()).orElse(null));
+                aula.setTurma(turmaRepository.findById(dto.getTurmaId() != null ? dto.getTurmaId() : dto.getTurma().getId())
+                        .orElse(null));
                 return aula;
             }
         };
