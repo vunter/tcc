@@ -28,7 +28,7 @@
                             <input type="text" matInput [formControl]="aulaForm.controls.turma" [matAutocomplete]="autoTurma" required>
                             <mat-autocomplete #autoTurma="matAutocomplete" [displayWith]="displayTur">
                                 <mat-option *ngFor="let option of filteredOptionsTurma | async" [value]="option">
-                                    {{option.titulo}}
+                                    {{option.nome}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -43,9 +43,9 @@
                     </div>
                     <div class="col-md-2">
                         <mat-form-field class="form-field ml-2" appearance="outline">
-                            <mat-label> Duração (em minutos)</mat-label>
+                            <mat-label> Duração (em segundos)</mat-label>
                             <input matInput #duracao formControlName="duracao" type="number" required>
-                            <mat-hint>Duração: {{ mathMinutes(duracao.value) }} minutos e {{ mathSeconds(duracao.value) }} segundos
+                            <mat-hint> {{ mathMinutes(duracao.value) }} minutos e {{ mathSeconds(duracao.value) }} segundos
                             </mat-hint>
                             <mat-error *ngIf="aulaForm.controls.duracao.touched && aulaForm.controls.duracao.invalid">
                                 <span *ngIf="aulaForm.controls.duracao.errors.required">Campo obrigatório</span>
@@ -135,9 +135,9 @@
     </mat-accordion>
     <div class="row">
         <div class="col-md-12">
-            <button mat-button mat-flat-button color="primary">Add Row</button>
+            <button class="float-right mb-2" mat-button mat-flat-button (click)="newAula()" color="primary">+ Nova Aula</button>
 
-            <table mat-table [dataSource]="dataSource" matSort #mytable class="my-table mat-elevation-z8" style="width: 100%;">
+            <table mat-table [dataSource]="dataSource" matSort #table class="my-table mat-elevation-z8" style="width: 100%;">
 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
@@ -147,13 +147,17 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Titulo </th>
                     <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
                 </ng-container>
+                <ng-container matColumnDef="objetivo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Objetivo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.objetivo}} </td>
+                </ng-container>
                 <ng-container matColumnDef="duracao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Duracao </th>
-                    <td mat-cell *matCellDef="let element"> {{element.duracao}} </td>
+                    <td mat-cell *matCellDef="let element"> {{ mathMinutes(element.duracao) + 'm' + mathSeconds(element.duracao) + 's' }} </td>
                 </ng-container>
-                <ng-container matColumnDef="turmaId">
+                <ng-container matColumnDef="turma.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Turma </th>
-                    <td mat-cell *matCellDef="let element"> {{element.turmaId}} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.turma.nome }} </td>
                 </ng-container>
                 <ng-container matColumnDef="dataAula">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
@@ -162,14 +166,35 @@
                 <ng-container matColumnDef="Ações">
                     <th mat-header-cell *matHeaderCellDef> Ações </th>
                     <td mat-cell *matCellDef="let element">
-                        <a>Edit</a> |
-                        <a>Delete</a>
+                        <a (click)="selectAula(element)" title="Editar" style="cursor: pointer;"><i class="fas fa-pen"></i></a> |
+                        <a title="Deletar" (click)="aulaSelecionada = element" style="cursor: pointer; color: red;" data-toggle="modal" data-target="#deleteAula"><i class="fas fa-trash"></i></a>
                     </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAula" tabindex="-1" aria-labelledby="deleteAulaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Confirmar exclusão</h1>
+                <button type="button" #closebuttondelete class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <h3>Deseja realmente excluir aula {{ aulaSelecionada.titulo }} programada para {{ aulaSelecionada.dataAula | localDateTime}}?</h3>
+                <h4 class="font-weight-bold" style="color: red;"> Esta ação não pode ser desfeita!</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="deletarAula()">Confirmar</button>
+            </div>
         </div>
     </div>
 </div>

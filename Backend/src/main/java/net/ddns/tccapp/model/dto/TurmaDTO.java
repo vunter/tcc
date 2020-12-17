@@ -18,7 +18,7 @@ public @Data class TurmaDTO {
     private String codigo;
 
     @NotBlank(message = "{campo.notBlank}")
-    private String titulo;
+    private String nome;
 
     @NotBlank(message = "{campo.notBlank}")
     private String descricao;

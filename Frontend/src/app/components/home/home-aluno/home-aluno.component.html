@@ -19,7 +19,7 @@
                         <div class="carousel-cell" *ngFor="let item of turmas">
                             <div class="card mt-2" style="height: 80%;width: 100%; background-color: #ddd; " (click)="selectTurma(item)">
                                 <div class="card-body ">
-                                    <h2 class="card-title text-center" style="color: black;">{{ item.titulo }}</h2>
+                                    <h2 class="card-title text-center" style="color: black;">{{ item.nome }}</h2>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let t of turmaPublic" class="text-center">
-                                    <th scope="row ">{{ t.titulo }}</th>
+                                    <th scope="row ">{{ t.nome }}</th>
                                     <td>{{ t.nomeProfessor }}</td>
                                     <td>{{ t.qtdAlunosMatriculados + '/' + t.capacidade }}</td>
                                     <td class="justify-content-center text-center">

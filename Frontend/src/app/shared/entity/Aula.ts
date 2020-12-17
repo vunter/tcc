@@ -1,3 +1,5 @@
+import { Bloco } from './Bloco';
+import { Turma } from './Turma';
 export class Aula {
   id: number;
   dataAula: string;
@@ -10,4 +12,6 @@ export class Aula {
   finalizada: boolean;
 
   nomeProfessor: string;
+  turma: Turma;
+  blocos: Bloco[];
 }

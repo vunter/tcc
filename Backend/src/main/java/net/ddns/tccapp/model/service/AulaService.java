@@ -7,9 +7,10 @@ import lombok.RequiredArgsConstructor;
 import net.ddns.tccapp.model.dto.AulaDTO;
 import net.ddns.tccapp.model.dto.BlocoDTO;
 import net.ddns.tccapp.model.dto.ProfessorDTO;
+import net.ddns.tccapp.model.dto.TurmaDTO;
 import net.ddns.tccapp.model.entity.*;
 import net.ddns.tccapp.model.repository.AulaRepository;
-import net.ddns.tccapp.utils.converters.DuracaoConverter;
+import net.ddns.tccapp.model.repository.BlocoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class AulaService {
 
     private final AulaRepository repository;
+    private final BlocoRepository blocoRepository;
     private final ModelMapper modelMapper;
     private final EntityManager entityManager;
 
@@ -46,19 +48,34 @@ public class AulaService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existem aulas programadas para esta turma"));
     }
 
-    public AulaDTO salvar(Aula aula) {
-
-        aula.setDuracao(DuracaoConverter.minuteToSeconds(aula.getDuracao()));
-
-        return modelMapper.map(repository.save(aula), AulaDTO.class);
+    public AulaDTO salvar(AulaDTO dto) {
+        var aula = modelMapper.map(dto, Aula.class);
+        return updateBlocosEntity(dto, aula);
     }
 
     public AulaDTO edit(AulaDTO dto) {
-        return repository.findById(dto.getId())
+        Aula aula = repository.findById(dto.getId())
                 .map(a -> {
                     dto.setId(a.getId());
-                    return modelMapper.map(repository.save(modelMapper.map(dto, Aula.class)), AulaDTO.class);
+                    dto.setIniciada(a.getIniciada());
+                    dto.setFinalizada(a.getFinalizada());
+                    return repository.save(modelMapper.map(dto, Aula.class));
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao editar aula"));
+        return updateBlocosEntity(dto, aula);
+    }
+
+    private AulaDTO updateBlocosEntity(AulaDTO dto, Aula aula) {
+        aula.setBlocos(dto.getBlocos().stream()
+                .map(b -> blocoRepository.findById(b.getId())
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bloco não encontrado")))
+                .collect(Collectors.toList()));
+        aula = repository.save(aula);
+        dto = modelMapper.map(aula, AulaDTO.class);
+        dto.setTurma(modelMapper.map(aula.getTurma(), TurmaDTO.class));
+        dto.setBlocos(aula.getBlocos().stream()
+                .map(b -> modelMapper.map(b, BlocoDTO.class))
+                .collect(Collectors.toList()));
+        return dto;
     }
 
     public ProfessorDTO findProfessorByAula(Long aulaId) {
@@ -167,8 +184,16 @@ public class AulaService {
                 .where(aula.finalizada.eq(false)
                         .and(professor.id.eq(idProfessor)))
                 .orderBy(aula.dataAula.asc());
+
         return query.fetch().stream()
-                .map(a -> modelMapper.map(a, AulaDTO.class))
+                .map(a -> {
+                    var dto = modelMapper.map(a, AulaDTO.class);
+                    dto.setTurma(modelMapper.map(a.getTurma(), TurmaDTO.class));
+                    dto.setBlocos(a.getBlocos().stream()
+                            .map(b -> modelMapper.map(b, BlocoDTO.class))
+                            .collect(Collectors.toList()));
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 }

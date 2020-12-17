@@ -10,8 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
-
 @RequiredArgsConstructor
 @Configuration
 public class ModelMapperBean {
@@ -62,7 +60,7 @@ public class ModelMapperBean {
             protected Turma convert(TurmaDTO turmaDTO) {
                 var turma = new Turma();
                 turma.setProfessor(professorRepository.findById(turmaDTO.getProfessorUserId()).orElse(null));
-                turma.setTitulo(turmaDTO.getTitulo());
+                turma.setTitulo(turmaDTO.getNome());
                 turma.setDescricao(turmaDTO.getDescricao());
                 turma.setCapacidade(turmaDTO.getCapacidade());
 
@@ -78,7 +76,7 @@ public class ModelMapperBean {
                 var turmaDTO = new TurmaDTO();
                 turmaDTO.setProfessorUserId(turma.getProfessor().getId());
                 turmaDTO.setNomeProfessor(turma.getProfessor().getNome());
-                turmaDTO.setTitulo(turma.getTitulo());
+                turmaDTO.setNome(turma.getTitulo());
                 turmaDTO.setDescricao(turma.getDescricao());
                 turmaDTO.setCapacidade(turma.getCapacidade());
                 turmaDTO.setCodigo(turma.getCodigo());

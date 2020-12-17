@@ -48,7 +48,7 @@ public class AulaController {
 
     @PostMapping("salvar")
     public AulaDTO save(@RequestBody @Valid AulaDTO dto) {
-        return service.salvar(modelMapper.map(dto, Aula.class));
+        return service.salvar(dto);
     }
 
     @PutMapping("edit")

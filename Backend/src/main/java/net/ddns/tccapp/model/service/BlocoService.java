@@ -39,4 +39,9 @@ public class BlocoService {
     public List<BlocoDTO> findAllByAulaId(Long idAula) {
         return aulaService.findBlocosByAula(idAula);
     }
+
+    public Bloco findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bloco não encontrado"));
+    }
 }

@@ -2,7 +2,7 @@ export class Turma {
   id: number;
   capacidade: number;
   codigo: string;
-  titulo: string;
+  nome: string;
   descricao: string;
   publico: boolean;
   professorUserId: number;

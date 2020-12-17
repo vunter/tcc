@@ -116,12 +116,12 @@ export class AulaAlunoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     });
     let saved_id = localStorage.getItem('saved_id');
-    if (saved_id && this.aula.id) {
-      if (Number.parseInt(saved_id) == this.aula.id) {
-        let saved = localStorage.getItem('saved_workspace');
-        if (saved)
-          this.workspace.fromXml(saved);
-      }
+    if (saved_id && this.aula.id && Number.parseInt(saved_id) == this.aula.id) {
+
+      let saved = localStorage.getItem('saved_workspace');
+      if (saved)
+        this.workspace.fromXml(saved);
+
     } else {
       this.blocosProf.forEach((bloco) => {
         this.workspace.appendFromXml(bloco.conteudo);

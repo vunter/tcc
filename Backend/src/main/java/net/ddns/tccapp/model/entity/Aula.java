@@ -43,7 +43,7 @@ class Aula {
     @Column
     private Boolean finalizada;
 
-    @OneToMany
+    @ManyToMany
     private List<Bloco> blocos;
 
     @Column
@@ -53,5 +53,13 @@ class Aula {
     @OneToMany(mappedBy = "aula")
     @JsonBackReference
     private List<Resposta> respostas;
+
+    @PrePersist
+    private void prePersist() {
+        if(iniciada == null) {
+            iniciada = false;
+            finalizada = false;
+        }
+    }
 
 }

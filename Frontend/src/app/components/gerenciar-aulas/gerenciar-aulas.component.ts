@@ -12,7 +12,7 @@ import { Aula } from './../../shared/entity/Aula';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { startWith, map } from 'rxjs/operators';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -20,20 +20,25 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './gerenciar-aulas.component.html',
   styleUrls: ['./gerenciar-aulas.component.css']
 })
-export class GerenciarAulasComponent implements OnInit, AfterViewInit {
+export class GerenciarAulasComponent implements OnInit {
+  @ViewChild('closebuttondelete') closebuttonDelete;
+
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  dataSource: MatTableDataSource<Aula>;
-
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatSort) sort: MatSort;
+
+  dataSource: MatTableDataSource<Aula>;
+  displayedColumns: string[] = ['id', 'titulo', 'objetivo', 'duracao', 'turma.nome', 'dataAula', 'Ações'];
+
 
 
   panelOpenState: boolean = false;
-  displayedColumns: string[] = ['id', 'titulo', 'duracao', 'turmaId', 'dataAula', 'Ações'];
 
   aulaForm: FormGroup;
   filteredOptions: Observable<Bloco[]>;
   filteredOptionsTurma: Observable<Turma[]>;
+  editing: boolean = false;
 
 
   aulaSelecionada: Aula = new Aula();
@@ -48,8 +53,6 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private globals: Global,
     private toast: ToastService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private turmaService: TurmaService,
     private aulaService: AulaService,
     private blocosService: BlocosService
@@ -59,8 +62,15 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
 
     this.aulaService.listByProfessorId(this.globals.user.id).subscribe(
       (response) => {
+        response.forEach((a) => this.countBlocks(a))
         this.aulasProfessor = response;
         this.dataSource = new MatTableDataSource(this.aulasProfessor);
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'turma.nome': return item.turma.nome;
+            default: return item[property];
+          }
+        };
         this.dataSource.sort = this.sort;
 
       }, (errorResponse) => {
@@ -118,7 +128,7 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
       quantidadeMaxBlocos: [this.aulaSelecionada.quantidadeMaxBlocos],
       objetivo: [this.aulaSelecionada.objetivo, Validators.required],
       gabarito: [this.aulaSelecionada.gabarito],
-      bloco: [null],
+      bloco: [],
       quantidade: [null],
       turma: [this.turmaAulaSelecionada, Validators.required]
     });
@@ -133,19 +143,56 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
     this.filteredOptionsTurma = this.aulaForm.controls.turma.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.titulo),
+        map(value => typeof value === 'string' ? value : value.nome),
         map(name => name ? this._filterTurma(name) : this.turmasProfessor.slice())
       );
-  }
-
-  ngAfterViewInit() {
   }
 
   submit() {
     if (!this.aulaForm.valid) {
       return;
     }
-    console.log(this.aulaForm.value);
+    let newAula = new Aula();
+    newAula = this.aulaForm.value;
+    newAula.blocos = [];
+
+    this.blocosAula.forEach((b) => {
+      for (let i = 0; i < b.quantidade; i++) {
+        newAula.blocos.push(b);
+      }
+    })
+    newAula.turmaId = newAula.turma.id
+    if (!this.editing) {
+      this.aulaService.save(newAula).subscribe(
+        (response) => {
+          this.countBlocks(response)
+          this.dataSource.data.push(response);
+          this.dataSource._updateChangeSubscription();
+          this.toast.showSuccess('Aula salva com sucesso!')
+        },
+        (erroResponse) => {
+          erroResponse.error.erros.forEach((e) => {
+            this.toast.showError(e);
+          })
+        }
+      );
+    } else {
+      newAula.id = this.aulaSelecionada.id;
+      this.aulaService.edit(newAula).subscribe(
+        (response) => {
+          this.countBlocks(response);
+          this.dataSource.data[this.dataSource.data.indexOf(this.aulaSelecionada)] = response;
+          this.selectAula(response)
+          this.dataSource._updateChangeSubscription();
+          this.toast.showSuccess('Aula salva com sucesso!')
+        },
+        (erroResponse) => {
+          erroResponse.error.erros.forEach((e) => {
+            this.toast.showError(e);
+          })
+        }
+      );
+    }
   }
 
   adicionarBloco() {
@@ -154,8 +201,20 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
     this.blocosAula.push(b);
   }
 
-  selectAula() {
-
+  selectAula(aula: Aula) {
+    this.aulaSelecionada = aula;
+    this.aulaForm.patchValue({
+      titulo: aula.titulo,
+      dataAula: aula.dataAula.split('.')[0],
+      duracao: aula.duracao,
+      objetivo: aula.objetivo,
+      gabarito: aula.gabarito,
+      quantidadeMaxBlocos: aula.quantidadeMaxBlocos,
+      turma: aula.turma
+    });
+    this.blocosAula = aula.blocos;
+    this.editing = true;
+    this.openEditor();
   }
 
   displayFn(bloco: Bloco): string {
@@ -163,7 +222,7 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
   }
 
   displayTur(turma: Turma): string {
-    return turma && turma.titulo ? turma.titulo : '';
+    return turma && turma.nome ? turma.nome : '';
   }
 
   private _filterBloco(value: string): Bloco[] {
@@ -175,7 +234,7 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
   private _filterTurma(value: string): Turma[] {
     const filterValue = value.toLowerCase();
 
-    return this.turmasProfessor.filter(option => option.titulo.toLowerCase().includes(filterValue));
+    return this.turmasProfessor.filter(option => option.nome.toLowerCase().includes(filterValue));
   }
 
   pad(val) { return val > 9 ? val : "0" + val; }
@@ -194,6 +253,54 @@ export class GerenciarAulasComponent implements OnInit, AfterViewInit {
 
   closeEditor() {
     this.accordion.closeAll();
+    this.aulaForm.reset()
+    this.blocosAula = [];
+  }
+
+  newAula() {
+    this.aulaForm.reset()
+    this.openEditor();
+  }
+
+  deletarAula() {
+    this.aulaService.delete(this.aulaSelecionada).subscribe(
+      (response) => {
+        this.dataSource.data.splice(this.dataSource.data.indexOf(this.aulaSelecionada), 1);
+        this.dataSource._updateChangeSubscription();
+
+        this.toast.showSuccess('Aula deletada com sucesso!')
+        this.closebuttonDelete.nativeElement.click();
+      },
+      (erroResponse) => {
+        erroResponse.error.erros.forEach((e) => {
+          this.toast.showErrorTitle(e, 'Erro Interno!');
+        })
+      }
+    )
+  }
+
+  countBlocks(a: Aula) {
+      let current: Bloco = new Bloco();
+      let cnt = 0;
+      let calculatedBlocksArray: Map<number, Bloco> = new Map<number, Bloco>();
+      a.blocos.sort((a,b) => (a.id > b.id) ? 1 : -1);
+      a.blocos = [...a.blocos]
+
+      a.blocos.forEach((b, i) => {
+
+        if (b.id != current.id) {
+          if (current.id) { calculatedBlocksArray.set(current.id, current) };
+
+          current = {...b};
+          cnt = 1;
+        } else {
+          cnt++;
+        }
+        current.quantidade = cnt;
+        calculatedBlocksArray.set(b.id, current);
+      })
+      a.blocos = Array.from(calculatedBlocksArray.values());
+
   }
 
 }

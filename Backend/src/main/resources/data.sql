@@ -77,6 +77,28 @@ VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
 VALUES ('2020-12-15 15:30:00', '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 6', 1, false, false);
 
+
+/*INSERT RESPOSTA */
+INSERT INTO RESPOSTA(RESPOSTA, PRINT, ALUNO_USER_ID, AULA_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable >aa</variable>
+  </variables>
+  <block type="procedures_defnoreturn" >
+    <field name="NAME">teste</field>
+    <comment pinned="false" h="80" w="160">Descreva esta função...</comment>
+    <statement name="STACK">
+      <block type="variables_set" >
+        <field name="VAR" >aa</field>
+        <value name="VALUE">
+          <block type="math_number" >
+            <field name="NUM">12</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>', null, 4, 1);
+
 /* INSERT  AVALIACAO */
 INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1);
 
