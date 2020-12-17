@@ -23,7 +23,7 @@ public class TurmaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Turma salvar(@RequestBody @Valid TurmaDTO dto) {
+    public TurmaDTO salvar(@RequestBody @Valid TurmaDTO dto) {
 
         return service.salvar(dto);
     }

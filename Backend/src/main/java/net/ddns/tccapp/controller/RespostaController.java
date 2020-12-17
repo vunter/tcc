@@ -26,4 +26,9 @@ public class RespostaController {
         return service.findAllByAulaID(idAula);
     }
 
+    @GetMapping("list/professor/{id}")
+    public List<RespostaDTO> listByProfessorResponsavel(@PathVariable("id") Long idProfessor) {
+        return service.findAllByProfessorResponsavel(idProfessor);
+    }
+
 }

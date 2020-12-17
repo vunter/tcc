@@ -22,4 +22,9 @@ export class RespostaService {
       return this.http.get<Resposta[]>(this.apiURL + 'list/aula/' + idAula);
     }
 
+    getAllbyProfessor(idProfessor: number): Observable<Resposta[]> {
+      return this.http.get<Resposta[]>(this.apiURL + 'list/professor/' + idProfessor);
+
+    }
+
 }

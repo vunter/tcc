@@ -1,1 +1,132 @@
-<p>gerenciar-avaliacoes works!</p>
+<div class="container.fluid">
+    <mat-accordion class="card bg-light mb-1" multi>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header class="card-header" #panelH (click)="panelH._toggle()">
+                <mat-panel-title>
+                    Editar informações do Turma
+                </mat-panel-title>
+                <mat-panel-description>
+                    Clique aqui para {{ panelOpenState ? 'fechar' : 'expandir'}} o formulário de edição de turma
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <form *ngIf="respostaForm" [formGroup]="respostaForm" (submit)="submit()" class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Nome do aluno </mat-label>
+                            <input matInput [value]="respostaSelecionada.aluno.nome" disabled>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Turma </mat-label>
+                            <input matInput [value]="respostaSelecionada.aula.turma.nome" disabled>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Aula
+                            </mat-label>
+                            <input matInput [value]="respostaSelecionada.aula.titulo" disabled="true">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="float-right">
+                      <a (click)="executar()" title="Executar programa">
+                          <i class="fa fa-play mr-2" aria-hidden="true" style="cursor: pointer;"></i>
+                      </a>
+                      <a data-toggle="modal" data-target="#modalSeeCode" title="Ver código gerado">
+                          <i class="fa fa-eye" aria-hidden="true" title="Ver código gerado" style="cursor: pointer;"></i>
+                      </a>
+                    </span>
+                    </div>
+                </div>
+                <div class="row mb-2" style="height: 30rem;">
+                    <div class="col-md-12">
+                        <ngx-blockly [config]="config" [generatorConfig]="generatorConfig" (javascriptCode)="onCode($event)">
+                        </ngx-blockly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2 float-right">
+                            <mat-form-field class="form-field ml-2" appearance="outline">
+                                <mat-label> Nota
+                                </mat-label>
+                                <input matInput formControlName="nota">
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="float-right ml-3" mat-raised-button color="basic" type="submit" style="background-color: rgb(45, 189, 45);color: white;">Salvar</button>
+                        <button class="float-right" (click)="closeEditor()" mat-raised-button color="basic" type="button" style="background-color: red;color: white;">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="row">
+        <div class="col-md-12 mt-2">
+
+            <table mat-table [dataSource]="dataSource" matSort #table class="my-table mat-elevation-z8" style="width: 100%;">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Aluno </th>
+                    <td mat-cell *matCellDef="let element"> {{element.aluno.nome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="aula">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Aula </th>
+                    <td mat-cell *matCellDef="let element"> {{element.aula.titulo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="turma">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Turma </th>
+                    <td mat-cell *matCellDef="let element"> {{element.aula.turma.nome }} </td>
+                </ng-container>
+                <ng-container matColumnDef="Ações">
+                    <th mat-header-cell *matHeaderCellDef> Ações </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a (click)="selectResposta(element)" title="Avaliar" style="cursor: pointer;"><i class="fas fa-pen"></i></a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalSeeCode" tabindex="-1" role="dialog" aria-labelledby="modalSeeCode" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">Código Gerado</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+            </div>
+            <div class="modal-body">
+                <textarea [ngModel]="this.conteudo" disabled style="width: 100%; height: 30rem; max-height: 30rem; min-height: 25rem;">
+
+    </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

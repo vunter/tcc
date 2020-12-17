@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +26,15 @@ public class TurmaService {
     private final AlunoService alunoService;
     private final PublicacaoService publicacaoService;
 
-    public Turma salvar(TurmaDTO turmaDTO) {
+    public TurmaDTO salvar(TurmaDTO turmaDTO) {
 
         var turma = modelMapper.map(turmaDTO, Turma.class);
-        turma.setCodigo(gerarCodigoTurma());
 
-        return repository.save(turma);
+        if (Objects.isNull(turma.getCodigo()) || turma.getCodigo().isEmpty()) {
+            turma.setCodigo(gerarCodigoTurma());
+        }
+
+        return modelMapper.map(repository.save(turma), TurmaDTO.class);
     }
 
     public TurmaDTO findOneById(Long id) {

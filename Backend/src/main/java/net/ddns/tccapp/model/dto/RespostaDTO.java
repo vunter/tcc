@@ -22,4 +22,9 @@ public class RespostaDTO {
     @NotNull(message = "{campo.obrigatorio}")
     private Long aulaId;
 
+    private AulaDTO aula;
+
+    private AlunoDTO aluno;
+
+
 }

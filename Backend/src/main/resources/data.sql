@@ -35,13 +35,13 @@ INSERT INTO ROLES_USERS(USER_ID, ROLE_ID) VALUES (2, 4);
 INSERT INTO ROLES_USERS(USER_ID, ROLE_ID) VALUES (3, 3);
 INSERT INTO ROLES_USERS(USER_ID, ROLE_ID) VALUES (4, 4);
 /* INSERT TURMA */
-INSERT INTO TURMA(CAPACIDADE, CODIGO, TITULO, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
+INSERT INTO TURMA(CAPACIDADE, CODIGO, NOME, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
 VALUES (30, 'AB1234', 'Lógica de Programação Básica','Esta turma tem como propósito ensinar o básico de lógica de programação', 'Y', 3);
-INSERT INTO TURMA(CAPACIDADE, CODIGO, TITULO, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
+INSERT INTO TURMA(CAPACIDADE, CODIGO, NOME, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
 VALUES (2, 'AB2341', 'Lógica de Programação Intermediária','Turma de teste 2', 'Y', 3);
-INSERT INTO TURMA(CAPACIDADE, CODIGO, TITULO, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
+INSERT INTO TURMA(CAPACIDADE, CODIGO, NOME, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
 VALUES (30, 'AB3412', 'Lógica de Programação Avançada','Turma de teste 3', 'Y', 3);
-INSERT INTO TURMA(CAPACIDADE, CODIGO, TITULO, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
+INSERT INTO TURMA(CAPACIDADE, CODIGO, NOME, DESCRICAO, PUBLICO, PROFESSOR_USER_ID)
 VALUES (30, 'AB4321', 'Lógica de Programação Expert','Turma de teste 4', 'Y', 3);
 
 /* INSERT TURMA_ALUNOS */
@@ -69,7 +69,7 @@ INSERT INTO PUBLICACAO_REPLIES(PUBLICACAO_ID, REPLIES_ID) VALUES (1, 2);
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
 VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 1', 1, false, false);
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
-VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 2', 1, false, false);
+VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 2', 2, false, false);
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
 VALUES (SYSDATE, '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', 'Aula de teste 3', 1, false, false);
 INSERT INTO AULA(DATA_AULA, DURACAO, GABARITO, OBJETIVO, TITULO, TURMA_ID, INICIADA, FINALIZADA)
@@ -79,7 +79,7 @@ VALUES ('2020-12-15 15:30:00', '900', 'TESTE DE GABARITO \n TESTE 2', 'Teste', '
 
 
 /*INSERT RESPOSTA */
-INSERT INTO RESPOSTA(RESPOSTA, PRINT, ALUNO_USER_ID, AULA_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
+INSERT INTO RESPOSTA(PRINT, RESPOSTA, ALUNO_USER_ID, AULA_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
   <variables>
     <variable >aa</variable>
   </variables>
@@ -98,6 +98,25 @@ INSERT INTO RESPOSTA(RESPOSTA, PRINT, ALUNO_USER_ID, AULA_ID) VALUES ('<xml xmln
     </statement>
   </block>
 </xml>', null, 4, 1);
+INSERT INTO RESPOSTA(PRINT, RESPOSTA, ALUNO_USER_ID, AULA_ID) VALUES ('<xml xmlns="https://developers.google.com/blockly/xml">
+  <variables>
+    <variable >aa</variable>
+  </variables>
+  <block type="procedures_defnoreturn" >
+    <field name="NAME">teste</field>
+    <comment pinned="false" h="80" w="160">Descreva esta função...</comment>
+    <statement name="STACK">
+      <block type="variables_set" >
+        <field name="VAR" >aa</field>
+        <value name="VALUE">
+          <block type="math_number" >
+            <field name="NUM">12</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>', null, 2, 2);
 
 /* INSERT  AVALIACAO */
 INSERT INTO AVALIACAO(NOTA, ALUNO_USER_ID, AULA_ID) VALUES (999.999, 2, 1);

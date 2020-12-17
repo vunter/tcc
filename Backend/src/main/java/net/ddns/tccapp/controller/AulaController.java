@@ -36,7 +36,7 @@ public class AulaController {
         return service.findNext5ByAlunoId(id);
     }
 
-    @GetMapping("professor/{id}")
+    @GetMapping("list/5/professor/{id}")
     public List<AulaDTO> findNext5ByProfessorId(@PathVariable("id") Long id) {
         return service.findNext5ByAlunoId(id);
     }

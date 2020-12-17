@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -13,15 +14,15 @@ public @Data class AvaliacaoDTO {
 
     private Long id;
 
-    @NotBlank(message = "{campo.notBlank}")
+    @NotNull(message = "{campo.obrigatorio}")
     private BigDecimal nota;
 
     private String justificativa;
 
-    @NotBlank(message = "{campo.notBlank}")
+    @NotNull(message = "{campo.obrigatorio}")
     private Long alunoUserId;
 
-    @NotBlank(message = "{campo.notBlank}")
+    @NotNull(message = "{campo.obrigatorio}")
     private Long aulaId;
 
 }

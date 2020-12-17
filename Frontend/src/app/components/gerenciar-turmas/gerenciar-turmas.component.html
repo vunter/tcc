@@ -1,1 +1,113 @@
-<p>gerenciar-turmas works!</p>
+<div class="container.fluid">
+    <mat-accordion class="card bg-light mb-1" multi>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header class="card-header">
+                <mat-panel-title>
+                    Editar informações do Turma
+                </mat-panel-title>
+                <mat-panel-description>
+                    Clique aqui para {{ panelOpenState ? 'fechar' : 'expandir'}} o formulário de edição de turma
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <form *ngIf="turmaForm" [formGroup]="turmaForm" (submit)="submit()" class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label> Nome da turma
+                            </mat-label>
+                            <input matInput formControlName="nome" required>
+                            <mat-error *ngIf="turmaForm.controls.nome.touched && turmaForm.controls.nome.invalid">
+                                <span *ngIf="turmaForm.controls.nome.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Capacidade máxima </mat-label>
+                            <input matInput formControlName="capacidade" type="number">
+                            <mat-hint>Vagas ocupadas: {{ turmaSelecionada.qtdAlunosMatriculados || 0}}</mat-hint>
+
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field class="form-field ml-2" appearance="outline">
+                            <mat-label> Público
+                            </mat-label>
+                            <mat-select matInput formControlName="publico">
+                                <mat-option [value]="true">Sim</mat-option>
+                                <mat-option [value]="false">Não</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="form-field" appearance="outline" hintLabel="Max 255 caracteres">
+                            <mat-label> Descrição da turma
+                            </mat-label>
+                            <textarea matInput #txtArea [maxlength]="255" formControlName="descricao" style="max-height: 15rem; min-height: 3rem;" required></textarea>
+                            <mat-hint align="end">{{ txtArea.value?.length || 0 }}/255</mat-hint>
+                            <mat-error *ngIf="turmaForm.controls.nome.touched && turmaForm.controls.nome.invalid">
+                                <span *ngIf="turmaForm.controls.nome.errors.required">Campo obrigatório</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="float-right ml-3" mat-raised-button color="basic" type="submit" style="background-color: rgb(45, 189, 45);color: white;">Salvar</button>
+                        <button class="float-right" (click)="closeEditor()" mat-raised-button color="basic" type="button" style="background-color: red;color: white;">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="row">
+        <div class="col-md-12 mt-2">
+            <button class="float-right mb-2" mat-button mat-flat-button (click)="newTurma()" color="primary">+ Novo
+      Turma</button>
+
+            <table mat-table [dataSource]="dataSource" matSort #table class="my-table mat-elevation-z8" style="width: 100%;">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+                    <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="publico">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Público </th>
+                    <td mat-cell *matCellDef="let element"> {{element.publico ? 'Sim' : 'Não'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="qtdAlunosMatriculados">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nº Alunos Matriculados</th>
+                    <td mat-cell *matCellDef="let element"> {{element.qtdAlunosMatriculados}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="capacidade">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacidade máxima </th>
+                    <td mat-cell *matCellDef="let element"> {{element.capacidade}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Ações">
+                    <th mat-header-cell *matHeaderCellDef> Ações </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a (click)="selectTurma(element)" title="Editar" style="cursor: pointer;"><i class="fas fa-pen"></i></a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

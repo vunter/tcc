@@ -60,9 +60,12 @@ public class ModelMapperBean {
             protected Turma convert(TurmaDTO turmaDTO) {
                 var turma = new Turma();
                 turma.setProfessor(professorRepository.findById(turmaDTO.getProfessorUserId()).orElse(null));
-                turma.setTitulo(turmaDTO.getNome());
+                turma.setNome(turmaDTO.getNome());
                 turma.setDescricao(turmaDTO.getDescricao());
                 turma.setCapacidade(turmaDTO.getCapacidade());
+                turma.setCodigo(turmaDTO.getCodigo());
+                turma.setId(turmaDTO.getId());
+                turma.setPublico(turmaDTO.isPublico());
 
                 return turma;
             }
@@ -76,13 +79,13 @@ public class ModelMapperBean {
                 var turmaDTO = new TurmaDTO();
                 turmaDTO.setProfessorUserId(turma.getProfessor().getId());
                 turmaDTO.setNomeProfessor(turma.getProfessor().getNome());
-                turmaDTO.setNome(turma.getTitulo());
+                turmaDTO.setNome(turma.getNome());
                 turmaDTO.setDescricao(turma.getDescricao());
                 turmaDTO.setCapacidade(turma.getCapacidade());
                 turmaDTO.setCodigo(turma.getCodigo());
                 turmaDTO.setPublico(turma.getPublico());
                 turmaDTO.setId(turma.getId());
-                turmaDTO.setQtdAlunosMatriculados(turma.getAlunos().size());
+                turmaDTO.setQtdAlunosMatriculados(turma.getAlunos() != null ? turma.getAlunos().size() : 0);
 
                 return turmaDTO;
             }
@@ -187,6 +190,8 @@ public class ModelMapperBean {
                 dto.setAlunoId(resposta.getAluno().getId());
                 dto.setAulaId(resposta.getAula().getId());
                 dto.setPrint(resposta.getPrint());
+                dto.setAula(modelMapper().map(resposta.getAula(), AulaDTO.class));
+                dto.setAluno(modelMapper().map(resposta.getAluno(), AlunoDTO.class));
                 return dto;
             }
         };
