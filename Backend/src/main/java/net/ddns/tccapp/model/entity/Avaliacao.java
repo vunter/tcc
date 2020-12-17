@@ -19,6 +19,9 @@ class Avaliacao {
     @Column(precision = 6, scale = 3, nullable = false)
     private BigDecimal nota;
 
+    @Column
+    private String justificativa;
+
     @ManyToOne
     @JsonBackReference
     private Aluno aluno;

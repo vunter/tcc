@@ -36,7 +36,7 @@
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
-                                <a [routerLink]="['/aula']" [queryParams]="{id: 1}">Perfil</a>
+                                <a [routerLink]="['/aula']" [queryParams]="{id: 1}">Aula</a>
                             </li>
                         </ul>
                     </div>
@@ -56,10 +56,16 @@
                                 <a routerLink='/turma' [queryParams]="{id: 1}">Turma</a>
                             </li>
                             <li>
-                                <a routerLink='/gerenciar/aulas' [queryParams]="{id: 1}">Gerenciar Aulas</a>
+                                <a routerLink='/gerenciar/aulas'>Gerenciar Aulas</a>
                             </li>
                             <li>
-                                <a routerLink='/gerenciar/blocos' [queryParams]="{id: 1}">Gerenciar Blocos</a>
+                                <a routerLink='/gerenciar/blocos'>Gerenciar Blocos</a>
+                            </li>
+                            <li>
+                                <a routerLink='/gerenciar/avaliacoes'>Gerenciar Avaliacoes</a>
+                            </li>
+                            <li>
+                                <a routerLink='/avaliacoes'>Avaliacoes</a>
                             </li>
                         </ul>
                     </div>

@@ -1,3 +1,5 @@
+import { VerAvaliacoesComponent } from './components/ver-avaliacoes/ver-avaliacoes.component';
+import { GerenciarAvaliacoesComponent } from './components/gerenciar-avaliacoes/gerenciar-avaliacoes.component';
 import { PerfilGuard } from './perfil.guard';
 import { BlocosComponent } from './components/blocos/blocos.component';
 import { GerenciarAulasComponent } from './components/gerenciar-aulas/gerenciar-aulas.component';
@@ -26,8 +28,11 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'turma', component: TurmaComponent },
       { path: 'aula', component: AulaComponent },
+      { path: 'avaliacoes', component: VerAvaliacoesComponent, canActivate: [PerfilGuard] },
       { path: 'gerenciar/aulas', component: GerenciarAulasComponent, canActivate: [PerfilGuard] },
-      { path: 'gerenciar/blocos', component: BlocosComponent, canActivate: [PerfilGuard] }
+      { path: 'gerenciar/blocos', component: BlocosComponent, canActivate: [PerfilGuard] },
+      { path: 'gerenciar/avaliacoes', component: GerenciarAvaliacoesComponent, canActivate: [PerfilGuard] }
+
 
     ], canActivate: [AuthGuard]
   },

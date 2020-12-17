@@ -168,7 +168,7 @@ export class BlocosComponent implements OnInit {
     this.blocoForm.reset()
     this.openEditor();
   }
-
+/*
   deletarBloco() {
     this.blocosService.delete(this.blocoSelecionado).subscribe(
       (response) => {
@@ -184,7 +184,7 @@ export class BlocosComponent implements OnInit {
         })
       }
     )
-  }
+  } */
 
   onCode(code: string) {
     this.conteudo = code;

@@ -16,6 +16,8 @@ public @Data class AvaliacaoDTO {
     @NotBlank(message = "{campo.notBlank}")
     private BigDecimal nota;
 
+    private String justificativa;
+
     @NotBlank(message = "{campo.notBlank}")
     private Long alunoUserId;
 
