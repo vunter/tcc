@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'turma', component: TurmaComponent },
       { path: 'aula', component: AulaComponent },
-      { path: 'avaliacoes', component: VerAvaliacoesComponent, canActivate: [PerfilGuard] },
+      { path: 'avaliacoes', component: VerAvaliacoesComponent },
       { path: 'gerenciar/aulas', component: GerenciarAulasComponent, canActivate: [PerfilGuard] },
       { path: 'gerenciar/blocos', component: BlocosComponent, canActivate: [PerfilGuard] },
       { path: 'gerenciar/avaliacoes', component: GerenciarAvaliacoesComponent, canActivate: [PerfilGuard] }
