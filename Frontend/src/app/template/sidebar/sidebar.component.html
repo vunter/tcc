@@ -29,31 +29,31 @@
                 </li>
                 <li class="sidebar-dropdown">
                     <a>
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Geral</span>
-                        <span class="badge badge-pill badge-warning">Novo!</span>
-                    </a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li>
-                                <a [routerLink]="['/aula']" [queryParams]="{id: 1}">Aula</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-dropdown">
-                    <a>
-                        <i class="fas fa-cut"></i>
-                        <span>Atalhos</span>
-                        <span class="badge badge-pill badge-danger">{{ 1000 < 999 ? 3 : '999+' }}</span>
+                        <i class="fas fa-address-card"></i>
+                        <span class="ml-2">Geral</span>
+                        <!-- <span class="badge badge-pill badge-warning">Novo!</span> -->
                     </a>
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
                                 <a [routerLink]="['/home']">Inicio</a>
                             </li>
+                            <li *ngIf="user.roles.includes('Aluno')">
+                                <a routerLink='/avaliacoes'>Minhas notas</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="sidebar-dropdown" *ngIf="user.roles.includes('Professor')">
+                    <a>
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="ml-2">Gerenciar</span>
+                        <!-- <span class="badge badge-pill badge-danger">{{ 1000 < 999 ? 3 : '999+' }}</span> -->
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
                             <li>
-                                <a routerLink='/turma' [queryParams]="{id: 1}">Turma</a>
+                                <a routerLink='/gerenciar/avaliacoes'>Avaliar alunos</a>
                             </li>
                             <li>
                                 <a routerLink='/gerenciar/aulas'>Gerenciar Aulas</a>
@@ -61,15 +61,11 @@
                             <li>
                                 <a routerLink='/gerenciar/blocos'>Gerenciar Blocos</a>
                             </li>
-                            <li>
-                                <a routerLink='/gerenciar/avaliacoes'>Gerenciar Avaliacoes</a>
-                            </li>
+
                             <li>
                                 <a routerLink='/gerenciar/turmas'>Gerenciar Turmas</a>
                             </li>
-                            <li>
-                                <a routerLink='/avaliacoes'>Avaliacoes</a>
-                            </li>
+
                         </ul>
                     </div>
                 </li>

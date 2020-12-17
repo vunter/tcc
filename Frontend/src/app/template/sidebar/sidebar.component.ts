@@ -1,3 +1,4 @@
+import { Global } from './../../shared/GlobalUse';
 import { ToastService } from './../../toast.service';
 import { UsuarioService } from './../../shared/services/usuario.service';
 import { AuthService } from './../../shared/services/auth.service';
@@ -19,26 +20,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private usuarioService: UsuarioService,
-    private notification: ToastService
+    private globals: Global,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.user = new User();
-    this.user.nome = "";
-    this.username = this.authService.getCurrentUser();
-    this.usuarioService.getLoggedUser().subscribe(
-      (response) => {
-        this.user = response;
-      },
-      (errorResponse) => {
-        this.errors = errorResponse.error.erros;
-        this.errors.forEach((e) => {
-          this.notification.showError(e);
-        });
-      }
-    );
+    this.user = this.globals.user;
   }
 
   ngAfterViewInit() {
