@@ -45,6 +45,7 @@
                                 <th scope="col ">Título</th>
                                 <th scope="col ">Turma</th>
                                 <th scope="col ">Data e Hora</th>
+                                <th scope="col ">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,9 @@
                                 <th scope="row ">{{ a.titulo }}</th>
                                 <td>{{ a.turma.nome}}</td>
                                 <td>{{ a.dataAula | localDateTime }}</td>
+                                <td>
+                                    <a [routerLink]="['/aula']" [queryParams]="{id: a.id}" class="btn btn-success" style="height: 1.8rem">Iniciar</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
