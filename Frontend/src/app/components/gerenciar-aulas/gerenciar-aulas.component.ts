@@ -75,7 +75,7 @@ export class GerenciarAulasComponent implements OnInit {
 
       }, (errorResponse) => {
         errorResponse.error.erros.forEach((e) => {
-          this.toast.showError(e)
+          this.toast.showWarning(e)
         })
       }
     )
@@ -108,8 +108,12 @@ export class GerenciarAulasComponent implements OnInit {
     await this.turmaService.getTurmasUsuario(this.globals.user.id).toPromise().then(
       (response) => {
         this.turmasProfessor = response;
-      }
-    )
+      },
+    ).catch((errorResponse) => {
+      errorResponse.error.erros.forEach((e) => {
+        this.toast.showError(e)
+      })
+    })
 
     await this.blocosService.getBlocosByProfessor(this.globals.user.id).toPromise().then(
       (response) => {
@@ -117,7 +121,7 @@ export class GerenciarAulasComponent implements OnInit {
       }
     ).catch((errorResponse) => {
       errorResponse.error.erros.forEach((e) => {
-        this.toast.showError(e)
+        this.toast.showWarning(e)
       })
     })
 

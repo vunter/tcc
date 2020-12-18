@@ -8,10 +8,10 @@ import net.ddns.tccapp.model.entity.Role;
 @AllArgsConstructor
 public enum RoleEnum {
 
-    USER(1L, "USER", "Usuário Comum"),
-    ADMIN(2L, "ADMIN", "Administrador"),
-    PROF(3L, "PROFESSOR", "Professor"),
-    ALUNO(4L, "ALUNO", "Aluno");
+    USER(1L, "Usuario", "Usuário Comum"),
+    ADMIN(2L, "Administrador", "Administrador"),
+    PROF(3L, "Professor", "Professor"),
+    ALUNO(4L, "Aluno", "Aluno");
 
 
     private final Long id;

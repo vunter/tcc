@@ -56,6 +56,10 @@ public @Data class UserVO {
 
         if (usuario instanceof Professor)
             this.cpf = ((Professor) usuario).getCpf();
-
     }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
+
 }

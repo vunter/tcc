@@ -3,10 +3,10 @@
         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header class="card-header" #panelH (click)="panelH._toggle()">
                 <mat-panel-title>
-                    Editar informações do Turma
+                    Avaliar Alunos
                 </mat-panel-title>
                 <mat-panel-description>
-                    Clique aqui para {{ panelOpenState ? 'fechar' : 'expandir'}} o formulário de edição de turma
+                    Avaliação de Aluno
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -15,20 +15,20 @@
                     <div class="col-md-6">
                         <mat-form-field class="form-field" appearance="outline">
                             <mat-label> Nome do aluno </mat-label>
-                            <input matInput [value]="respostaSelecionada.aluno.nome" disabled>
+                            <input matInput [value]="respostaSelecionada.aluno.nome  || ''" disabled>
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field class="form-field ml-2" appearance="outline">
                             <mat-label> Turma </mat-label>
-                            <input matInput [value]="respostaSelecionada.aula.turma.nome" disabled>
+                            <input matInput [value]="respostaSelecionada.aula.turma.nome || ''" disabled>
                         </mat-form-field>
                     </div>
                     <div class="col-md-2">
                         <mat-form-field class="form-field ml-2" appearance="outline">
                             <mat-label> Aula
                             </mat-label>
-                            <input matInput [value]="respostaSelecionada.aula.titulo" disabled="true">
+                            <input matInput [value]="respostaSelecionada.aula.titulo  || ''" disabled="true">
                         </mat-form-field>
                     </div>
                 </div>

@@ -80,6 +80,12 @@ export class GerenciarAvaliacoesComponent implements OnInit {
     this.respostaSelecionada.aula = new Aula();
     this.respostaSelecionada.aula.turma = new Turma();
 
+
+    this.respostaForm = this.formBuilder.group({
+      nota: [0, [Validators.required]]
+    });
+
+
     this.respostaService.getAllbyProfessor(this.globals.user.id).subscribe(
       (response) => {
         this.respostasProfessor = response;
@@ -93,17 +99,14 @@ export class GerenciarAvaliacoesComponent implements OnInit {
           }
         };
         this.dataSource.sort = this.sort;
-
       }, (errorResponse) => {
         errorResponse.error.erros.forEach((e) => {
           this.toast.showError(e)
         })
       }
-    )
+    );
 
-    this.respostaForm = this.formBuilder.group({
-      nota: [0, [Validators.required]]
-    });
+
   }
 
   submit() {
